@@ -18,7 +18,7 @@ import ProductProof from "@/components/layout/product-proof";
 import { CATEGORIES, type CategoryKey } from "@/constants/app";
 import { TOOLS, getToolsByCategory } from "@/lib/tools/registry";
 import { isConversionTool } from "@/lib/tools/types";
-import { describePlatformProcessing, describePlatformProcessingShort } from "@/lib/tools/capabilities";
+import { describePlatformProcessing } from "@/lib/tools/capabilities";
 
 const categoryStyles: Record<
   CategoryKey,
@@ -98,23 +98,7 @@ const highlights = [
   },
 ];
 
-const steps = [
-  {
-    step: "01",
-    title: "Find your tool",
-    desc: "Search, browse categories, or use quick actions to find what you need.",
-  },
-  {
-    step: "02",
-    title: "Add your input",
-    desc: "Drop a file or paste text. Work stays in your browser — nothing is uploaded.",
-  },
-  {
-    step: "03",
-    title: "Get the result",
-    desc: "Convert, format, or calculate locally, then download or copy the output.",
-  },
-];
+
 
 export default function LandingPage() {
   return (

@@ -1,9 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ToolDefinition } from "@/lib/tools/types";
 import { TOOLS } from "@/lib/tools/registry";
-import { Code2, FileText, Calculator, Timer, Zap } from "lucide-react";
+import { Code2, FileText, Calculator, Timer, Zap, Database, Lock } from "lucide-react";
 
 /**
  * Product Proof Component - Phase 4

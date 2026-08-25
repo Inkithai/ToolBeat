@@ -76,15 +76,25 @@ export function buildSearchFields(tool: ToolDefinition): SearchField[] {
   }));
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 /**
  * Best score for one token against one tool, or 0 when the token matches
  * nothing. A token scores once even if it appears in several fields.
  */
 function tokenScore(fields: readonly SearchField[], token: string): number {
   let best = 0;
+  const wordBoundaryRegex = new RegExp(`\\b${escapeRegExp(token)}\\b`, "i");
+
   for (const field of fields) {
-    if (field.value.includes(token) && field.weight > best) {
-      best = field.weight;
+    if (field.value.includes(token)) {
+      const isWordBoundary = wordBoundaryRegex.test(field.value);
+      const score = field.weight + (isWordBoundary ? 2 : 0);
+      if (score > best) {
+        best = score;
+      }
     }
   }
   if (best > 0) return best;

@@ -70,13 +70,7 @@ export default function ToolbeatMotif({
     };
   }, []);
 
-  // Get color based on variant
-  const getColor = (color: string) => {
-    if (color === "indigo") {
-      return variant === "large" ? "indigo-500/30" : variant === "medium" ? "indigo-500/20" : "indigo-500/15";
-    }
-    return "current";
-  };
+
 
   return (
     <div className={`relative flex items-center justify-center ${className}`} style={{ transform: `scale(${scale})` }}>
@@ -125,7 +119,6 @@ export default function ToolbeatMotif({
                 from="200"
                 to="0"
                 dur="2s"
-                ease="easeInOut"
                 repeatCount="indefinite"
               />
             )}

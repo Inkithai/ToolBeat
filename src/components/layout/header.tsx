@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { ArrowRight, Wrench, Search, Command, X } from "lucide-react";
+import { ArrowRight, Wrench, Search, X } from "lucide-react";
 import { APP_NAME } from "@/constants/brand";
 import BrandMark from "@/components/brand-mark";
 import CommandPalette from "@/components/layout/command-palette";
@@ -26,6 +26,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchSuggestions, setSearchSuggestions] = useState<string[]>([]);
+  const searchFormRef = useRef<HTMLFormElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Generate suggestions for header search
@@ -70,7 +71,7 @@ export default function Header() {
   // Close search when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (searchOpen && searchInputRef.current && !searchInputRef.current.contains(event.target as Node)) {
+      if (searchOpen && searchFormRef.current && !searchFormRef.current.contains(event.target as Node)) {
         setSearchOpen(false);
         setSearchQuery("");
       }
@@ -93,7 +94,7 @@ export default function Header() {
 
         <nav className="flex items-center gap-1 sm:gap-2" aria-label="Main navigation">
           {/* SEARCH BAR - Always visible on desktop, prominent on mobile */}
-          <div className="relative hidden sm:flex" ref={searchInputRef}>
+          <form onSubmit={handleSearchSubmit} className="relative hidden sm:flex" ref={searchFormRef}>
             <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-400/25 bg-indigo-500/10">
               <Search className="h-4 w-4 text-indigo-300" aria-hidden="true" />
             </div>
@@ -121,7 +122,7 @@ export default function Header() {
                 ))}
               </div>
             )}
-          </div>
+          </form>
           
           {/* My Toolbox - Phase 3 */}
           <MyToolbox />
@@ -171,7 +172,7 @@ export default function Header() {
         <div className="fixed inset-0 z-40 bg-navy-950/90 backdrop-blur-sm sm:hidden" role="dialog" aria-modal="true" aria-label="Search ToolBeat">
           <button className="absolute inset-0 cursor-default" onClick={() => setSearchOpen(false)} aria-label="Close search" />
           <div className="absolute top-4 left-4 right-4">
-            <div className="relative flex items-center gap-3 rounded-xl border border-indigo-400/25 bg-navy-900 shadow-2xl shadow-indigo-950/50">
+            <form onSubmit={handleSearchSubmit} className="relative flex items-center gap-3 rounded-xl border border-indigo-400/25 bg-navy-900 shadow-2xl shadow-indigo-950/50">
               <div className="pointer-events-none flex h-12 w-12 items-center justify-center rounded-l-xl border-r border-indigo-400/25 bg-indigo-500/15">
                 <Search className="h-5 w-5 text-indigo-300" aria-hidden="true" />
               </div>
@@ -187,7 +188,7 @@ export default function Header() {
                 autoFocus
               />
               <button type="button" onClick={() => setSearchOpen(false)} className="rounded-r-xl p-3 text-ink-400 hover:bg-white/10 hover:text-white" aria-label="Close search"><X className="h-5 w-5" /></button>
-            </div>
+            </form>
           </div>
         </div>
       )}

@@ -59,7 +59,7 @@ export default function ToolShell({
 
       <div className="surface-raised relative p-5 sm:p-6">{children}</div>
       <ToolFeedback toolName={tool.slug} />
-      <RelatedTools current={tool} />
+      <RelatedTools currentSlug={tool.slug} />
     </main>
   );
 }

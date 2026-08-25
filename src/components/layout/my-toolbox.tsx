@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Heart, Clock, Wrench } from "lucide-react";
-import { TOOLS, type ToolDefinition } from "@/lib/tools/registry";
+import { TOOLS } from "@/lib/tools/registry";
+import type { ToolDefinition } from "@/lib/tools/types";
 
 /**
  * My Toolbox Feature - Phase 3
@@ -373,7 +374,7 @@ export const useMyToolbox = () => {
     try {
       const items: ToolboxItem[] = JSON.parse(saved);
       return items.some(item => item.slug === slug && item.type === "favorite");
-    } catch (e) {
+    } catch {
       return false;
     }
   };
