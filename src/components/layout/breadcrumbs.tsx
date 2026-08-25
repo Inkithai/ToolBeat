@@ -22,17 +22,29 @@ export default function Breadcrumbs({
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
-            <li key={item.name} className="flex items-center gap-1">
+            <li key={`${item.name}-${index}`} className="flex items-center gap-1">
               {item.href && !isLast ? (
-                <Link href={item.href} className="text-ink-200 transition-colors hover:text-indigo-400">
+                <Link
+                  href={item.href}
+                  className="rounded-md px-1.5 py-0.5 text-ink-400 transition-colors hover:bg-white/5 hover:text-indigo-300"
+                >
                   {item.name}
                 </Link>
               ) : (
-                <span aria-current={isLast ? "page" : undefined} className={isLast ? "font-medium text-white" : "text-ink-200"}>
+                <span
+                  aria-current={isLast ? "page" : undefined}
+                  className={
+                    isLast
+                      ? "rounded-md bg-white/[0.04] px-1.5 py-0.5 font-medium text-white"
+                      : "px-1.5 py-0.5 text-ink-400"
+                  }
+                >
                   {item.name}
                 </span>
               )}
-              {!isLast && <ChevronRight className="h-3.5 w-3.5 text-slate-600" aria-hidden="true" />}
+              {!isLast && (
+                <ChevronRight className="h-3.5 w-3.5 text-ink-600" aria-hidden="true" />
+              )}
             </li>
           );
         })}

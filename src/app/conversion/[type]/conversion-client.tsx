@@ -48,7 +48,10 @@ function titleFromFileName(name: string): string {
   return lastDot > 0 ? name.slice(0, lastDot) : name;
 }
 
-
+function formatBytes(size: number): string {
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+  return `${(size / 1024 / 1024).toFixed(2)} MB`;
+}
 
 export default function ConversionClient({ params }: { params: { type: string } }) {
   const { type } = params;
@@ -199,14 +202,14 @@ export default function ConversionClient({ params }: { params: { type: string } 
   // the primary not-found experience.
   if (!conversion) {
     return (
-      <div className="min-h-screen bg-navy-950">
+      <div className="bg-navy-950">
         <main className="mx-auto max-w-2xl px-6 py-24 text-center">
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-white/5">
-            <FileType className="h-8 w-8 text-ink-200" />
+            <FileType className="h-8 w-8 text-ink-300" />
           </div>
           <h1 className="mb-3 text-3xl font-extrabold text-white">Conversion not found</h1>
-          <p className="mb-8 text-ink-200">That conversion is not available, but you can choose from all implemented tools.</p>
-          <Link href="/tools" className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-bold text-white hover:bg-indigo-400">
+          <p className="mb-8 text-ink-400">That conversion is not available, but you can choose from all implemented tools.</p>
+          <Link href="/tools" className="btn-primary">
             <Grid2X2 className="h-4 w-4" /> Browse conversion tools
           </Link>
         </main>
@@ -217,10 +220,13 @@ export default function ConversionClient({ params }: { params: { type: string } 
   const tool = getToolBySlug(type);
   const hasPdfSettings = conversion.toFormat === "PDF";
   const hasQualitySetting = conversion.category === "images" && ["JPG", "WebP"].includes(conversion.toFormat);
+  const step = !file ? 1 : convertedUrl ? 3 : 2;
 
   return (
-    <div className="min-h-screen bg-navy-950">
-      <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
+    <div className="relative overflow-hidden bg-navy-950">
+      <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-indigo-500/15 blur-[100px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-20 top-32 h-64 w-64 rounded-full bg-cyan-500/10 blur-[90px]" aria-hidden="true" />
+      <main className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <RecordToolVisit slug={type} />
         <Breadcrumbs
           items={[
@@ -231,33 +237,93 @@ export default function ConversionClient({ params }: { params: { type: string } 
           className="mb-6"
         />
 
-        <div className="mb-8">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-400">{conversion.category}</p>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            {conversion.fromFormat} <span className="text-indigo-400">to</span> {conversion.toFormat}
-          </h1>
-          <p className="mt-3 max-w-2xl text-ink-200">{conversion.description}</p>
-          {/* Capabilities are read from the registry rather than asserted in
-              copy, so this converter states its own behaviour. */}
-          {tool && <CapabilityBadges capabilities={tool.capabilities} className="mt-4" />}
-        </div>
-
-        {/* Main conversion area with improved layout */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          {/* Left side - Upload area (2 columns) */}
-          <div className="space-y-4 lg:col-span-2">
-            <section className="overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]" aria-label="File conversion">
-            <div className="flex items-center justify-between border-b border-white/5 px-6 py-5">
-              <h2 className="text-lg font-extrabold text-white">{conversion.from} <span className="mx-1 text-indigo-400">→</span> {conversion.to}</h2>
+        <header className="mb-8 animate-fade-up">
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div className="min-w-0 flex-1">
+              <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-cyan-400">
+                {conversion.category} · converter
+              </p>
+              <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+                {conversion.fromFormat}{" "}
+                <span className="text-gradient-aurora">→</span> {conversion.toFormat}
+              </h1>
+              <p className="mt-3 max-w-2xl text-ink-300">{conversion.description}</p>
+              {tool && <CapabilityBadges capabilities={tool.capabilities} className="mt-4" />}
             </div>
+            <div className="flex flex-wrap gap-2">
+              <span className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-300">
+                Accepts {conversion.acceptedExtensions.join(", ")}
+              </span>
+              <span className="rounded-full border border-cyan-400/20 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-300">
+                Up to {FILE_LIMIT_MB} MB
+              </span>
+            </div>
+          </div>
+
+          {/* Progress steps — makes the task flow obvious */}
+          <ol className="mt-6 grid gap-2 sm:grid-cols-3" aria-label="Conversion steps">
+            {[
+              { n: 1, label: "Add file" },
+              { n: 2, label: "Convert" },
+              { n: 3, label: "Download" },
+            ].map((item) => {
+              const done = step > item.n;
+              const active = step === item.n;
+              return (
+                <li
+                  key={item.n}
+                  className={`flex items-center gap-2.5 rounded-xl border px-3.5 py-2.5 text-sm font-semibold transition-all duration-300 ${
+                    active
+                      ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-100 shadow-[0_0_24px_-10px_rgba(139,92,246,0.7)]"
+                      : done
+                        ? "border-cyan-400/25 bg-cyan-500/10 text-cyan-100"
+                        : "border-white/[0.05] bg-transparent text-ink-500"
+                  }`}
+                >
+                  <span
+                    className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold transition-colors ${
+                      active
+                        ? "bg-gradient-to-br from-indigo-500 to-cyan-500 text-white"
+                        : done
+                          ? "bg-cyan-500 text-white"
+                          : "bg-white/10 text-ink-400"
+                    }`}
+                  >
+                    {done ? "✓" : item.n}
+                  </span>
+                  {item.label}
+                </li>
+              );
+            })}
+          </ol>
+        </header>
+
+        <div className="grid gap-6 lg:grid-cols-3">
+          {/* Primary task column */}
+          <div className="space-y-4 lg:col-span-2">
+            <section className="glass-panel overflow-hidden" aria-label="File conversion">
+              <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-4 sm:px-6">
+                <h2 className="text-base font-extrabold text-white sm:text-lg">
+                  {conversion.from} <span className="mx-1 text-cyan-400">→</span> {conversion.to}
+                </h2>
+                {file && !convertedUrl && (
+                  <button
+                    type="button"
+                    onClick={reset}
+                    className="text-xs font-semibold text-ink-400 hover:text-white"
+                  >
+                    Start over
+                  </button>
+                )}
+              </div>
 
               {!file ? (
-                <div className="p-6">
+                <div className="p-5 sm:p-6">
                   <div
-                    className={`cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-all sm:p-12 ${
+                    className={`cursor-pointer rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-300 sm:p-12 ${
                       isDragging
-                        ? "border-indigo-400 bg-indigo-500/10"
-                        : "border-white/10 bg-white/[0.01] hover:border-indigo-400/40 hover:bg-white/[0.03]"
+                        ? "border-cyan-400 bg-cyan-500/10 shadow-[0_0_40px_-12px_rgba(34,211,238,0.55)] scale-[1.01]"
+                        : "border-white/10 bg-white/[0.015] hover:border-indigo-400/45 hover:bg-indigo-500/[0.06] hover:shadow-[0_0_32px_-14px_rgba(139,92,246,0.45)]"
                     }`}
                     onDrop={handleDrop}
                     onDragOver={(event) => event.preventDefault()}
@@ -279,12 +345,18 @@ export default function ConversionClient({ params }: { params: { type: string } 
                       }
                     }}
                   >
-                    <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500/20 to-indigo-600/10">
-                      <UploadCloud className="h-8 w-8 text-indigo-400" />
+                    <div className="mx-auto mb-5 flex h-16 w-16 animate-float items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500/25 to-cyan-500/15 shadow-[0_0_28px_-8px_rgba(139,92,246,0.6)]">
+                      <UploadCloud className="h-8 w-8 text-indigo-300" />
                     </div>
-                    <h3 className="mb-2 text-lg font-bold text-white">Drop your {conversion.fromFormat} file here</h3>
-                    <p className="mb-4 text-sm text-ink-200">or click to browse — accepted: {conversion.acceptedExtensions.join(", ")}</p>
-                    <p className="text-xs text-slate-400">Maximum file size: {FILE_LIMIT_MB} MB</p>
+                    <h3 className="mb-2 text-lg font-bold text-white">
+                      Drop your {conversion.fromFormat} file here
+                    </h3>
+                    <p className="mb-4 text-sm text-ink-400">
+                      or click to browse — accepted: {conversion.acceptedExtensions.join(", ")}
+                    </p>
+                    <span className="inline-flex rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-ink-300">
+                      Max {FILE_LIMIT_MB} MB · stays in your browser
+                    </span>
                   </div>
                   <input
                     ref={fileInputRef}
@@ -297,37 +369,51 @@ export default function ConversionClient({ params }: { params: { type: string } 
                   />
                 </div>
               ) : convertedUrl ? (
-                <div className="p-6">
-                  <div className="mb-4 rounded-xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600/10 to-indigo-500/5 p-6 text-center" role="status">
-                    <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-indigo-400" />
+                <div className="p-5 sm:p-6">
+                  <div
+                    className="mb-5 animate-scale-in rounded-2xl border border-cyan-400/25 bg-gradient-to-br from-indigo-500/20 via-cyan-500/10 to-fuchsia-500/5 p-6 text-center shadow-[0_0_40px_-16px_rgba(34,211,238,0.45)]"
+                    role="status"
+                  >
+                    <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
                     <h3 className="mb-1 text-lg font-bold text-white">Conversion complete</h3>
-                    <p className="break-words text-sm text-ink-200">
-                      {file.name} → <span className="font-medium text-indigo-300">{convertedName}</span>
+                    <p className="break-words text-sm text-ink-300">
+                      {file.name} → <span className="font-medium text-cyan-300">{convertedName}</span>
                     </p>
                   </div>
-                  <a href={convertedUrl} download={convertedName} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-indigo-500/20 transition-all hover:-translate-y-0.5 hover:shadow-indigo-500/40">
+                  <a href={convertedUrl} download={convertedName} className="btn-primary w-full py-3.5">
                     <Download className="h-4 w-4" /> Download {conversion.toFormat}
                   </a>
-                  <button type="button" onClick={reset} className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 font-medium text-ink-100 hover:bg-white/10">
+                  <button type="button" onClick={reset} className="btn-secondary mt-3 w-full">
                     <RotateCcw className="h-4 w-4" /> Convert another file
                   </button>
                 </div>
               ) : (
-                <div className="space-y-5 p-6">
-                  <div className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-3">
-                    <FileType className="h-5 w-5 shrink-0 text-indigo-400" />
+                <div className="space-y-5 p-5 sm:p-6">
+                  <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-500/15">
+                      <FileType className="h-5 w-5 text-indigo-400" />
+                    </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-white">{file.name}</p>
-                      <p className="text-xs text-ink-200">{file.size < 1024 * 1024 ? `${(file.size / 1024).toFixed(1)} KB` : `${(file.size / 1024 / 1024).toFixed(2)} MB`}</p>
+                      <p className="text-xs text-ink-400">{formatBytes(file.size)}</p>
                     </div>
-                    <button type="button" onClick={reset} className="rounded-lg p-2 text-ink-200 hover:bg-white/10 hover:text-white" aria-label="Remove selected file">
+                    <button
+                      type="button"
+                      onClick={reset}
+                      className="rounded-lg p-2 text-ink-400 hover:bg-white/10 hover:text-white"
+                      aria-label="Remove selected file"
+                    >
                       <X className="h-4 w-4" />
                     </button>
                   </div>
                   {previewText && (
-                    <div className="overflow-hidden rounded-xl border border-white/5 bg-navy-900">
-                      <div className="border-b border-white/5 bg-white/[0.02] px-4 py-2.5 text-xs font-medium text-ink-200">Source preview</div>
-                      <pre className="max-h-80 overflow-auto whitespace-pre-wrap break-words p-4 font-mono text-xs leading-relaxed text-ink-100">{previewText}</pre>
+                    <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-navy-900">
+                      <div className="border-b border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-xs font-medium text-ink-400">
+                        Source preview
+                      </div>
+                      <pre className="max-h-80 overflow-auto whitespace-pre-wrap break-words p-4 font-mono text-xs leading-relaxed text-ink-200">
+                        {previewText}
+                      </pre>
                     </div>
                   )}
                   {isConverting && (
@@ -340,46 +426,69 @@ export default function ConversionClient({ params }: { params: { type: string } 
               )}
 
               {error && (
-                <div className="mx-6 mb-6 rounded-lg border border-coral-500/20 bg-coral-500/10 px-4 py-3 text-sm text-coral-400" role="alert">
+                <div className="mx-5 mb-5 rounded-xl border border-coral-500/25 bg-coral-500/10 px-4 py-3 text-sm text-coral-400 sm:mx-6 sm:mb-6" role="alert">
                   <p>{error}</p>
                   {!file && (
-                    <button type="button" onClick={() => fileInputRef.current?.click()} className="mt-2 font-semibold underline underline-offset-2 hover:text-rose-300">Choose another file</button>
+                    <button
+                      type="button"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="mt-2 font-semibold underline underline-offset-2 hover:text-rose-300"
+                    >
+                      Choose another file
+                    </button>
                   )}
                 </div>
               )}
             </section>
           </div>
 
-          {/* Right side - Settings, Switcher, and Related (1 column) */}
-          <aside className="space-y-6 lg:col-span-1">
-            {/* Conversion settings */}
-            <section className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
-              <h2 className="mb-4 flex items-center gap-2 font-bold text-white">
-                <Settings className="h-4 w-4 text-indigo-400" /> Conversion settings
+          {/* Side rail: settings + switch + related */}
+          <aside className="space-y-4 lg:col-span-1">
+            <section className="surface p-5">
+              <h2 className="mb-4 flex items-center gap-2 text-sm font-bold text-white">
+                <Settings className="h-4 w-4 text-indigo-400" /> Settings
               </h2>
               {hasPdfSettings ? (
                 <div className="space-y-4">
                   <label className="block">
-                    <span className="mb-1.5 block text-xs font-medium text-ink-200">Page size</span>
-                    <select value={pageSize} onChange={(event) => setPageSize(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
-                      <option>A4</option><option>Letter</option><option>Auto</option>
+                    <span className="mb-1.5 block text-xs font-medium text-ink-400">Page size</span>
+                    <select value={pageSize} onChange={(event) => setPageSize(event.target.value)} className="field">
+                      <option>A4</option>
+                      <option>Letter</option>
+                      <option>Auto</option>
                     </select>
                   </label>
                   <label className="block">
-                    <span className="mb-1.5 block text-xs font-medium text-ink-200">Document font</span>
-                    <select value={font} onChange={(event) => setFont(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
-                      <option>System</option><option>Serif</option>
+                    <span className="mb-1.5 block text-xs font-medium text-ink-400">Document font</span>
+                    <select value={font} onChange={(event) => setFont(event.target.value)} className="field">
+                      <option>System</option>
+                      <option>Serif</option>
                     </select>
                   </label>
-                  <p className="text-xs leading-relaxed text-slate-400">PDF pages use consistent margins, line spacing and page-safe text breaks.</p>
+                  <p className="text-xs leading-relaxed text-ink-500">
+                    PDF pages use consistent margins, line spacing and page-safe text breaks.
+                  </p>
                 </div>
               ) : hasQualitySetting ? (
                 <label className="block">
-                  <span className="mb-2 flex justify-between text-xs font-medium text-ink-200"><span>Output quality</span><span>{imageQuality}%</span></span>
-                  <input type="range" min="60" max="100" step="1" value={imageQuality} onChange={(event) => setImageQuality(Number(event.target.value))} className="w-full accent-indigo-500" />
+                  <span className="mb-2 flex justify-between text-xs font-medium text-ink-400">
+                    <span>Output quality</span>
+                    <span>{imageQuality}%</span>
+                  </span>
+                  <input
+                    type="range"
+                    min="60"
+                    max="100"
+                    step="1"
+                    value={imageQuality}
+                    onChange={(event) => setImageQuality(Number(event.target.value))}
+                    className="w-full accent-indigo-500"
+                  />
                 </label>
               ) : (
-                <p className="text-sm leading-relaxed text-ink-200">No settings are required for this conversion. The source structure is preserved where the output format supports it.</p>
+                <p className="text-sm leading-relaxed text-ink-400">
+                  No settings are required for this conversion. Source structure is preserved where the output format supports it.
+                </p>
               )}
 
               {!convertedUrl && file && (
@@ -387,50 +496,55 @@ export default function ConversionClient({ params }: { params: { type: string } 
                   type="button"
                   onClick={() => void handleConvert()}
                   disabled={isConverting}
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-indigo-500/20 transition-all hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0"
+                  className="btn-primary mt-5 w-full py-3.5 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0"
                 >
                   {isConverting ? "Converting…" : `Convert to ${conversion.toFormat}`}
                 </button>
               )}
             </section>
 
-            {/* Compact Switch tool panel (moved from above uploader) */}
-            <section className="rounded-2xl border border-white/5 bg-white/[0.02] p-6" aria-labelledby="conversion-picker-title">
+            <section className="surface p-5" aria-labelledby="conversion-picker-title">
               <div className="mb-4">
-                <h2 id="conversion-picker-title" className="font-bold text-white flex items-center gap-2">
+                <h2 id="conversion-picker-title" className="flex items-center gap-2 text-sm font-bold text-white">
                   <ArrowRightLeft className="h-4 w-4 text-indigo-400" /> Switch tool
                 </h2>
-                <p className="mt-1 text-xs text-ink-200">Convert other formats quickly</p>
+                <p className="mt-1 text-xs text-ink-500">Change formats without leaving the task</p>
               </div>
-              
-              <div className="space-y-4">
+
+              <div className="space-y-3">
                 <label className="block">
-                  <span className="mb-1.5 block text-xs font-medium text-ink-200">Convert from</span>
+                  <span className="mb-1.5 block text-xs font-medium text-ink-400">From</span>
                   <select
                     value={conversion.fromFormat}
                     onChange={(event) => handleSourceChange(event.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-navy-900 px-3 py-2.5 text-sm font-semibold text-white outline-none transition-colors focus:border-indigo-400/70 focus:ring-2 focus:ring-indigo-400/20"
+                    className="field font-semibold"
                   >
-                    {sourceFormats.map((format) => <option key={format}>{format}</option>)}
+                    {sourceFormats.map((format) => (
+                      <option key={format}>{format}</option>
+                    ))}
                   </select>
                 </label>
-                
+
                 <label className="block">
-                  <span className="mb-1.5 block text-xs font-medium text-ink-200">Convert to</span>
+                  <span className="mb-1.5 block text-xs font-medium text-ink-400">To</span>
                   <select
                     value={type}
                     onChange={(event) => goToTool(event.target.value as ConversionType)}
-                    className="w-full rounded-xl border border-white/10 bg-navy-900 px-3 py-2.5 text-sm font-semibold text-white outline-none transition-colors focus:border-indigo-400/70 focus:ring-2 focus:ring-indigo-400/20"
+                    className="field font-semibold"
                   >
-                    {sourceTools.map(([key, item]) => <option key={key} value={key}>{item.toFormat}</option>)}
+                    {sourceTools.map(([key, item]) => (
+                      <option key={key} value={key}>
+                        {item.toFormat}
+                      </option>
+                    ))}
                   </select>
                 </label>
-                
+
                 {reverseTool && (
                   <button
                     type="button"
                     onClick={() => goToTool(reverseTool[0])}
-                    className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-ink-100 hover:border-indigo-400/30 hover:bg-white/10"
+                    className="btn-secondary w-full py-2.5 text-sm"
                     title={`Switch to ${reverseTool[1].fromFormat} to ${reverseTool[1].toFormat}`}
                   >
                     <ArrowRightLeft className="h-4 w-4" /> Swap directions
@@ -439,17 +553,27 @@ export default function ConversionClient({ params }: { params: { type: string } 
               </div>
             </section>
 
-            {/* Related conversions */}
-            <section className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
-              <div className="mb-4 flex items-center justify-between gap-3">
-                <h2 className="font-bold text-white">Related conversions</h2>
-                <Link href={`/tools?category=${conversion.category}`} className="text-xs font-semibold text-indigo-400 hover:text-indigo-300">See all</Link>
+            <section className="surface p-5">
+              <div className="mb-3 flex items-center justify-between gap-3">
+                <h2 className="text-sm font-bold text-white">Related</h2>
+                <Link
+                  href={`/tools?category=${conversion.category}`}
+                  className="text-xs font-semibold text-indigo-400 hover:text-indigo-300"
+                >
+                  See all
+                </Link>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 {relatedTools.map(([key, item]) => (
-                  <Link key={key} href={`/conversion/${key}`} className="group flex items-center justify-between gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5 text-sm text-ink-200 hover:border-indigo-400/20 hover:bg-white/5 hover:text-white">
-                    <span>{item.fromFormat} → {item.toFormat}</span>
-                    <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-400" />
+                  <Link
+                    key={key}
+                    href={`/conversion/${key}`}
+                    className="group flex items-center justify-between gap-3 rounded-lg border border-transparent px-2.5 py-2 text-sm text-ink-300 transition-colors hover:border-white/10 hover:bg-white/[0.04] hover:text-white"
+                  >
+                    <span>
+                      {item.fromFormat} → {item.toFormat}
+                    </span>
+                    <ArrowRight className="h-3.5 w-3.5 shrink-0 text-ink-600 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-400" />
                   </Link>
                 ))}
               </div>
