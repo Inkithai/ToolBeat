@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { TOOLS, getToolsByCategory } from "@/lib/tools/registry";
-import { isConversionTool } from "@/lib/tools/types";
-import { useMyToolbox } from "@/components/layout/my-toolbox";
 
 /**
  * Related Tools Component - Phase 3
@@ -63,8 +61,6 @@ interface RelatedToolsProps {
 }
 
 export default function RelatedTools({ currentSlug, maxTools = 4 }: RelatedToolsProps) {
-  const { isFavorite } = useMyToolbox();
-  
   // Get current tool
   const currentTool = TOOLS.find(t => t.slug === currentSlug);
   if (!currentTool) return null;

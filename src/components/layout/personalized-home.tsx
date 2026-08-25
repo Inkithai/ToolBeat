@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Clock, Heart, Wrench, ArrowRight } from "lucide-react";
-import { TOOLS, type ToolDefinition } from "@/lib/tools/registry";
+import { TOOLS } from "@/lib/tools/registry";
+import type { ToolDefinition } from "@/lib/tools/types";
 
 /**
  * Personalized Homepage Component - Phase 4
@@ -31,11 +32,12 @@ export default function PersonalizedHome() {
   // Load toolbox from localStorage
   useEffect(() => {
     const saved = localStorage.getItem(TOOLBOX_STORAGE_KEY);
+    let loadedCount = 0;
     if (saved) {
       try {
         const items = JSON.parse(saved) as ToolboxItem[];
         setToolboxItems(items);
-        setHasVisitedBefore(items.length > 0);
+        loadedCount = items.length;
       } catch (e) {
         console.error("Failed to load toolbox:", e);
       }
@@ -43,7 +45,7 @@ export default function PersonalizedHome() {
     
     // Also check for any previous visit
     const hasVisited = localStorage.getItem("toolbeat_visited");
-    if (hasVisited || toolboxItems.length > 0) {
+    if (hasVisited || loadedCount > 0) {
       setHasVisitedBefore(true);
     }
   }, []);
@@ -270,7 +272,7 @@ export function useTrackToolUsage() {
 
   const addFavorite = (slug: string) => {
     const saved = localStorage.getItem(TOOLBOX_STORAGE_KEY);
-    let items: ToolboxItem[] = saved ? JSON.parse(saved) : [];
+    const items: ToolboxItem[] = saved ? JSON.parse(saved) : [];
     
     // Check if already exists
     const existingIndex = items.findIndex(item => item.slug === slug);
@@ -301,7 +303,7 @@ export function useTrackToolUsage() {
     try {
       const items: ToolboxItem[] = JSON.parse(saved);
       return items.some(item => item.slug === slug && item.type === "favorite");
-    } catch (e) {
+    } catch {
       return false;
     }
   };

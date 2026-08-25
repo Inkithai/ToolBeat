@@ -8,12 +8,10 @@ export default function AmbientBackground({
 }: {
   variant?: "page" | "hero";
 }) {
-  const dense = variant === "hero";
-
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       {/* Subtle grid background - keeps depth without distraction */}
-      <div className="absolute inset-0 bg-grid-fade" />
+      <div className={`absolute inset-0 bg-grid-fade ${variant === "hero" ? "opacity-100" : "opacity-80"}`} />
       
       {/* Removed: aurora orbs (aurora-orb-a, aurora-orb-b, aurora-orb-c) */}
       {/* Removed: particle-field */}
