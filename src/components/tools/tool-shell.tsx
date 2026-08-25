@@ -4,6 +4,8 @@ import RecordToolVisit from "./record-tool-visit";
 import JsonLd from "@/components/seo/json-ld";
 import { breadcrumbJsonLd, toolJsonLd } from "@/lib/seo/schema";
 import type { ToolDefinition } from "@/lib/tools/types";
+import RelatedTools from "./related-tools";
+import ToolFeedback from "./tool-feedback";
 
 /**
  * Shared page furniture for a tool: breadcrumbs, title, summary and capability
@@ -56,6 +58,8 @@ export default function ToolShell({
       </header>
 
       <div className="surface-raised relative p-5 sm:p-6">{children}</div>
+      <ToolFeedback toolName={tool.slug} />
+      <RelatedTools current={tool} />
     </main>
   );
 }

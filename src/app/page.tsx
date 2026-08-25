@@ -253,6 +253,36 @@ export default function LandingPage() {
           </div>
         </section>
 
+        {/* Popular tools + collections */}
+        <section className="relative border-t border-white/[0.05] px-4 py-16 sm:px-6 sm:py-20" aria-labelledby="popular-tools-heading">
+          <div className="relative mx-auto max-w-6xl">
+            <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+              <div>
+                <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-indigo-300">Popular starting points</p>
+                <h2 id="popular-tools-heading" className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">The tools people reach for first</h2>
+              </div>
+              <Link href="/tools" className="inline-flex items-center gap-1.5 text-sm font-semibold text-indigo-300 hover:text-cyan-300">Explore the directory <ArrowRight className="h-4 w-4" aria-hidden="true" /></Link>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {TOOLS.filter((tool) => ["json-formatter", "uuid-generator", "word-counter", "base64-encoder", "percentage-calculator", "pomodoro"].includes(tool.slug)).map((tool) => (
+                <Link key={tool.slug} href={tool.href} className="card-hover group rounded-2xl border border-white/[0.08] bg-white/[0.03] p-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-cyan-400">{tool.category}</span>
+                  <h3 className="mt-2 text-base font-bold text-white group-hover:text-indigo-200">{tool.name}</h3>
+                  <p className="mt-1 text-sm leading-relaxed text-ink-400">{tool.summary}</p>
+                  <span className="mt-4 inline-flex items-center gap-1 text-xs font-bold text-indigo-300">Open tool <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" aria-hidden="true" /></span>
+                </Link>
+              ))}
+            </div>
+            <div className="mt-8 grid gap-3 sm:grid-cols-3" aria-label="Tool collections">
+              {[{ name: "Developer essentials", tag: "developer", desc: "Format, encode, decode, and inspect data." }, { name: "Everyday productivity", tag: "utilities", desc: "Timers, reading, text, and quick calculations." }, { name: "File conversion", tag: "documents", desc: "Move between common document formats locally." }].map((collection) => (
+                <Link key={collection.tag} href={`/tools?category=${collection.tag}`} className="rounded-xl border border-indigo-400/15 bg-indigo-500/[0.06] p-4 transition-colors hover:border-indigo-400/35 hover:bg-indigo-500/10">
+                  <h3 className="text-sm font-bold text-white">{collection.name}</h3><p className="mt-1 text-xs leading-relaxed text-ink-400">{collection.desc}</p><span className="mt-3 inline-flex items-center gap-1 text-xs font-semibold text-indigo-300">View collection <ArrowRight className="h-3 w-3" aria-hidden="true" /></span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* How it works */}
         <section
           id="how-it-works"

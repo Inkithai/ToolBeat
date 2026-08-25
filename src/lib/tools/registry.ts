@@ -56,6 +56,30 @@ const conversionTools: ConversionTool[] = CONVERSION_ENTRIES.map(([type, convers
  * carry more than one interaction model; each declares its own capabilities.
  */
 const utilityTools: ToolDefinition[] = [
+  { kind: "text", slug: "json-to-yaml", name: "JSON to YAML", summary: "Convert JSON into readable YAML directly in your browser.", category: "developer", tags: ["json", "yaml", "convert"], href: "/tools/json-to-yaml", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "text", slug: "yaml-to-json", name: "YAML to JSON", summary: "Convert YAML data into formatted JSON locally.", category: "developer", tags: ["yaml", "json", "convert"], href: "/tools/yaml-to-json", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "text", slug: "xml-formatter", name: "XML Formatter", summary: "Format XML with consistent indentation and readable structure.", category: "developer", tags: ["xml", "format", "code"], href: "/tools/xml-formatter", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "calculator", slug: "bmi-calculator", name: "BMI Calculator", summary: "Calculate body mass index from height and weight.", category: "calculators", tags: ["bmi", "health", "math"], href: "/tools/bmi-calculator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "calculator", slug: "compound-interest", name: "Compound Interest Calculator", summary: "Estimate growth with principal, rate, time, and compounding frequency.", category: "calculators", tags: ["interest", "finance", "savings"], href: "/tools/compound-interest", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "text", slug: "json-validator", name: "JSON Validator", summary: "Check JSON syntax and get a clear validation result instantly.", category: "developer", tags: ["json", "validate", "debug"], href: "/tools/json-validator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "text", slug: "regex-tester", name: "Regex Tester", summary: "Test regular expressions against sample text with match details.", category: "developer", tags: ["regex", "text", "debug"], href: "/tools/regex-tester", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "text", slug: "text-diff", name: "Text Diff", summary: "Compare two pieces of text and quickly spot what changed.", category: "utilities", tags: ["text", "compare", "diff"], href: "/tools/text-diff", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "calculator", slug: "age-calculator", name: "Age Calculator", summary: "Calculate an exact age from a date of birth.", category: "calculators", tags: ["age", "date", "time"], href: "/tools/age-calculator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "calculator", slug: "simple-interest", name: "Simple Interest Calculator", summary: "Calculate simple interest and the total amount from principal, rate, and time.", category: "calculators", tags: ["interest", "finance", "math"], href: "/tools/simple-interest", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+
+  { kind: "calculator", slug: "random-number-generator", name: "Random Number Generator", summary: "Generate a random number between any minimum and maximum value.", category: "calculators", tags: ["random", "number", "math"], href: "/tools/random-number-generator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "calculator", slug: "discount-calculator", name: "Discount Calculator", summary: "Calculate sale prices, savings, and final totals from a discount percentage.", category: "calculators", tags: ["discount", "percent", "money"], href: "/tools/discount-calculator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+  { kind: "calculator", slug: "tip-calculator", name: "Tip Calculator", summary: "Split a bill and calculate a fair tip for any group size.", category: "calculators", tags: ["tip", "bill", "money"], href: "/tools/tip-calculator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" } },
+
+  {
+    kind: "text", slug: "slug-generator", name: "Slug Generator", summary: "Turn titles and phrases into clean, URL-friendly slugs.", category: "utilities", tags: ["text", "url", "seo"], href: "/tools/slug-generator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" },
+  },
+  {
+    kind: "text", slug: "duplicate-line-remover", name: "Duplicate Line Remover", summary: "Remove repeated lines and clean up lists instantly in your browser.", category: "utilities", tags: ["text", "clean", "list"], href: "/tools/duplicate-line-remover", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" },
+  },
+  {
+    kind: "calculator", slug: "password-generator", name: "Password Generator", summary: "Create strong random passwords locally with configurable length and character sets.", category: "developer", tags: ["password", "security", "random"], href: "/tools/password-generator", capabilities: { processing: "on-device", requiresNetwork: false, persistence: "none" },
+  },
   {
     kind: "text",
     slug: "json-formatter",

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { Grid3X3 } from "lucide-react";
 import { BRAND_NAME_PARTS, REPOSITORY_URL, TAGLINE } from "@/constants/brand";
+import BrandMark from "@/components/brand-mark";
 import { CATEGORIES } from "@/constants/app";
 import { TOOLS } from "@/lib/tools/registry";
 import { describePlatformProcessing } from "@/lib/tools/capabilities";
@@ -17,16 +17,8 @@ export default function Footer() {
       <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div className="sm:col-span-2 lg:col-span-1">
-            <div className="mb-3 flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-cyan-500">
-                <Grid3X3 className="h-4 w-4 text-white" aria-hidden="true" />
-              </div>
-              <span className="text-sm font-extrabold text-white">
-                {BRAND_NAME_PARTS.lead}
-                <span className="bg-gradient-to-r from-indigo-300 to-cyan-400 bg-clip-text text-transparent">
-                  {BRAND_NAME_PARTS.accent}
-                </span>
-              </span>
+            <div className="mb-3">
+              <BrandMark compact />
             </div>
             <p className="max-w-xs text-sm leading-relaxed text-ink-300">{TAGLINE}</p>
             <p className="mt-3 max-w-xs text-xs leading-relaxed text-ink-500">
