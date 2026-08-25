@@ -8,7 +8,6 @@ import { TOOLS, getToolBySlug } from "@/lib/tools/registry";
 import { searchTools } from "@/lib/tools/search";
 import { isConversionTool } from "@/lib/tools/types";
 import { useRecentSlugs } from "@/lib/storage/tool-activity";
-import { getRelatedToolSlugs } from "@/lib/tools/related";
 import {
   COMMAND_PALETTE_EVENT,
   type CommandPaletteDetail,
