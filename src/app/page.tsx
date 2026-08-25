@@ -10,8 +10,11 @@ import {
   Zap,
   Lock,
 } from "lucide-react";
-import HeroFormatPicker from "./hero-format-picker";
+import HeroSearch from "./hero-search";
 import AmbientBackground from "@/components/layout/ambient-background";
+import PersonalizedHome from "@/components/layout/personalized-home";
+import WhyToolBeat from "@/components/layout/why-toolbeat";
+import ProductProof from "@/components/layout/product-proof";
 import { CATEGORIES, type CategoryKey } from "@/constants/app";
 import { TOOLS, getToolsByCategory } from "@/lib/tools/registry";
 import { isConversionTool } from "@/lib/tools/types";
@@ -23,33 +26,33 @@ const categoryStyles: Record<
 > = {
   documents: {
     icon: FileText,
-    accent: "hover:border-rose-400/40",
-    iconWrap: "bg-rose-500/15 border-rose-400/25 shadow-[0_0_24px_-8px_rgba(251,113,133,0.5)]",
-    iconColor: "text-rose-400",
+    accent: "hover:border-indigo-400/40",
+    iconWrap: "bg-indigo-500/15 border-indigo-400/25 shadow-[0_0_24px_-8px_rgba(139,92,246,0.45)]",
+    iconColor: "text-indigo-400",
   },
   images: {
     icon: Image,
-    accent: "hover:border-fuchsia-400/40",
-    iconWrap: "bg-fuchsia-500/15 border-fuchsia-400/25 shadow-[0_0_24px_-8px_rgba(232,121,249,0.5)]",
-    iconColor: "text-fuchsia-400",
+    accent: "hover:border-indigo-400/40",
+    iconWrap: "bg-indigo-500/15 border-indigo-400/25 shadow-[0_0_24px_-8px_rgba(139,92,246,0.45)]",
+    iconColor: "text-indigo-400",
   },
   developer: {
     icon: Code2,
-    accent: "hover:border-amber-400/40",
-    iconWrap: "bg-amber-500/15 border-amber-400/25 shadow-[0_0_24px_-8px_rgba(251,191,36,0.45)]",
-    iconColor: "text-amber-400",
+    accent: "hover:border-indigo-400/40",
+    iconWrap: "bg-indigo-500/15 border-indigo-400/25 shadow-[0_0_24px_-8px_rgba(139,92,246,0.45)]",
+    iconColor: "text-indigo-400",
   },
   utilities: {
     icon: Timer,
-    accent: "hover:border-emerald-400/40",
-    iconWrap: "bg-emerald-500/15 border-emerald-400/25 shadow-[0_0_24px_-8px_rgba(52,211,153,0.45)]",
-    iconColor: "text-emerald-400",
+    accent: "hover:border-indigo-400/40",
+    iconWrap: "bg-indigo-500/15 border-indigo-400/25 shadow-[0_0_24px_-8px_rgba(139,92,246,0.45)]",
+    iconColor: "text-indigo-400",
   },
   calculators: {
     icon: Calculator,
-    accent: "hover:border-cyan-400/40",
-    iconWrap: "bg-cyan-500/15 border-cyan-400/25 shadow-[0_0_24px_-8px_rgba(34,211,238,0.5)]",
-    iconColor: "text-cyan-400",
+    accent: "hover:border-indigo-400/40",
+    iconWrap: "bg-indigo-500/15 border-indigo-400/25 shadow-[0_0_24px_-8px_rgba(139,92,246,0.45)]",
+    iconColor: "text-indigo-400",
   },
 };
 
@@ -79,19 +82,19 @@ const highlights = [
     icon: ShieldCheck,
     title: "Private by design",
     desc: describePlatformProcessing(TOOLS),
-    tint: "from-violet-500/20 to-transparent",
+    tint: "from-indigo-500/20 to-transparent",
   },
   {
     icon: Zap,
     title: "Fast path to any tool",
-    desc: "Pick formats in the hero, search the directory, or jump from a category — two clicks max.",
-    tint: "from-cyan-500/15 to-transparent",
+    desc: "Search, browse categories, or use quick actions — get to work in seconds.",
+    tint: "from-indigo-500/15 to-transparent",
   },
   {
     icon: Lock,
     title: "No account required",
     desc: "Open a tool, finish the job, download the result. Nothing to sign up for.",
-    tint: "from-fuchsia-500/15 to-transparent",
+    tint: "from-indigo-500/15 to-transparent",
   },
 ];
 
@@ -99,17 +102,17 @@ const steps = [
   {
     step: "01",
     title: "Find your tool",
-    desc: "Choose formats below, browse a category, or open the full directory with search and filters.",
+    desc: "Search, browse categories, or use quick actions to find what you need.",
   },
   {
     step: "02",
     title: "Add your input",
-    desc: "Drop a file or paste text. Work stays in your browser — nothing is uploaded to a server.",
+    desc: "Drop a file or paste text. Work stays in your browser — nothing is uploaded.",
   },
   {
     step: "03",
     title: "Get the result",
-    desc: "Convert, format, or calculate locally, then download or copy the output in one click.",
+    desc: "Convert, format, or calculate locally, then download or copy the output.",
   },
 ];
 
@@ -121,44 +124,38 @@ export default function LandingPage() {
         <section className="relative px-4 pb-16 pt-14 sm:px-6 sm:pb-24 sm:pt-20">
           <AmbientBackground variant="hero" />
 
-          {/* Decorative orbit rings */}
-          <div
-            className="pointer-events-none absolute left-1/2 top-24 hidden h-[520px] w-[520px] -translate-x-1/2 lg:block"
-            aria-hidden="true"
-          >
-            <div className="orbit-ring absolute inset-0 opacity-40" />
-            <div
-              className="orbit-ring absolute inset-10 opacity-25"
-              style={{ animationDirection: "reverse", animationDuration: "32s" }}
-            />
-            <div className="orbit-ring absolute inset-24 opacity-15" style={{ animationDuration: "40s" }} />
-          </div>
+          {/* Decorative orbit rings - REMOVED for Phase 2 (simplified visual system) */}
 
           <div className="relative mx-auto max-w-5xl text-center">
+            {/* Eyebrow - Updated to show tool count */}
             <div className="mb-6 inline-flex animate-fade-up items-center gap-2 rounded-full border border-indigo-400/25 bg-indigo-500/10 px-3.5 py-1.5 text-xs font-medium text-indigo-300 shadow-[0_0_24px_-8px_rgba(139,92,246,0.6)]">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-400 opacity-60" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-400" />
               </span>
-              {describePlatformProcessingShort(TOOLS)} · {TOOLS.length} tools ready
+              {TOOLS.length} useful tools · 100% browser-first
             </div>
 
+            {/* NEW HEADLINE - Clearer positioning */}
             <h1 className="mb-5 animate-fade-up text-4xl font-extrabold leading-[1.08] tracking-tight text-white delay-1 sm:text-5xl lg:text-6xl">
-              Useful tools.
+              Do the task.
               <br className="hidden sm:block" />{" "}
-              <span className="text-gradient-aurora">Right in your browser.</span>
+              <span className="text-gradient-aurora">Not the signup.</span>
             </h1>
 
+            {/* NEW SUBHEADLINE - More descriptive */}
             <p className="mx-auto mb-10 max-w-2xl animate-fade-up text-base leading-relaxed text-ink-300 delay-2 sm:text-lg">
-              Convert files, format code, count words, run timers and more — without accounts,
-              uploads, or waiting on a server.
+              Convert files, format data, clean text, generate values, and calculate instantly —
+              directly in your browser. Your files stay on your device.
             </p>
 
+            {/* NEW HERO SEARCH - Replaces format picker */}
             <div className="animate-scale-in delay-3">
-              <HeroFormatPicker />
+              <HeroSearch />
             </div>
 
-            <div className="mt-6 flex animate-fade-up flex-wrap items-center justify-center gap-3 delay-4">
+            {/* Secondary CTA - Browse all tools */}
+            <div className="mt-8 flex animate-fade-up flex-wrap items-center justify-center gap-3 delay-4">
               <Link href="/tools" className="btn-secondary text-sm">
                 Browse all {TOOLS.length} tools
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
@@ -173,7 +170,10 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Trust highlights */}
+        {/* PHASE 4: Personalized Home for returning users */}
+        <PersonalizedHome />
+
+        {/* Trust highlights - KEEP but with updated descriptions */}
         <section className="relative border-t border-white/[0.05] px-4 py-12 sm:px-6" aria-label="Why ToolBeat">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
           <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-3">
@@ -200,8 +200,7 @@ export default function LandingPage() {
 
         {/* Categories */}
         <section id="categories" className="scroll-mt-20 relative border-t border-white/[0.05] px-4 py-16 sm:px-6 sm:py-20">
-          <div className="pointer-events-none absolute right-0 top-1/3 h-64 w-64 rounded-full bg-fuchsia-500/10 blur-[100px]" aria-hidden="true" />
-          <div className="pointer-events-none absolute left-0 bottom-0 h-48 w-48 rounded-full bg-cyan-500/10 blur-[90px]" aria-hidden="true" />
+          {/* Decorative blobs REMOVED for Phase 2 (simplified visual system) */}
 
           <div className="relative mx-auto max-w-6xl">
             <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
@@ -210,7 +209,7 @@ export default function LandingPage() {
                   Browse by category
                 </p>
                 <h2 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                  Start where you already know the job
+                  What do you need to do?
                 </h2>
                 <p className="mt-2 max-w-xl text-sm text-ink-400">
                   {TOOLS.length} tools across {CATEGORIES.length} categories — each card opens a
@@ -283,56 +282,44 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* How it works */}
+        {/* PHASE 4: Why ToolBeat comparison section */}
+        <WhyToolBeat />
+
+        {/* PHASE 4: Product Proof section */}
+        <ProductProof />
+
+        {/* How it works - COMPRESSED per audit recommendation */}
         <section
           id="how-it-works"
-          className="scroll-mt-20 relative border-t border-white/[0.05] px-4 py-16 sm:px-6 sm:py-20"
+          className="scroll-mt-20 relative border-t border-white/[0.05] px-4 py-12 sm:px-6 sm:py-16"
         >
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-indigo-500/[0.04] via-transparent to-cyan-500/[0.04]" />
+          {/* Background gradient REMOVED for Phase 2 (simplified visual system) */}
           <div className="relative mx-auto max-w-5xl">
-            <div className="mb-10 text-center">
+            <div className="mb-8 text-center">
               <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-fuchsia-400">
                 Simple flow
               </p>
               <h2 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                Three steps. No detours.
+                Find → Use → Done
               </h2>
+              <p className="mt-2 text-sm text-ink-400">
+                No account. No upload. No waiting.
+              </p>
             </div>
-            <ol className="grid gap-4 md:grid-cols-3">
-              {steps.map((s, index) => (
-                <li
-                  key={s.step}
-                  className="surface-raised card-hover relative overflow-hidden p-6"
-                  style={{ animationDelay: `${index * 0.08}s` }}
-                >
-                  <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-indigo-500/10 blur-2xl" />
-                  <span className="absolute right-5 top-4 select-none text-4xl font-black text-white/[0.04]">
-                    {s.step}
-                  </span>
-                  <span className="mb-4 inline-flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500/30 to-cyan-500/20 text-xs font-bold text-indigo-200 shadow-[0_0_18px_-4px_rgba(139,92,246,0.6)]">
-                    {index + 1}
-                  </span>
-                  <h3 className="mb-2 text-lg font-bold text-white">{s.title}</h3>
-                  <p className="text-sm leading-relaxed text-ink-400">{s.desc}</p>
-                </li>
-              ))}
-            </ol>
           </div>
         </section>
 
         {/* Closing CTA */}
         <section className="relative border-t border-white/[0.05] px-4 py-16 sm:px-6 sm:py-20">
           <div className="glass-panel animate-border-glow relative mx-auto max-w-4xl overflow-hidden px-6 py-14 text-center sm:px-12">
-            <div className="pointer-events-none absolute -left-16 top-0 h-48 w-48 rounded-full bg-indigo-500/25 blur-[80px]" />
-            <div className="pointer-events-none absolute -right-10 bottom-0 h-40 w-40 rounded-full bg-cyan-400/20 blur-[70px]" />
-            <div className="pointer-events-none absolute inset-0 animate-shimmer opacity-40" />
+            {/* Decorative blobs and shimmer REMOVED for Phase 2 (simplified visual system) */}
 
             <div className="relative">
               <div className="mx-auto mb-5 flex h-14 w-14 animate-float items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500 to-cyan-500 shadow-[0_0_32px_-4px_rgba(139,92,246,0.7)]">
                 <Zap className="h-7 w-7 text-white" aria-hidden="true" />
               </div>
               <h2 className="text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
-                Ready when you are
+                What&apos;s the next thing you need to get done?
               </h2>
               <p className="mx-auto mt-3 max-w-lg text-sm leading-relaxed text-ink-300 sm:text-base">
                 Open the directory, filter by what you need, and finish the task in your browser.

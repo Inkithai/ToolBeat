@@ -5,11 +5,11 @@
 export { APP_NAME, TAGLINE } from "./brand";
 
 export const CATEGORIES = [
-  { key: "documents", label: "Documents", icon: "FileText", description: "Markdown, DOCX, HTML, TXT and PDF" },
-  { key: "images", label: "Images", icon: "Image", description: "PNG, JPG, WebP and SVG" },
-  { key: "developer", label: "Data & Developer", icon: "Code2", description: "JSON, YAML, XML, CSV and Markdown tables" },
-  { key: "utilities", label: "Utilities", icon: "Timer", description: "Text, counting and time-tracking tools" },
-  { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates and everyday arithmetic" },
+  { key: "documents", label: "Files & Conversion", icon: "FileText", description: "PDF, DOCX, Markdown, HTML and text formats" },
+  { key: "images", label: "Images", icon: "Image", description: "PNG, JPG, WebP and SVG conversion" },
+  { key: "developer", label: "Developer & Data", icon: "Code2", description: "JSON, YAML, XML, CSV, Base64 and encoding" },
+  { key: "utilities", label: "Text & Writing", icon: "Timer", description: "Text formatting, counting, and writing tools" },
+  { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates, finance and everyday math" },
 ] as const;
 
 export type CategoryKey = (typeof CATEGORIES)[number]["key"];
