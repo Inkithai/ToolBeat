@@ -33,10 +33,10 @@ export default function CapabilityBadges({
           <li
             key={badge.id}
             title={badge.detail}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-shadow ${
               badge.tone === "positive"
-                ? "border-indigo-400/25 bg-indigo-500/10 text-indigo-300"
-                : "border-white/10 bg-white/5 text-ink-200"
+                ? "border-indigo-400/30 bg-indigo-500/15 text-indigo-200 shadow-[0_0_14px_-6px_rgba(139,92,246,0.55)]"
+                : "border-white/10 bg-white/[0.04] text-ink-300"
             }`}
           >
             <Icon className="h-3.5 w-3.5" aria-hidden="true" />

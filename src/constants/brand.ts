@@ -24,7 +24,7 @@ export const REPOSITORY_URL = "https://github.com/Inkithai/ToolBeat";
 /**
  * Canonical origin for metadataBase, the sitemap, robots.txt and JSON-LD URLs.
  * Set `NEXT_PUBLIC_SITE_URL` in the deployment environment (for example
- * `https://toolbeat.example.com`); a localhost fallback keeps local builds
+ * `https://toolbeat.vercel.app`); a localhost fallback keeps local builds
  * from silently emitting metadata with relative-only URLs, which Next.js
  * warns about and search engines ignore.
  */

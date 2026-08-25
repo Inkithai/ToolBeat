@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Clock3, Search, SlidersHorizontal, Star } from "lucide-react";
+import { ArrowRight, Clock3, Search, SlidersHorizontal, Star, X } from "lucide-react";
 import { CATEGORIES, type CategoryKey } from "@/constants/app";
 import { TOOLS, getToolBySlug } from "@/lib/tools/registry";
 import { isConversionTool } from "@/lib/tools/types";
@@ -13,10 +13,10 @@ import { useFavoriteSlugs, useRecentSlugs } from "@/lib/storage/tool-activity";
 const VISIBLE_TAG_LIMIT = 12;
 
 const chipClasses = (active: boolean): string =>
-  `rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
+  `rounded-full border px-3 py-1.5 text-xs font-semibold transition-all duration-200 ${
     active
-      ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
-      : "border-white/10 bg-white/[0.03] text-ink-200 hover:bg-white/[0.07]"
+      ? "border-indigo-400/50 bg-indigo-500/20 text-indigo-200 shadow-[0_0_16px_-6px_rgba(139,92,246,0.7)]"
+      : "border-white/10 bg-white/[0.03] text-ink-300 hover:border-indigo-400/30 hover:bg-white/[0.06] hover:text-white"
   }`;
 
 export default function ToolDirectory({ initialCategory = "all" }: { initialCategory?: string }) {
@@ -29,6 +29,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
   const [source, setSource] = useState("all");
   const [destination, setDestination] = useState("all");
   const [favoritesOnly, setFavoritesOnly] = useState(false);
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const [favorites, toggleFavorite] = useFavoriteSlugs();
   const [recentSlugs] = useRecentSlugs();
 
@@ -111,49 +112,57 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
 
   return (
     <>
-      <section className="mb-6 rounded-2xl border border-white/5 bg-white/[0.025] p-4 sm:p-5" aria-label="Filter tools">
-        <div className="mb-3 flex items-center justify-between">
-          <h2 className="text-sm font-bold text-white">Find your tool</h2>
-          <span className="text-xs text-slate-500">{TOOLS.length} available</span>
+      <section className="glass-panel relative mb-6 overflow-hidden p-4 sm:p-5" aria-label="Filter tools">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/50 to-transparent" />
+        <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 className="text-sm font-bold text-white">Search & filter</h2>
+            <p className="mt-0.5 text-xs text-ink-500">
+              Try “json”, “pdf”, “timer”, or a format pair
+            </p>
+          </div>
+          <span className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-2.5 py-1 text-xs font-semibold text-indigo-300">
+            {TOOLS.length} available
+          </span>
         </div>
-        <label className="relative block mb-4">
-          <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-slate-400" />
+
+        <label className="relative mb-4 block">
+          <Search className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-500" />
           <span className="sr-only">Search tools</span>
           <input
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search tools, for example JSON to XML, jpeg or timer…"
-            className="w-full rounded-xl border border-white/10 bg-navy-900 py-3.5 pl-12 pr-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
+            placeholder="Search tools — JSON to XML, jpeg, word counter…"
+            className="field w-full py-3.5 pl-12 pr-10"
+            autoComplete="off"
           />
+          {query && (
+            <button
+              type="button"
+              onClick={() => setQuery("")}
+              className="absolute right-3 top-1/2 -translate-y-1/2 rounded-md p-1 text-ink-500 hover:bg-white/10 hover:text-white"
+              aria-label="Clear search"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          )}
         </label>
 
-        {/* Keep related fields together so the controls stay compact. */}
-        <div className="grid gap-3 sm:grid-cols-2">
-          <label className="block">
-            <span className="mb-1.5 block text-xs font-medium text-ink-200">Source format</span>
-            <select value={source} onChange={(event) => setSource(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
-              <option value="all">All source formats</option>
-              {sourceFormats.map((format) => <option key={format}>{format}</option>)}
-            </select>
-          </label>
-          <label className="block">
-            <span className="mb-1.5 block text-xs font-medium text-ink-200">Output format</span>
-            <select value={destination} onChange={(event) => setDestination(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
-              <option value="all">All output formats</option>
-              {destinationFormats.map((format) => <option key={format}>{format}</option>)}
-            </select>
-          </label>
-        </div>
-
-        {/* Category filters with counts, wrapped to prevent long lines */}
-        <div className="mt-4 flex flex-wrap gap-1.5" aria-label="Tool categories">
+        {/* Category filters with counts */}
+        <div className="flex flex-wrap gap-1.5" aria-label="Tool categories">
           <button type="button" onClick={() => setCategory("all")} className={chipClasses(category === "all")}>
             All tools <span className="ml-1 opacity-60">{TOOLS.length}</span>
           </button>
           {CATEGORIES.map((item) => (
-            <button key={item.key} type="button" onClick={() => setCategory(item.key)} className={chipClasses(category === item.key)}>
-              {item.label} <span className="ml-1 opacity-60">{categoryCounts.get(item.key) ?? 0}</span>
+            <button
+              key={item.key}
+              type="button"
+              onClick={() => setCategory(item.key)}
+              className={chipClasses(category === item.key)}
+            >
+              {item.label}{" "}
+              <span className="ml-1 opacity-60">{categoryCounts.get(item.key) ?? 0}</span>
             </button>
           ))}
           {favorites.length > 0 && (
@@ -169,11 +178,60 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
           )}
         </div>
 
+        {/* Advanced format filters — collapsed by default to keep the flow clean */}
+        <div className="mt-4 border-t border-white/[0.06] pt-3">
+          <button
+            type="button"
+            onClick={() => setShowAdvanced((value) => !value)}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-400 transition-colors hover:text-indigo-300"
+            aria-expanded={showAdvanced}
+          >
+            <SlidersHorizontal className="h-3.5 w-3.5" />
+            {showAdvanced ? "Hide format filters" : "Filter by source / output format"}
+          </button>
+
+          {showAdvanced && (
+            <div className="mt-3 grid gap-3 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-1.5 block text-xs font-medium text-ink-400">Source format</span>
+                <select
+                  value={source}
+                  onChange={(event) => setSource(event.target.value)}
+                  className="field"
+                >
+                  <option value="all">All source formats</option>
+                  {sourceFormats.map((format) => (
+                    <option key={format}>{format}</option>
+                  ))}
+                </select>
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-xs font-medium text-ink-400">Output format</span>
+                <select
+                  value={destination}
+                  onChange={(event) => setDestination(event.target.value)}
+                  className="field"
+                >
+                  <option value="all">All output formats</option>
+                  {destinationFormats.map((format) => (
+                    <option key={format}>{format}</option>
+                  ))}
+                </select>
+              </label>
+            </div>
+          )}
+        </div>
+
         {/* Tags cut across categories ("pdf", "json") and are derived from the
             registry, so a new tool's tags appear here without another edit. */}
         {topTags.length > 0 && (
-          <div className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-white/5 pt-3" aria-label="Filter by tag">
-            <span className="mr-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">Tags</span>
+          <div
+            className="mt-3 flex flex-wrap items-center gap-1.5 border-t border-white/[0.06] pt-3"
+            aria-label="Filter by tag"
+          >
+            <span className="mr-1 text-[11px] font-bold uppercase tracking-wider text-ink-500">
+              Tags
+            </span>
             {topTags.map((label) => (
               <button
                 key={label}
@@ -183,7 +241,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
                 className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                   tag === label
                     ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
-                    : "border-white/10 bg-transparent text-slate-400 hover:border-white/20 hover:text-ink-200"
+                    : "border-white/10 bg-transparent text-ink-500 hover:border-white/20 hover:text-ink-200"
                 }`}
               >
                 {label}
@@ -195,7 +253,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
 
       {recentTools.length > 0 && !filtersActive && (
         <section className="mb-6" aria-label="Recently used tools">
-          <h2 className="mb-2.5 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.16em] text-slate-500">
+          <h2 className="mb-2.5 flex items-center gap-1.5 text-xs font-bold uppercase tracking-[0.16em] text-ink-500">
             <Clock3 className="h-3.5 w-3.5" aria-hidden="true" /> Recently used
           </h2>
           <div className="flex flex-wrap gap-2">
@@ -208,7 +266,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
                 {isConversionTool(tool)
                   ? `${tool.conversion.fromFormat} → ${tool.conversion.toFormat}`
                   : tool.name}
-                <ArrowRight className="h-3 w-3 text-slate-500" aria-hidden="true" />
+                <ArrowRight className="h-3 w-3 text-ink-500" aria-hidden="true" />
               </Link>
             ))}
           </div>
@@ -216,9 +274,17 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
       )}
 
       <div className="mb-4 flex items-center justify-between gap-4">
-        <p className="text-sm text-ink-200"><span className="font-bold text-white">{tools.length}</span> tool{tools.length === 1 ? "" : "s"}</p>
+        <p className="text-sm text-ink-400">
+          <span className="font-bold text-white">{tools.length}</span> tool
+          {tools.length === 1 ? "" : "s"}
+          {filtersActive ? " match" : ""}
+        </p>
         {filtersActive && (
-          <button type="button" onClick={clearFilters} className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300">
+          <button
+            type="button"
+            onClick={clearFilters}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
+          >
             <SlidersHorizontal className="h-3.5 w-3.5" /> Clear filters
           </button>
         )}
@@ -234,47 +300,66 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
               // of as a button nested inside an anchor (invalid HTML).
               <article
                 key={tool.slug}
-                className="group relative flex min-h-40 flex-col rounded-xl border border-white/5 bg-white/[0.025] p-4 transition-all hover:-translate-y-1 hover:border-indigo-400/25 hover:bg-white/[0.04]"
+                className="group card-hover relative flex min-h-44 flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-5"
               >
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/0 to-transparent transition-all duration-300 group-hover:via-indigo-400/60" />
                 <button
                   type="button"
                   onClick={() => toggleFavorite(tool.slug)}
                   aria-pressed={isFavorite}
-                  aria-label={isFavorite ? `Remove ${tool.name} from favorites` : `Add ${tool.name} to favorites`}
+                  aria-label={
+                    isFavorite
+                      ? `Remove ${tool.name} from favorites`
+                      : `Add ${tool.name} to favorites`
+                  }
                   className={`absolute right-3 top-3 z-10 rounded-lg p-1.5 transition-colors hover:bg-white/10 ${
-                    isFavorite ? "text-amber-300" : "text-slate-600 hover:text-amber-200"
+                    isFavorite ? "text-amber-300" : "text-ink-600 hover:text-amber-200"
                   }`}
                 >
-                  <Star className={`h-4 w-4 ${isFavorite ? "fill-amber-300" : ""}`} aria-hidden="true" />
+                  <Star
+                    className={`h-4 w-4 ${isFavorite ? "fill-amber-300" : ""}`}
+                    aria-hidden="true"
+                  />
                 </button>
-                <span className="mb-3 w-fit rounded-full bg-white/5 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">{tool.category}</span>
-                <h3 className="pr-8 text-xl font-extrabold text-white">
+                <span className="mb-3 w-fit rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-400">
+                  {tool.category}
+                </span>
+                <h3 className="pr-8 text-lg font-extrabold leading-snug text-white sm:text-xl">
                   {isConversionTool(tool) ? (
                     <>
-                      {tool.conversion.fromFormat} <span className="text-indigo-400">→</span> {tool.conversion.toFormat}
+                      {tool.conversion.fromFormat}{" "}
+                      <span className="text-cyan-400">→</span> {tool.conversion.toFormat}
                     </>
                   ) : (
                     tool.name
                   )}
                 </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-200">{tool.summary}</p>
+                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-400">{tool.summary}</p>
                 <div className="mt-3 flex flex-wrap gap-1.5" aria-hidden="true">
                   {tool.tags.slice(0, 3).map((label) => (
-                    <span key={label} className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-medium text-slate-500">
+                    <span
+                      key={label}
+                      className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-medium text-ink-500"
+                    >
                       {label}
                     </span>
                   ))}
                 </div>
-                <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-indigo-400">
+                <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-indigo-300 transition-colors group-hover:text-cyan-300">
                   {isConversionTool(tool) ? "Open converter" : "Open tool"}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                  <ArrowRight
+                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
+                    aria-hidden="true"
+                  />
                 </span>
                 <Link
                   href={tool.href}
-                  className="absolute inset-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60"
+                  className="absolute inset-0 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60"
                 >
                   <span className="sr-only">
-                    {isConversionTool(tool) ? `${tool.name} — open converter` : `${tool.name} — open tool`}
+                    {isConversionTool(tool)
+                      ? `${tool.name} — open converter`
+                      : `${tool.name} — open tool`}
                   </span>
                 </Link>
               </article>
@@ -283,10 +368,14 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
         </section>
       ) : (
         <section className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] px-6 py-16 text-center">
-          <Search className="mx-auto mb-4 h-8 w-8 text-slate-500" />
+          <Search className="mx-auto mb-4 h-8 w-8 text-ink-500" />
           <h2 className="text-lg font-bold text-white">No matching tool</h2>
-          <p className="mt-2 text-sm text-ink-200">Try another search term or clear the active filters.</p>
-          <button type="button" onClick={clearFilters} className="mt-5 rounded-lg bg-indigo-500 px-4 py-2 text-sm font-bold text-white hover:bg-indigo-400">Show all tools</button>
+          <p className="mt-2 text-sm text-ink-400">
+            Try another search term or clear the active filters.
+          </p>
+          <button type="button" onClick={clearFilters} className="btn-primary mt-5">
+            Show all tools
+          </button>
         </section>
       )}
     </>

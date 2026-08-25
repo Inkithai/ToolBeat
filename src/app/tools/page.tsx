@@ -1,10 +1,12 @@
 import Link from "next/link";
-import { ArrowLeft, LockKeyhole } from "lucide-react";
+import { LockKeyhole } from "lucide-react";
 import ToolDirectory from "./tool-directory";
+import AmbientBackground from "@/components/layout/ambient-background";
 import { TOOLS } from "@/lib/tools/registry";
 import { describePlatformProcessing, describePlatformProcessingShort } from "@/lib/tools/capabilities";
 import { toolListJsonLd } from "@/lib/seo/schema";
 import JsonLd from "@/components/seo/json-ld";
+import Breadcrumbs from "@/components/layout/breadcrumbs";
 import { APP_NAME, TAGLINE, TITLE_SUFFIX } from "@/constants/brand";
 
 export const metadata = {
@@ -21,27 +23,46 @@ export default async function ToolsPage({
   const { category = "all" } = await searchParams;
 
   return (
-    <div className="min-h-screen bg-navy-950">
-      <main className="mx-auto max-w-6xl px-4 py-5 sm:px-6 sm:py-7">
-        <div className="mb-5 flex items-center justify-between gap-4">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm text-ink-200 hover:text-indigo-400">
-            <ArrowLeft className="h-4 w-4" /> Back to home
-          </Link>
-          <span className="hidden items-center gap-2 text-xs font-semibold text-indigo-300 sm:inline-flex">
-            <LockKeyhole className="h-3.5 w-3.5" /> {describePlatformProcessingShort(TOOLS)}
+    <div className="relative overflow-hidden bg-navy-950">
+      <AmbientBackground variant="page" />
+      <main className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Tools", href: "/tools" },
+          ]}
+          className="mb-6"
+        />
+
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl animate-fade-up">
+            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-400">
+              Tool directory
+            </p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+              Find the{" "}
+              <span className="text-gradient-aurora">right tool</span>
+            </h1>
+            <p className="mt-3 text-sm leading-relaxed text-ink-400 sm:text-base">
+              Search by name or format, filter by category, or jump back into something you used
+              recently. {describePlatformProcessing(TOOLS)}
+            </p>
+          </div>
+          <span className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-indigo-400/25 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-300 shadow-[0_0_20px_-8px_rgba(139,92,246,0.55)] delay-2">
+            <LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />
+            {describePlatformProcessingShort(TOOLS)}
           </span>
         </div>
-        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <div className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-400">{APP_NAME} tools</div>
-            <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">Choose a tool</h1>
-          </div>
-          <p className="max-w-md text-sm leading-relaxed text-ink-200 sm:text-right">{describePlatformProcessing(TOOLS)}</p>
-        </div>
-        {/* The catalog as structured data, generated from the same registry
-            the directory below renders from. */}
+
         <JsonLd data={toolListJsonLd(TOOLS)} />
         <ToolDirectory initialCategory={category} />
+
+        <p className="mt-10 text-center text-sm text-ink-500">
+          Looking for something else?{" "}
+          <Link href="/" className="font-semibold text-indigo-300 transition-colors hover:text-cyan-300">
+            Back to home
+          </Link>
+        </p>
       </main>
     </div>
   );

@@ -200,6 +200,34 @@ const utilityTools: ToolDefinition[] = [
       persistence: "none",
     },
   },
+  {
+    kind: "calculator",
+    slug: "unit-converter",
+    name: "Unit Converter",
+    summary: "Convert length, mass, temperature, volume, time and digital storage units instantly.",
+    category: "calculators",
+    tags: ["units", "convert", "length", "temperature", "math"],
+    href: "/tools/unit-converter",
+    capabilities: {
+      processing: "on-device",
+      requiresNetwork: false,
+      persistence: "none",
+    },
+  },
+  {
+    kind: "calculator",
+    slug: "reading-time",
+    name: "Reading Time Calculator",
+    summary: "Estimate how long text takes to read or speak, with adjustable reading pace.",
+    category: "utilities",
+    tags: ["text", "reading", "writing", "time"],
+    href: "/tools/reading-time",
+    capabilities: {
+      processing: "on-device",
+      requiresNetwork: false,
+      persistence: "none",
+    },
+  },
 ];
 
 export const TOOLS: readonly ToolDefinition[] = [...conversionTools, ...utilityTools];

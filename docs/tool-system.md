@@ -7,7 +7,7 @@ planned work.
 
 | Layer | Path | Responsibility |
 | --- | --- | --- |
-| Conversion catalog | `src/constants/app.ts` | The original 24 conversions plus `CATEGORIES`. Still the source of truth for converters. |
+| Conversion catalog | `src/constants/app.ts` | The 24 conversions plus `CATEGORIES`. Still the source of truth for converters. |
 | Platform types | `src/lib/tools/types.ts` | `ToolDefinition`, the supertype all discovery surfaces consume. |
 | Tool registry | `src/lib/tools/registry.ts` | Derives converter tools from the catalog, adds non-converter tools, exposes lookups. |
 | Search | `src/lib/tools/search.ts` | Token-based, scored directory search with alias expansion. |
@@ -61,10 +61,17 @@ parsers. Before this change the conversion route shipped 210 kB of First Load JS
 1. Append a `UtilityTool` to `utilityTools` in `src/lib/tools/registry.ts`, declaring its `kind`,
    `category`, `tags` and honest `capabilities`.
 2. Create `src/app/tools/<slug>/page.tsx` wrapping your client component in `ToolShell`.
+3. Put pure logic in `src/lib/tools/<name>.ts` with a matching `*.test.ts` when the math or parsing
+   has edge cases worth locking down.
 
-`ToolShell` supplies the back link, heading, summary and capability badges. It does **not** impose an
-input/output flow — the three shipped tools have three different shapes (textarea pair, live
-statistics, countdown), which is the point.
+`ToolShell` supplies breadcrumbs, heading, summary and capability badges. It does **not** impose an
+input/output flow — formatters, counters, converters and timers each own their interaction model.
+
+### Deploy note
+
+Set `NEXT_PUBLIC_SITE_URL` in the hosting environment to the public origin (no trailing slash).
+Without it, sitemap / canonicals / JSON-LD fall back to `http://localhost:3000`. See `.env.example`
+and the root `README.md`.
 
 ## Categories and tags
 
@@ -84,7 +91,7 @@ JPG converters), and a small alias map maps natural words (`word` → `docx`) on
 lowest weight so aliases widen recall but never outrank a direct name match. Ties break
 alphabetically for deterministic ordering.
 
-Favorites and recently-used tools are slug lists stored under the same `convertlab:` localStorage
+Favorites and recently-used tools are slug lists stored under the same `toolbeat:` localStorage
 namespace as other preferences, written through the same guarded read/write helpers, and synced
 between mounted components with a window event (plus the `storage` event across tabs). They are
 platform-level data — a tool whose capabilities declare `persistence: "none"` still stores nothing
@@ -119,7 +126,7 @@ Per-tool badges come from `getCapabilityBadges` and render via `CapabilityBadges
 
 ## Storage
 
-`localStorage` under a `convertlab:` namespace, holding **preferences only** — never tool input.
+`localStorage` under a `toolbeat:` namespace, holding **preferences only** — never tool input.
 Converted files, pasted JSON and typed text stay in memory and are gone on reload, which is what the
 capability badges claim. The one thing stored beyond per-tool settings is the directory's own
 favorites/recents slug lists (see Discovery), which contain no user content either.
