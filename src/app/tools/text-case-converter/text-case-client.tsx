@@ -4,7 +4,6 @@ import { useCallback, useMemo, useState } from "react";
 import { Check, Copy, Trash2 } from "lucide-react";
 import { CASE_STYLES, convertCase, type CaseStyle } from "@/lib/tools/text-case";
 import { usePersistentState } from "@/lib/storage/preferences";
-import IoWorkspace from "@/components/tools/io-workspace";
 
 type CasePreferences = { style: CaseStyle };
 
