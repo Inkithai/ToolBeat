@@ -10,9 +10,12 @@ planned work.
 | Conversion catalog | `src/constants/app.ts` | The original 24 conversions plus `CATEGORIES`. Still the source of truth for converters. |
 | Platform types | `src/lib/tools/types.ts` | `ToolDefinition`, the supertype all discovery surfaces consume. |
 | Tool registry | `src/lib/tools/registry.ts` | Derives converter tools from the catalog, adds non-converter tools, exposes lookups. |
+| Search | `src/lib/tools/search.ts` | Token-based, scored directory search with alias expansion. |
 | Capabilities | `src/lib/tools/capabilities.ts` | Turns capability data into user-facing claims. |
+| SEO | `src/lib/seo/` | `metadataBase`-derived canonicals, sitemap, robots and JSON-LD built from the registry. |
 | Conversion dispatch | `src/lib/converters/runners.ts` | Maps a `ConversionType` to a lazily-imported runner. |
 | Preferences | `src/lib/storage/preferences.ts` | Namespaced `localStorage` for settings only. |
+| Tool activity | `src/lib/storage/tool-activity.ts` | Favorites and recently-used slugs, same storage rules as preferences. |
 
 ## Why two registries and not one
 
@@ -72,6 +75,32 @@ matches every PDF-related tool without needing a PDF category.
 `CATEGORIES` is consumed through an exhaustive `Record<CategoryKey, …>` on the landing page, so
 adding a category is a deliberate compile error until its presentation is defined.
 
+## Discovery
+
+Directory search lives in `src/lib/tools/search.ts`, not in the component. Queries are tokenized
+(AND semantics — every token must match somewhere), each token scores against weighted fields
+(name > slug/tags > summary), accepted file extensions are part of the corpus (so `jpeg` finds the
+JPG converters), and a small alias map maps natural words (`word` → `docx`) onto formats at the
+lowest weight so aliases widen recall but never outrank a direct name match. Ties break
+alphabetically for deterministic ordering.
+
+Favorites and recently-used tools are slug lists stored under the same `convertlab:` localStorage
+namespace as other preferences, written through the same guarded read/write helpers, and synced
+between mounted components with a window event (plus the `storage` event across tabs). They are
+platform-level data — a tool whose capabilities declare `persistence: "none"` still stores nothing
+of its own; the star you click lives in the directory, like a browser bookmark. Tool pages record
+visits through `RecordToolVisit`, a client leaf rendered by `ToolShell` and the conversion client
+so page shells stay server components.
+
+## SEO
+
+`SITE_URL` (from `NEXT_PUBLIC_SITE_URL`, localhost fallback) is the single origin for
+`metadataBase`, per-page canonicals, `robots.txt`, the sitemap and every JSON-LD URL. The sitemap,
+the directory's `ItemList`, and each tool page's `WebApplication` + `BreadcrumbList` are generated
+from the registry, so a registered tool is fully indexed the moment it exists. The privacy
+`featureList` in `WebApplication` is derived from tool capabilities exactly like the visible
+badges.
+
 ## Capabilities
 
 Every tool declares:
@@ -92,7 +121,8 @@ Per-tool badges come from `getCapabilityBadges` and render via `CapabilityBadges
 
 `localStorage` under a `convertlab:` namespace, holding **preferences only** — never tool input.
 Converted files, pasted JSON and typed text stay in memory and are gone on reload, which is what the
-capability badges claim.
+capability badges claim. The one thing stored beyond per-tool settings is the directory's own
+favorites/recents slug lists (see Discovery), which contain no user content either.
 
 `usePersistentState` applies stored values in an effect rather than during render, avoiding
 hydration mismatches, and fails silently when storage throws (private mode, quota).

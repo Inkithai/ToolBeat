@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, FileText, Image, Code2, Timer } from "lucide-react";
+import { ArrowRight, FileText, Image, Code2, Timer, Calculator } from "lucide-react";
 import HeroFormatPicker from "./hero-format-picker";
 import { CATEGORIES, type CategoryKey } from "@/constants/app";
 import { TOOLS, getToolsByCategory } from "@/lib/tools/registry";
@@ -11,6 +11,7 @@ const categoryStyles: Record<CategoryKey, { icon: typeof FileText; color: string
   images: { icon: Image, color: "from-violet-400/20 to-violet-500/10", border: "border-violet-400/20", iconColor: "text-violet-400" },
   developer: { icon: Code2, color: "from-amber-400/20 to-amber-500/10", border: "border-amber-400/20", iconColor: "text-amber-400" },
   utilities: { icon: Timer, color: "from-emerald-400/20 to-emerald-500/10", border: "border-emerald-400/20", iconColor: "text-emerald-400" },
+  calculators: { icon: Calculator, color: "from-sky-400/20 to-sky-500/10", border: "border-sky-400/20", iconColor: "text-sky-400" },
 };
 
 /**

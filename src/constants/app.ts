@@ -9,6 +9,7 @@ export const CATEGORIES = [
   { key: "images", label: "Images", icon: "Image", description: "PNG, JPG, WebP and SVG" },
   { key: "developer", label: "Data & Developer", icon: "Code2", description: "JSON, YAML, XML, CSV and Markdown tables" },
   { key: "utilities", label: "Utilities", icon: "Timer", description: "Text, counting and time-tracking tools" },
+  { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates and everyday arithmetic" },
 ] as const;
 
 export type CategoryKey = (typeof CATEGORIES)[number]["key"];

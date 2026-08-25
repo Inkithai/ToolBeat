@@ -3,11 +3,14 @@ import { ArrowLeft, LockKeyhole } from "lucide-react";
 import ToolDirectory from "./tool-directory";
 import { TOOLS } from "@/lib/tools/registry";
 import { describePlatformProcessing, describePlatformProcessingShort } from "@/lib/tools/capabilities";
+import { toolListJsonLd } from "@/lib/seo/schema";
+import JsonLd from "@/components/seo/json-ld";
 import { APP_NAME, TITLE_SUFFIX } from "@/constants/brand";
 
 export const metadata = {
   title: `All Tools — ${TITLE_SUFFIX}`,
   description: `Browse all ${TOOLS.length} ${APP_NAME} tools for documents, images, data and everyday utilities. ${describePlatformProcessingShort(TOOLS)}.`,
+  alternates: { canonical: "/tools" },
 };
 
 export default async function ToolsPage({
@@ -35,6 +38,9 @@ export default async function ToolsPage({
           </div>
           <p className="max-w-md text-sm leading-relaxed text-ink-200 sm:text-right">{describePlatformProcessing(TOOLS)}</p>
         </div>
+        {/* The catalog as structured data, generated from the same registry
+            the directory below renders from. */}
+        <JsonLd data={toolListJsonLd(TOOLS)} />
         <ToolDirectory initialCategory={category} />
       </main>
     </div>
