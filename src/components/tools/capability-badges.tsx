@@ -33,9 +33,9 @@ export default function CapabilityBadges({
           <li
             key={badge.id}
             title={badge.detail}
-            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium transition-shadow ${
+            className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
               badge.tone === "positive"
-                ? "border-indigo-400/30 bg-indigo-500/15 text-indigo-200 shadow-[0_0_14px_-6px_rgba(139,92,246,0.55)]"
+                ? "border-cyan-400/25 bg-cyan-500/10 text-cyan-200"
                 : "border-white/10 bg-white/[0.04] text-ink-300"
             }`}
           >

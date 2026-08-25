@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Check, Copy, Dices, Trash2 } from "lucide-react";
 import { generateUuidV4List } from "@/lib/tools/uuid";
 import { usePersistentState } from "@/lib/storage/preferences";
+import IoWorkspace from "@/components/tools/io-workspace";
 
 type GeneratorPreferences = {
   count: number;
@@ -43,8 +44,12 @@ export default function UuidGeneratorClient() {
   }, [output]);
 
   return (
-    <div className="space-y-4">
-      <section className="flex flex-wrap items-center gap-3 rounded-xl border border-white/5 bg-white/[0.025] p-3">
+    <IoWorkspace
+      inputLabel="Generate"
+      outputLabel="UUIDs (v4)"
+      status={output ? "complete" : "idle"}
+      input={
+        <div className="flex flex-wrap items-center gap-3">
         <label className="flex items-center gap-2 text-xs text-ink-200">
           How many
           <input
@@ -81,43 +86,35 @@ export default function UuidGeneratorClient() {
         >
           <Dices className="h-4 w-4" aria-hidden="true" /> Generate
         </button>
-      </section>
-
-      <div>
-        <div className="mb-1.5 flex items-center justify-between">
-          <span className="text-xs font-semibold text-ink-200">UUIDs (v4)</span>
-          {output && (
-            <button
-              type="button"
-              onClick={copy}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
-            >
-              {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-              {copied ? "Copied" : "Copy all"}
-            </button>
-          )}
         </div>
+      }
+      output={
         <textarea
           value={output}
           readOnly
           spellCheck={false}
           placeholder="Press Generate — UUIDs come from your browser's crypto API and never leave this page."
-          className="h-72 w-full resize-y rounded-xl border border-white/10 bg-navy-950 p-4 font-mono text-sm text-ink-50 outline-none placeholder:text-slate-600"
+          className="field h-72 resize-y font-mono text-sm"
         />
-      </div>
-
-      <div className="flex items-center gap-3 text-xs text-ink-200">
-        <p>Randomness comes from <code className="rounded bg-white/5 px-1 py-0.5">crypto.getRandomValues</code> — RFC 4122 version 4.</p>
-        {output && (
-          <button
-            type="button"
-            onClick={() => setOutput("")}
-            className="ml-auto inline-flex items-center gap-1.5 font-semibold text-ink-200 hover:text-white"
-          >
-            <Trash2 className="h-3.5 w-3.5" /> Clear
+      }
+      outputAction={
+        output ? (
+          <button type="button" onClick={copy} className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 motion-fn hover:text-indigo-300">
+            {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            {copied ? "Copied" : "Copy all"}
           </button>
-        )}
-      </div>
-    </div>
+        ) : null
+      }
+      footer={
+        <div className="mt-4 flex items-center gap-3 text-xs text-ink-200">
+          <p>Randomness comes from <code className="rounded bg-white/5 px-1 py-0.5">crypto.getRandomValues</code> — RFC 4122 version 4.</p>
+          {output && (
+            <button type="button" onClick={() => setOutput("")} className="ml-auto inline-flex items-center gap-1.5 font-semibold hover:text-white">
+              <Trash2 className="h-3.5 w-3.5" /> Clear
+            </button>
+          )}
+        </div>
+      }
+    />
   );
 }

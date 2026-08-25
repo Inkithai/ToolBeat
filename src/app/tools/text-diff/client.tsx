@@ -1,1 +1,44 @@
-"use client"; import {useState} from "react"; export default function Client(){const[a,setA]=useState(""),[b,setB]=useState("");const al=a.split("\n"),bl=b.split("\n");return <div className="space-y-4"><div className="grid gap-4 md:grid-cols-2"><textarea value={a} onChange={e=>setA(e.target.value)} className="field min-h-52 font-mono" placeholder="Original text"/><textarea value={b} onChange={e=>setB(e.target.value)} className="field min-h-52 font-mono" placeholder="Changed text"/></div><pre className="whitespace-pre-wrap rounded-xl border border-white/10 bg-navy-900 p-4 text-sm">{Array.from(new Set([...al,...bl])).map((line,i)=><div key={i} className={`${al.includes(line)&&bl.includes(line)?"text-ink-300":bl.includes(line)?"text-emerald-300":"text-rose-300"}`}>{bl.includes(line)?"+ ":"- "}{line}</div>)}</pre></div>}
+"use client";
+
+import { useState } from "react";
+import IoWorkspace from "@/components/tools/io-workspace";
+
+export default function Client() {
+  const [a, setA] = useState("");
+  const [b, setB] = useState("");
+  const left = a.split("\n");
+  const right = b.split("\n");
+
+  return (
+    <IoWorkspace
+      inputLabel="Original / changed"
+      outputLabel="Diff"
+      status={a || b ? "complete" : "idle"}
+      input={
+        <div className="grid gap-3">
+          <textarea value={a} onChange={(event) => setA(event.target.value)} className="field min-h-40 font-mono" placeholder="Original text" />
+          <textarea value={b} onChange={(event) => setB(event.target.value)} className="field min-h-40 font-mono" placeholder="Changed text" />
+        </div>
+      }
+      output={
+        <pre className="min-h-40 whitespace-pre-wrap border border-white/10 bg-navy-950 p-4 text-sm">
+          {Array.from(new Set([...left, ...right])).map((line, index) => (
+            <div
+              key={`${line}-${index}`}
+              className={
+                left.includes(line) && right.includes(line)
+                  ? "text-ink-300"
+                  : right.includes(line)
+                    ? "text-cyan-300"
+                    : "text-rose-300"
+              }
+            >
+              {right.includes(line) ? "+ " : "- "}
+              {line}
+            </div>
+          ))}
+        </pre>
+      }
+    />
+  );
+}

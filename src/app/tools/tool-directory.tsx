@@ -19,12 +19,18 @@ const chipClasses = (active: boolean): string =>
       : "border-white/10 bg-white/[0.03] text-ink-300 hover:border-indigo-400/30 hover:bg-white/[0.06] hover:text-white"
   }`;
 
-export default function ToolDirectory({ initialCategory = "all" }: { initialCategory?: string }) {
+export default function ToolDirectory({
+  initialCategory = "all",
+  initialSearch = "",
+}: {
+  initialCategory?: string;
+  initialSearch?: string;
+}) {
   const validInitialCategory = CATEGORIES.some((category) => category.key === initialCategory)
     ? (initialCategory as CategoryKey)
     : "all";
   const [category, setCategory] = useState<CategoryKey | "all">(validInitialCategory);
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(initialSearch);
   const [tag, setTag] = useState<string | null>(null);
   const [source, setSource] = useState("all");
   const [destination, setDestination] = useState("all");
@@ -291,18 +297,14 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
       </div>
 
       {tools.length ? (
-        <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3" aria-label="Available tools">
+        <section className="divide-y divide-white/[0.06] border-y border-white/[0.06]" aria-label="Available tools">
           {tools.map((tool) => {
             const isFavorite = favorites.includes(tool.slug);
+            const title = isConversionTool(tool)
+              ? `${tool.conversion.fromFormat} → ${tool.conversion.toFormat}`
+              : tool.name;
             return (
-              // The link is stretched over the whole card rather than wrapping
-              // it, so the favorite button can sit on top as a sibling instead
-              // of as a button nested inside an anchor (invalid HTML).
-              <article
-                key={tool.slug}
-                className="group card-hover relative flex min-h-44 flex-col overflow-hidden rounded-2xl border border-white/[0.07] bg-white/[0.03] p-5"
-              >
-                <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/0 to-transparent transition-all duration-300 group-hover:via-indigo-400/60" />
+              <article key={tool.slug} className="group relative flex items-start gap-4 py-4">
                 <button
                   type="button"
                   onClick={() => toggleFavorite(tool.slug)}
@@ -312,55 +314,25 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
                       ? `Remove ${tool.name} from favorites`
                       : `Add ${tool.name} to favorites`
                   }
-                  className={`absolute right-3 top-3 z-10 rounded-lg p-1.5 transition-colors hover:bg-white/10 ${
+                  className={`relative z-10 mt-0.5 shrink-0 rounded-md p-1.5 motion-fn hover:bg-white/10 ${
                     isFavorite ? "text-amber-300" : "text-ink-600 hover:text-amber-200"
                   }`}
                 >
-                  <Star
-                    className={`h-4 w-4 ${isFavorite ? "fill-amber-300" : ""}`}
-                    aria-hidden="true"
-                  />
+                  <Star className={`h-4 w-4 ${isFavorite ? "fill-amber-300" : ""}`} aria-hidden="true" />
                 </button>
-                <span className="mb-3 w-fit rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[11px] font-bold uppercase tracking-wider text-ink-400">
-                  {tool.category}
-                </span>
-                <h3 className="pr-8 text-lg font-extrabold leading-snug text-white sm:text-xl">
-                  {isConversionTool(tool) ? (
-                    <>
-                      {tool.conversion.fromFormat}{" "}
-                      <span className="text-cyan-400">→</span> {tool.conversion.toFormat}
-                    </>
-                  ) : (
-                    tool.name
-                  )}
-                </h3>
-                <p className="mt-2 flex-1 text-sm leading-relaxed text-ink-400">{tool.summary}</p>
-                <div className="mt-3 flex flex-wrap gap-1.5" aria-hidden="true">
-                  {tool.tags.slice(0, 3).map((label) => (
-                    <span
-                      key={label}
-                      className="rounded-full border border-white/10 px-2 py-0.5 text-[10px] font-medium text-ink-500"
-                    >
-                      {label}
-                    </span>
-                  ))}
+                <div className="min-w-0 flex-1 pr-16">
+                  <p className="meta text-ink-500">{tool.category}</p>
+                  <h3 className="mt-1 text-base font-bold text-white sm:text-lg">{title}</h3>
+                  <p className="mt-1 text-sm text-ink-400">{tool.summary}</p>
                 </div>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-indigo-300 transition-colors group-hover:text-cyan-300">
-                  {isConversionTool(tool) ? "Open converter" : "Open tool"}
-                  <ArrowRight
-                    className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1.5"
-                    aria-hidden="true"
-                  />
+                <span className="meta pointer-events-none absolute right-0 top-5 text-ink-500 motion-nav group-hover:text-indigo-300">
+                  Open →
                 </span>
                 <Link
                   href={tool.href}
-                  className="absolute inset-0 rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60"
+                  className="absolute inset-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60"
                 >
-                  <span className="sr-only">
-                    {isConversionTool(tool)
-                      ? `${tool.name} — open converter`
-                      : `${tool.name} — open tool`}
-                  </span>
+                  <span className="sr-only">{title} — open tool</span>
                 </Link>
               </article>
             );

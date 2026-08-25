@@ -1,1 +1,31 @@
-"use client"; import {useState} from "react"; export default function Client(){const[d,setD]=useState("");let age="—";if(d){const birth=new Date(`${d}T00:00:00`),now=new Date();let y=now.getFullYear()-birth.getFullYear();if(new Date(now.getFullYear(),birth.getMonth(),birth.getDate())>now)y--;age=String(Math.max(0,y))}return <div className="space-y-5"><label><span className="mb-2 block text-sm font-semibold text-ink-200">Date of birth</span><input type="date" value={d} onChange={e=>setD(e.target.value)} className="field"/></label><div className="rounded-xl border border-cyan-400/20 bg-cyan-500/10 p-6 text-center"><p className="text-xs uppercase text-cyan-300">Your age</p><p className="mt-2 text-5xl font-black text-white">{age}</p><p className="text-sm text-ink-400">years old</p></div></div>}
+"use client";
+
+import { useState } from "react";
+import IoWorkspace from "@/components/tools/io-workspace";
+
+export default function Client() {
+  const [date, setDate] = useState("");
+  let age = "—";
+  if (date) {
+    const birth = new Date(`${date}T00:00:00`);
+    const now = new Date();
+    let years = now.getFullYear() - birth.getFullYear();
+    if (new Date(now.getFullYear(), birth.getMonth(), birth.getDate()) > now) years -= 1;
+    age = String(Math.max(0, years));
+  }
+
+  return (
+    <IoWorkspace
+      inputLabel="Date of birth"
+      outputLabel="Your age"
+      status={date ? "complete" : "idle"}
+      input={<input type="date" value={date} onChange={(event) => setDate(event.target.value)} className="field" />}
+      output={
+        <div>
+          <p className="font-mono text-5xl font-semibold text-white">{age}</p>
+          <p className="mt-2 text-sm text-ink-400">years old</p>
+        </div>
+      }
+    />
+  );
+}

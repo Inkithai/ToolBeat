@@ -5,11 +5,11 @@
 export { APP_NAME, TAGLINE } from "./brand";
 
 export const CATEGORIES = [
-  { key: "documents", label: "Files & Conversion", icon: "FileText", description: "PDF, DOCX, Markdown, HTML and text formats" },
-  { key: "images", label: "Images", icon: "Image", description: "PNG, JPG, WebP and SVG conversion" },
-  { key: "developer", label: "Developer & Data", icon: "Code2", description: "JSON, YAML, XML, CSV, Base64 and encoding" },
-  { key: "utilities", label: "Text & Writing", icon: "Timer", description: "Text formatting, counting, and writing tools" },
-  { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates, finance and everyday math" },
+  { key: "documents", label: "Files & Conversion", icon: "FileText", description: "PDF, DOCX, Markdown, HTML and text formats", verbs: "Convert, compress, transform, extract" },
+  { key: "images", label: "Images", icon: "Image", description: "PNG, JPG, WebP and SVG conversion", verbs: "Convert, resize, re-encode, extract" },
+  { key: "developer", label: "Developer & Data", icon: "Code2", description: "JSON, YAML, XML, CSV, Base64 and encoding", verbs: "JSON, JWT, Base64, UUID, Regex" },
+  { key: "utilities", label: "Text & Writing", icon: "Timer", description: "Text formatting, counting, and writing tools", verbs: "Count, clean, compare, transform" },
+  { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates, finance and everyday math", verbs: "Percentages, dates, interest, units" },
 ] as const;
 
 export type CategoryKey = (typeof CATEGORIES)[number]["key"];

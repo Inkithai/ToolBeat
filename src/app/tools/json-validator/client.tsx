@@ -1,1 +1,38 @@
-"use client"; import {useState} from "react"; export default function Client(){const[v,setV]=useState("");let ok=false,msg="Paste JSON to validate";try{if(v.trim()){JSON.parse(v);ok=true;msg="Valid JSON"}}catch(e){msg=e instanceof Error?e.message:"Invalid JSON"}return <div className="space-y-4"><textarea value={v} onChange={e=>setV(e.target.value)} className="field min-h-64 font-mono" placeholder='{"name":"ToolBeat"}'/><p className={`rounded-xl border p-4 text-sm ${ok?"border-emerald-400/30 bg-emerald-500/10 text-emerald-300":"border-white/10 bg-white/[0.03] text-ink-300"}`} role="status">{msg}</p></div>}
+"use client";
+
+import { useState } from "react";
+import IoWorkspace from "@/components/tools/io-workspace";
+
+export default function Client() {
+  const [value, setValue] = useState("");
+  let ok = false;
+  let message = "Paste JSON to validate";
+  try {
+    if (value.trim()) {
+      JSON.parse(value);
+      ok = true;
+      message = "Valid JSON";
+    }
+  } catch (caught) {
+    message = caught instanceof Error ? caught.message : "Invalid JSON";
+  }
+
+  return (
+    <IoWorkspace
+      status={value.trim() ? (ok ? "complete" : "error") : "idle"}
+      input={
+        <textarea
+          value={value}
+          onChange={(event) => setValue(event.target.value)}
+          className="field min-h-64 font-mono"
+          placeholder='{"name":"ToolBeat"}'
+        />
+      }
+      output={
+        <p className={`text-sm ${ok ? "text-cyan-300" : value.trim() ? "text-rose-300" : "text-ink-400"}`} role="status">
+          {message}
+        </p>
+      }
+    />
+  );
+}

@@ -1,3 +1,31 @@
 "use client";
+
 import { useState } from "react";
-export default function SlugClient() { const [text,setText]=useState(""); const slug=text.toLowerCase().normalize("NFKD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,""); return <div className="space-y-4"><label className="block"><span className="mb-2 block text-sm font-semibold text-ink-200">Title or phrase</span><textarea value={text} onChange={e=>setText(e.target.value)} className="field min-h-32 resize-y" placeholder="My useful blog post" /></label><div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 p-4"><p className="text-xs font-bold uppercase tracking-wider text-indigo-300">Generated slug</p><p className="mt-2 break-all font-mono text-lg text-white">{slug || "your-slug-will-appear-here"}</p></div></div>; }
+import IoWorkspace from "@/components/tools/io-workspace";
+
+export default function SlugClient() {
+  const [text, setText] = useState("");
+  const slug = text
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+  return (
+    <IoWorkspace
+      inputLabel="Title or phrase"
+      outputLabel="Generated slug"
+      status={slug ? "complete" : "idle"}
+      input={
+        <textarea
+          value={text}
+          onChange={(event) => setText(event.target.value)}
+          className="field min-h-32 resize-y"
+          placeholder="My useful blog post"
+        />
+      }
+      output={<p className="break-all font-mono text-lg text-cyan-200">{slug || "your-slug-will-appear-here"}</p>}
+    />
+  );
+}

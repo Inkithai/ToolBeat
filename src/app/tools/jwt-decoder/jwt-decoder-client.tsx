@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { AlertTriangle, CheckCircle2, KeyRound, ShieldQuestion } from "lucide-react";
 import { claimToDate, decodeJwt } from "@/lib/tools/jwt";
+import IoWorkspace from "@/components/tools/io-workspace";
 
 const dateFormatter = new Intl.DateTimeFormat(undefined, {
   dateStyle: "medium",

@@ -8,6 +8,7 @@ import {
   READING_PACE_WPM,
   type ReadingPace,
 } from "@/lib/tools/reading-time";
+import IoWorkspace from "@/components/tools/io-workspace";
 
 const PACES: readonly { id: ReadingPace; label: string; hint: string }[] = [
   { id: "slow", label: "Slow", hint: `${READING_PACE_WPM.slow} wpm` },
@@ -96,15 +97,33 @@ export default function ReadingTimeClient() {
         </div>
       </div>
 
-      <label className="block">
-        <span className="mb-1.5 block text-xs font-semibold text-ink-300">Your text</span>
-        <textarea
-          value={text}
-          onChange={(event) => setText(event.target.value)}
-          placeholder="Paste an article, script or essay to estimate how long it takes to read or present…"
-          className="field h-72 resize-y leading-relaxed"
-        />
-      </label>
+      <IoWorkspace
+        status={text ? "complete" : "idle"}
+        input={
+          <textarea
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            placeholder="Paste an article, script or essay to estimate how long it takes to read or present…"
+            className="field h-72 resize-y leading-relaxed"
+          />
+        }
+        output={
+          <div className="space-y-4">
+            <div>
+              <p className="meta text-ink-500">Reading</p>
+              <p className="font-mono text-3xl font-semibold text-white">
+                {formatDuration(result.readingMinutes, result.readingSeconds, result.readingTotalSeconds)}
+              </p>
+            </div>
+            <div>
+              <p className="meta text-cyan-400">Speaking</p>
+              <p className="font-mono text-3xl font-semibold text-white">
+                {formatDuration(result.speakingMinutes, result.speakingSeconds, result.speakingTotalSeconds)}
+              </p>
+            </div>
+          </div>
+        }
+      />
 
       {text && (
         <div className="flex justify-end">

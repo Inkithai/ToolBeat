@@ -18,9 +18,9 @@ export const metadata = {
 export default async function ToolsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ category?: string }>;
+  searchParams: Promise<{ category?: string; search?: string }>;
 }) {
-  const { category = "all" } = await searchParams;
+  const { category = "all", search = "" } = await searchParams;
 
   return (
     <div className="relative overflow-hidden bg-navy-950">
@@ -36,30 +36,29 @@ export default async function ToolsPage({
 
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
           <div className="max-w-2xl animate-fade-up">
-            <p className="mb-2 text-xs font-bold uppercase tracking-[0.18em] text-cyan-400">
+            <p className="meta mb-2 text-ink-500">
               Tool directory
             </p>
             <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-              Find the{" "}
-              <span className="text-gradient-aurora">right tool</span>
+              Find the right tool
             </h1>
             <p className="mt-3 text-sm leading-relaxed text-ink-400 sm:text-base">
               Search by name or format, filter by category, or jump back into something you used
               recently. {describePlatformProcessing(TOOLS)}
             </p>
           </div>
-          <span className="inline-flex animate-fade-up items-center gap-2 rounded-full border border-indigo-400/25 bg-indigo-500/10 px-3 py-1.5 text-xs font-semibold text-indigo-300 shadow-[0_0_20px_-8px_rgba(139,92,246,0.55)] delay-2">
+          <span className="inline-flex items-center gap-2 rounded-full border border-cyan-400/20 bg-cyan-500/10 px-3 py-1.5 text-xs font-semibold text-cyan-200 delay-2">
             <LockKeyhole className="h-3.5 w-3.5" aria-hidden="true" />
             {describePlatformProcessingShort(TOOLS)}
           </span>
         </div>
 
         <JsonLd data={toolListJsonLd(TOOLS)} />
-        <ToolDirectory initialCategory={category} />
+        <ToolDirectory initialCategory={category} initialSearch={search} />
 
         <p className="mt-10 text-center text-sm text-ink-500">
           Looking for something else?{" "}
-          <Link href="/" className="font-semibold text-indigo-300 transition-colors hover:text-cyan-300">
+          <Link href="/" className="font-semibold text-indigo-300 transition-colors hover:text-white">
             Back to home
           </Link>
         </p>
