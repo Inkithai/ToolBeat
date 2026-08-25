@@ -4,7 +4,6 @@ import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
-  ArrowLeft,
   ArrowRight,
   ArrowRightLeft,
   UploadCloud,
@@ -16,6 +15,7 @@ import {
   Grid2X2,
   X,
 } from "lucide-react";
+import Breadcrumbs from "@/components/layout/breadcrumbs";
 import {
   CONVERSIONS,
   CONVERSION_ENTRIES,
@@ -26,6 +26,7 @@ import {
 import { getConversionRunner } from "@/lib/converters/runners";
 import { getToolBySlug } from "@/lib/tools/registry";
 import CapabilityBadges from "@/components/tools/capability-badges";
+import RecordToolVisit from "@/components/tools/record-tool-visit";
 
 const TEXT_EXTENSIONS = new Set([
   ".md", ".markdown", ".txt", ".json", ".yaml", ".yml", ".csv", ".html", ".htm", ".xml",
@@ -193,6 +194,9 @@ export default function ConversionClient({ params }: { params: { type: string } 
     if (dropped) void handleFile(dropped);
   }, [handleFile]);
 
+  // Defensive: the route's server component 404s unknown types before this
+  // component renders, so this branch is a last line of defence rather than
+  // the primary not-found experience.
   if (!conversion) {
     return (
       <div className="min-h-screen bg-navy-950">
@@ -217,9 +221,15 @@ export default function ConversionClient({ params }: { params: { type: string } 
   return (
     <div className="min-h-screen bg-navy-950">
       <main className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
-        <Link href="/tools" className="mb-6 inline-flex items-center gap-2 text-sm text-ink-200 transition-colors hover:text-cyan-400">
-          <ArrowLeft className="h-4 w-4" /> Tools Directory
-        </Link>
+        <RecordToolVisit slug={type} />
+        <Breadcrumbs
+          items={[
+            { name: "Home", href: "/" },
+            { name: "Tools", href: "/tools" },
+            { name: `${conversion.fromFormat} to ${conversion.toFormat}` },
+          ]}
+          className="mb-6"
+        />
 
         <div className="mb-8">
           <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-400">{conversion.category}</p>

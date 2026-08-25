@@ -1,18 +1,29 @@
-import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import Breadcrumbs from "@/components/layout/breadcrumbs";
 import CapabilityBadges from "./capability-badges";
+import RecordToolVisit from "./record-tool-visit";
+import JsonLd from "@/components/seo/json-ld";
+import { breadcrumbJsonLd, toolJsonLd } from "@/lib/seo/schema";
 import type { ToolDefinition } from "@/lib/tools/types";
 
 /**
- * Shared page furniture for a tool: back link, title, summary and capability
- * badges.
+ * Shared page furniture for a tool: breadcrumbs, title, summary and capability
+ * badges, plus the tool's structured data.
  *
  * Deliberately *not* a universal tool component. It owns the chrome that is
  * genuinely identical across tools and renders `children` for the part that is
  * not — a converter's dropzone, a formatter's textarea and a timer's countdown
  * have nothing meaningful in common, and forcing them through one abstraction
  * would cost more than it saves.
+ *
+ * The same breadcrumb items feed the visible trail and the BreadcrumbList
+ * structured data, so the two cannot disagree.
  */
+const breadcrumbItemsFor = (tool: ToolDefinition) => [
+  { name: "Home", href: "/" },
+  { name: "Tools", href: "/tools" },
+  { name: tool.name, href: tool.href },
+];
+
 export default function ToolShell({
   tool,
   children,
@@ -22,12 +33,15 @@ export default function ToolShell({
 }) {
   return (
     <main className="mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-      <Link
-        href="/tools"
-        className="mb-6 inline-flex items-center gap-2 text-sm text-ink-200 transition-colors hover:text-cyan-400"
-      >
-        <ArrowLeft className="h-4 w-4" /> Tools Directory
-      </Link>
+      {/* The visit is recorded for the directory's "Recently used" row. */}
+      <RecordToolVisit slug={tool.slug} />
+      <JsonLd data={toolJsonLd(tool)} />
+      <JsonLd data={breadcrumbJsonLd(breadcrumbItemsFor(tool))} />
+
+      <Breadcrumbs
+        items={breadcrumbItemsFor(tool)}
+        className="mb-6"
+      />
 
       <header className="mb-8">
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-400">{tool.category}</p>

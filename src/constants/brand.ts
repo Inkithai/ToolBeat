@@ -23,6 +23,18 @@ export const TITLE_SUFFIX = APP_NAME;
 export const REPOSITORY_URL = "https://github.com/Inkithai/ConvertLab";
 
 /**
+ * Canonical origin for metadataBase, the sitemap, robots.txt and JSON-LD URLs.
+ * Set `NEXT_PUBLIC_SITE_URL` in the deployment environment (for example
+ * `https://convertlab.example.com`); a localhost fallback keeps local builds
+ * from silently emitting metadata with relative-only URLs, which Next.js
+ * warns about and search engines ignore.
+ */
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+
+/** Same origin, normalized: no trailing slash, so joins never double it. */
+export const SITE_URL = configuredSiteUrl.replace(/\/+$/, "");
+
+/**
  * Attribution written into generated documents (DOCX core properties). Kept
  * here so exported files never drift from the visible product name.
  */
