@@ -14,7 +14,7 @@ export const BRAND_NAME_PARTS = { lead: "Tool", accent: "Beat" } as const;
 
 export const APP_NAME = `${BRAND_NAME_PARTS.lead}${BRAND_NAME_PARTS.accent}`;
 
-export const TAGLINE = "Useful tools. Right in your browser.";
+export const TAGLINE = "Do the task. Not the signup.";
 
 /** Used as the metadata title suffix, e.g. "CSV to JSON Converter — ToolBeat". */
 export const TITLE_SUFFIX = APP_NAME;

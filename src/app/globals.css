@@ -4,47 +4,41 @@
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 
-  /* Deep space foundation — cool violet-black */
-  --color-navy-950: #05040f;
-  --color-navy-900: #0b0918;
-  --color-navy-800: #131024;
-  --color-navy-700: #1c1733;
+  /* ===== PHASE 2: SIMPLIFIED COLOR PALETTE ===== */
+  
+  /* Deep space foundation — graphite/near-black */
+  --color-navy-950: #080A0F;        /* Deep near-black - NEW */
+  --color-navy-900: #0B0D12;        /* Surface - NEW */
+  --color-navy-800: #11141C;        /* Elevated surface - NEW */
+  --color-navy-700: #171B25;        /* More elevated - NEW */
 
-  /* Primary identity — electric violet (class names stay indigo-* for compatibility) */
-  --color-indigo-300: #c4b5fd;
-  --color-indigo-400: #a78bfa;
-  --color-indigo-500: #8b5cf6;
-  --color-indigo-600: #7c3aed;
+  /* Primary identity — Precision Indigo (brand color) */
+  --color-indigo-300: #C4B5FD;       /* Lighter indigo */
+  --color-indigo-400: #A78BFA;       /* Primary indigo */
+  --color-indigo-500: #8B5CF6;       /* Brand primary */
+  --color-indigo-600: #7C3AED;       /* Darker indigo */
 
-  /* Secondary accent — aurora cyan */
-  --color-cyan-300: #67e8f9;
-  --color-cyan-400: #22d3ee;
-  --color-cyan-500: #06b6d4;
-  --color-cyan-600: #0891b2;
-
-  /* Magenta spark for gradients */
-  --color-fuchsia-400: #e879f9;
-  --color-fuchsia-500: #d946ef;
-
-  /* Coral for error / alert surfaces */
-  --color-coral-400: #fb7185;
-  --color-coral-500: #f43f5e;
+  /* Secondary accent — Restrained Teal (functional accent only) */
+  --color-cyan-300: #99F6E4;         /* Light teal */
+  --color-cyan-400: #5EEAD4;         /* Primary teal */
+  --color-cyan-500: #2DD4BF;         /* Brand accent */
+  --color-cyan-600: #14B8A6;         /* Darker teal */
 
   /* Light surfaces and text */
-  --color-ink-50: #f8fafc;
-  --color-ink-100: #f1f5f9;
-  --color-ink-200: #e2e8f0;
-  --color-ink-300: #cbd5e1;
-  --color-ink-400: #94a3b8;
-  --color-ink-500: #64748b;
+  --color-ink-50: #F8FAFC;          /* White */
+  --color-ink-100: #F1F5F9;
+  --color-ink-200: #E2E8F0;
+  --color-ink-300: #CBD5E1;
+  --color-ink-400: #94A3B8;
+  --color-ink-500: #64748B;
   --color-ink-600: #475569;
-  --color-ink-800: #1e293b;
-  --color-ink-900: #0f172a;
+  --color-ink-800: #1E293B;
+  --color-ink-900: #0F172A;
 }
 
 html {
   scroll-behavior: smooth;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoining: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
@@ -59,52 +53,40 @@ body {
   color: inherit;
 }
 
-/* ─── Ambient backgrounds ─────────────────────────────────────────── */
+/* ─── SIMPLIFIED AMBIENT BACKGROUNDS (Phase 2) ─────────────────────── */
 
+/* Grid background - now more subtle with single color */
 .bg-grid-fade {
   background-image:
-    linear-gradient(rgba(167, 139, 250, 0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(167, 139, 250, 0.055) 1px, transparent 1px);
+    linear-gradient(rgba(139, 92, 246, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.04) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: radial-gradient(ellipse 75% 65% at 50% 0%, black 15%, transparent 72%);
 }
 
+/* Dot background - removed for now (too decorative) */
 .bg-dot-fade {
-  background-image: radial-gradient(rgba(167, 139, 250, 0.18) 1px, transparent 1px);
-  background-size: 22px 22px;
-  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black 10%, transparent 70%);
+  display: none;
 }
 
+/* Aurora orbs - REMOVED (Phase 2: Remove excessive decoration) */
 .aurora-orb {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(80px);
-  pointer-events: none;
-  will-change: transform, opacity;
+  display: none;
 }
 
-.aurora-orb-a {
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.55), transparent 70%);
-  animation: orb-drift-a 18s ease-in-out infinite;
-}
-
-.aurora-orb-b {
-  background: radial-gradient(circle, rgba(34, 211, 238, 0.35), transparent 70%);
-  animation: orb-drift-b 22s ease-in-out infinite;
-}
-
+.aurora-orb-a,
+.aurora-orb-b,
 .aurora-orb-c {
-  background: radial-gradient(circle, rgba(217, 70, 239, 0.28), transparent 70%);
-  animation: orb-drift-c 26s ease-in-out infinite;
+  display: none;
 }
 
+/* Text gradient - simplified to indigo only (no multi-color aurora) */
 .text-gradient-aurora {
   background-image: linear-gradient(
-    115deg,
-    #c4b5fd 0%,
-    #a78bfa 28%,
-    #22d3ee 62%,
-    #e879f9 100%
+    135deg,
+    #A78BFA 0%,
+    #8B5CF6 50%,
+    #7C3AED 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -113,17 +95,18 @@ body {
   animation: gradient-shift 8s ease infinite;
 }
 
+/* Glow ring - simplified to indigo only */
 .glow-ring {
   box-shadow:
     0 0 0 1px rgba(167, 139, 250, 0.18),
-    0 0 40px -8px rgba(139, 92, 246, 0.45),
-    0 0 80px -20px rgba(34, 211, 238, 0.25);
+    0 0 40px -8px rgba(139, 92, 246, 0.45);
 }
 
+/* Glass panel - simplified to indigo-only gradient */
 .glass-panel {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background:
-    linear-gradient(145deg, rgba(167, 139, 250, 0.08), rgba(34, 211, 238, 0.03) 45%, rgba(255, 255, 255, 0.02)),
+    linear-gradient(145deg, rgba(167, 139, 250, 0.08), rgba(255, 255, 255, 0.03) 100%),
     rgba(11, 9, 24, 0.55);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -133,28 +116,13 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
-/* Floating particles (pure CSS decorative dots) */
+/* Floating particles - REMOVED (Phase 2: Remove excessive decoration) */
 .particle-field {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+  display: none;
 }
 
 .particle-field span {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  border-radius: 9999px;
-  background: rgba(196, 181, 253, 0.7);
-  box-shadow: 0 0 8px rgba(167, 139, 250, 0.8);
-  animation: particle-float linear infinite;
-  opacity: 0;
-}
-
-.particle-field span:nth-child(odd) {
-  background: rgba(34, 211, 238, 0.75);
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.7);
+  display: none;
 }
 
 /* ─── Keyframes ────────────────────────────────────────────────────── */
@@ -184,6 +152,7 @@ body {
   50% { background-position: 100% center; }
 }
 
+/* Orb animations - kept but orbs are hidden */
 @keyframes orb-drift-a {
   0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
   33% { transform: translate(40px, -30px) scale(1.08); opacity: 0.9; }
@@ -213,9 +182,16 @@ body {
   100% { background-position: 200% center; }
 }
 
+/* Border glow - simplified to indigo only */
 @keyframes border-glow {
-  0%, 100% { border-color: rgba(167, 139, 250, 0.25); box-shadow: 0 0 20px -8px rgba(139, 92, 246, 0.35); }
-  50% { border-color: rgba(34, 211, 238, 0.35); box-shadow: 0 0 28px -6px rgba(34, 211, 238, 0.4); }
+  0%, 100% { 
+    border-color: rgba(167, 139, 250, 0.25); 
+    box-shadow: 0 0 20px -8px rgba(139, 92, 246, 0.35); 
+  }
+  50% { 
+    border-color: rgba(167, 139, 250, 0.45); 
+    box-shadow: 0 0 28px -6px rgba(139, 92, 246, 0.5); 
+  }
 }
 
 @keyframes float-y {
@@ -316,20 +292,20 @@ body {
   background: linear-gradient(
     165deg,
     rgba(167, 139, 250, 0.07) 0%,
-    rgba(255, 255, 255, 0.03) 40%,
-    rgba(34, 211, 238, 0.03) 100%
+    rgba(255, 255, 255, 0.03) 100%
   );
   border-radius: 1.25rem;
   box-shadow: 0 24px 48px -28px rgba(0, 0, 0, 0.6);
 }
 
+/* Primary button - simplified gradient (indigo only) */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   border-radius: 0.75rem;
-  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 45%, #06b6d4 160%);
+  background: linear-gradient(135deg, #8B5CF6 0%, #7C3AED 100%);
   background-size: 140% 140%;
   padding: 0.75rem 1.25rem;
   font-weight: 700;
@@ -349,7 +325,6 @@ body {
   background-position: 100% 50%;
   box-shadow:
     0 16px 36px -10px rgba(139, 92, 246, 0.8),
-    0 0 24px -6px rgba(34, 211, 238, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -362,6 +337,7 @@ body {
   opacity: 0.4;
 }
 
+/* Secondary button - simplified */
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -389,6 +365,7 @@ body {
   box-shadow: 0 10px 24px -14px rgba(139, 92, 246, 0.5);
 }
 
+/* Field/input styling */
 .field {
   width: 100%;
   border-radius: 0.75rem;
@@ -408,8 +385,7 @@ body {
 .field:focus {
   border-color: rgba(167, 139, 250, 0.6);
   box-shadow:
-    0 0 0 3px rgba(139, 92, 246, 0.18),
-    0 0 24px -8px rgba(34, 211, 238, 0.25);
+    0 0 0 3px rgba(139, 92, 246, 0.18);
   background: #0e0b1c;
 }
 
@@ -418,11 +394,10 @@ body {
   opacity: 0.5;
 }
 
-/* Decorative spinning ring used in heroes */
+/* Decorative spinning ring used in heroes - simplified */
 .orbit-ring {
-  border: 1px solid rgba(167, 139, 250, 0.15);
-  border-top-color: rgba(34, 211, 238, 0.55);
-  border-right-color: rgba(232, 121, 249, 0.25);
+  border: 1px solid rgba(167, 139, 250, 0.12);
+  border-top-color: rgba(167, 139, 250, 0.35);
   border-radius: 9999px;
   animation: spin-slow 20s linear infinite;
 }
