@@ -39,7 +39,7 @@ describe("toolJsonLd", () => {
     expect(data["@type"]).toBe("WebApplication");
     expect(data.name).toBe("JSON Formatter");
     expect(data.url).toBe(`${SITE_URL}/tools/json-formatter`);
-    expect(data.applicationCategory).toBe("Data & Developer");
+    expect(data.applicationCategory).toBe("Developer & Data");
     expect(data.offers).toEqual({ "@type": "Offer", price: "0", priceCurrency: "USD" });
     expect(data.isAccessibleForFree).toBe(true);
   });
