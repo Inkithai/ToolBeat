@@ -3,6 +3,7 @@
 import { useCallback, useMemo, useState } from "react";
 import { ArrowRightLeft, Check, Copy, Trash2 } from "lucide-react";
 import { decodeBase64Utf8, encodeBase64Utf8 } from "@/lib/tools/base64";
+import IoWorkspace from "@/components/tools/io-workspace";
 
 type Direction = "encode" | "decode";
 
@@ -75,45 +76,37 @@ export default function Base64EncoderClient() {
         </span>
       </section>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <label className="block">
-          <span className="mb-1.5 block text-xs font-semibold text-ink-200">
-            {direction === "encode" ? "Plain text" : "Base64"}
-          </span>
+      <IoWorkspace
+        inputLabel={direction === "encode" ? "Plain text" : "Base64"}
+        outputLabel={direction === "encode" ? "Base64" : "Plain text"}
+        status={error ? "error" : output ? "complete" : "idle"}
+        input={
           <textarea
             value={input}
             onChange={(event) => setInput(event.target.value)}
             spellCheck={false}
             placeholder={direction === "encode" ? "Type or paste text…" : "Paste Base64, e.g. aGVsbG8="}
-            className="h-72 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 font-mono text-sm text-white outline-none placeholder:text-slate-600 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
+            className="field h-72 resize-y font-mono text-sm"
           />
-        </label>
-
-        <div>
-          <div className="mb-1.5 flex items-center justify-between">
-            <span className="text-xs font-semibold text-ink-200">
-              {direction === "encode" ? "Base64" : "Plain text"}
-            </span>
-            {output && (
-              <button
-                type="button"
-                onClick={copy}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
-              >
-                {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
-                {copied ? "Copied" : "Copy"}
-              </button>
-            )}
-          </div>
+        }
+        output={
           <textarea
             value={output}
             readOnly
             spellCheck={false}
             placeholder={direction === "encode" ? "Base64 appears here." : "Decoded text appears here."}
-            className="h-72 w-full resize-y rounded-xl border border-white/10 bg-navy-950 p-4 font-mono text-sm text-ink-50 outline-none placeholder:text-slate-600"
+            className="field h-72 resize-y font-mono text-sm"
           />
-        </div>
-      </div>
+        }
+        outputAction={
+          output ? (
+            <button type="button" onClick={copy} className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 motion-fn hover:text-indigo-300">
+              {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+              {copied ? "Copied" : "Copy"}
+            </button>
+          ) : null
+        }
+      />
 
       {error && (
         <p role="alert" className="rounded-xl border border-rose-400/30 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">

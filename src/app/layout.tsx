@@ -42,7 +42,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       {/* Chrome lives in the layout so every route gets it, including
           /_not-found, which previously rendered with no header or footer. */}
-      <body className="min-h-screen bg-navy-950 text-ink-50 font-sans">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-screen bg-navy-950 font-sans text-ink-50">
         <div className="relative z-10 flex min-h-screen flex-col">
           {/* Site-level structured data; page-level entities are on their pages. */}
           <JsonLd data={websiteJsonLd()} />

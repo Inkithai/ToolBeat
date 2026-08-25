@@ -1,1 +1,40 @@
-"use client"; import {useState} from "react"; export default function Client(){const[min,setMin]=useState(1),[max,setMax]=useState(100),[result,setResult]=useState<number|null>(null);function go(){const lo=Math.ceil(Math.min(min,max)),hi=Math.floor(Math.max(min,max));setResult(lo+Math.floor(Math.random()*(hi-lo+1)))}return <div className="space-y-5"><div className="grid gap-4 sm:grid-cols-2">{[["Minimum",min,setMin],["Maximum",max,setMax]].map(([label,value,setter])=><label key={label as string} className="block"><span className="mb-2 block text-sm font-semibold text-ink-200">{label as string}</span><input type="number" value={value as number} onChange={e=>(setter as (n:number)=>void)(Number(e.target.value))} className="field" /></label>)}</div><div className="rounded-xl border border-indigo-400/20 bg-indigo-500/10 p-6 text-center"><p className="text-xs uppercase tracking-wider text-indigo-300">Your number</p><p className="mt-2 text-5xl font-black text-white">{result??"—"}</p></div><button type="button" onClick={go} className="btn-primary w-full">Generate number</button></div>}
+"use client";
+
+import { useState } from "react";
+import IoWorkspace from "@/components/tools/io-workspace";
+
+export default function Client() {
+  const [min, setMin] = useState(1);
+  const [max, setMax] = useState(100);
+  const [result, setResult] = useState<number | null>(null);
+
+  function generate() {
+    const low = Math.ceil(Math.min(min, max));
+    const high = Math.floor(Math.max(min, max));
+    setResult(low + Math.floor(Math.random() * (high - low + 1)));
+  }
+
+  return (
+    <IoWorkspace
+      status={result === null ? "idle" : "complete"}
+      input={
+        <div className="grid gap-4 sm:grid-cols-2">
+          <label>
+            <span className="meta mb-2 block text-ink-500">Minimum</span>
+            <input type="number" value={min} onChange={(event) => setMin(Number(event.target.value))} className="field" />
+          </label>
+          <label>
+            <span className="meta mb-2 block text-ink-500">Maximum</span>
+            <input type="number" value={max} onChange={(event) => setMax(Number(event.target.value))} className="field" />
+          </label>
+        </div>
+      }
+      output={<p className="font-mono text-5xl font-semibold text-white">{result ?? "—"}</p>}
+      process={
+        <button type="button" onClick={generate} className="btn-primary">
+          Generate number
+        </button>
+      }
+    />
+  );
+}

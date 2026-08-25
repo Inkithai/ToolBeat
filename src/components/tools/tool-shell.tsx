@@ -6,25 +6,23 @@ import { breadcrumbJsonLd, toolJsonLd } from "@/lib/seo/schema";
 import type { ToolDefinition } from "@/lib/tools/types";
 import RelatedTools from "./related-tools";
 import ToolFeedback from "./tool-feedback";
+import { CATEGORIES } from "@/constants/app";
 
 /**
  * Shared page furniture for a tool: breadcrumbs, title, summary and capability
  * badges, plus the tool's structured data.
  *
- * Deliberately *not* a universal tool component. It owns the chrome that is
- * genuinely identical across tools and renders `children` for the part that is
- * not — a converter's dropzone, a formatter's textarea and a timer's countdown
- * have nothing meaningful in common, and forcing them through one abstraction
- * would cost more than it saves.
- *
- * The same breadcrumb items feed the visible trail and the BreadcrumbList
- * structured data, so the two cannot disagree.
+ * The chrome is the Input → Process → Output identity. `children` is the
+ * workspace itself — converters, formatters and timers stay free to differ.
  */
-const breadcrumbItemsFor = (tool: ToolDefinition) => [
-  { name: "Home", href: "/" },
-  { name: "Tools", href: "/tools" },
-  { name: tool.name, href: tool.href },
-];
+const breadcrumbItemsFor = (tool: ToolDefinition) => {
+  const category = CATEGORIES.find((item) => item.key === tool.category);
+  return [
+    { name: "Home", href: "/" },
+    { name: category?.label ?? "Tools", href: `/tools?category=${tool.category}` },
+    { name: tool.name, href: tool.href },
+  ];
+};
 
 export default function ToolShell({
   tool,
@@ -33,22 +31,19 @@ export default function ToolShell({
   tool: ToolDefinition;
   children: React.ReactNode;
 }) {
-  return (
-    <main className="relative mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-12">
-      <div className="pointer-events-none absolute -left-20 top-10 h-56 w-56 rounded-full bg-indigo-500/15 blur-[90px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -right-16 top-40 h-48 w-48 rounded-full bg-cyan-500/10 blur-[80px]" aria-hidden="true" />
+  const crumbs = breadcrumbItemsFor(tool);
 
-      {/* The visit is recorded for the directory's "Recently used" row. */}
+  return (
+    <main className="relative mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-12">
       <RecordToolVisit slug={tool.slug} />
       <JsonLd data={toolJsonLd(tool)} />
-      <JsonLd data={breadcrumbJsonLd(breadcrumbItemsFor(tool))} />
+      <JsonLd data={breadcrumbJsonLd(crumbs)} />
 
-      <Breadcrumbs items={breadcrumbItemsFor(tool)} className="relative mb-8" />
+      <Breadcrumbs items={crumbs} className="relative mb-8" />
 
-      <header className="glass-panel relative mb-8 overflow-hidden p-6 sm:p-7">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/55 to-transparent" />
-        <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-cyan-400">
-          {tool.category}
+      <header className="mb-8 border-b border-white/[0.08] pb-8">
+        <p className="meta mb-3 text-ink-500">
+          {CATEGORIES.find((item) => item.key === tool.category)?.label ?? tool.category}
         </p>
         <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
           {tool.name}
@@ -57,7 +52,7 @@ export default function ToolShell({
         <CapabilityBadges capabilities={tool.capabilities} className="mt-5" />
       </header>
 
-      <div className="surface-raised relative p-5 sm:p-6">{children}</div>
+      <div className="relative">{children}</div>
       <ToolFeedback toolName={tool.slug} />
       <RelatedTools currentSlug={tool.slug} />
     </main>

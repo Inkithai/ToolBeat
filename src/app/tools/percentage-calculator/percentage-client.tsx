@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { percentChange, percentOfValue, roundTo2, shareAsPercent } from "@/lib/tools/percentage";
+import IoWorkspace from "@/components/tools/io-workspace";
 
 type Mode = "of" | "share" | "change";
 
@@ -96,25 +97,27 @@ export default function PercentageClient() {
         </div>
       </section>
 
-      <section className="grid gap-3 sm:grid-cols-2">
-        <NumberField label={fields[mode].a} value={a} onChange={setA} />
-        <NumberField label={fields[mode].b} value={b} onChange={setB} />
-      </section>
-
-      <section
-        className="rounded-2xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 px-6 py-8 text-center"
-        aria-live="polite"
-        aria-label="Result"
-      >
-        {result ? (
-          <>
-            <p className="font-mono text-4xl font-extrabold tracking-tight text-white sm:text-5xl">{result.text}</p>
-            {"hint" in result && result.hint && <p className="mt-2 text-sm text-ink-200">{result.hint}</p>}
-          </>
-        ) : (
-          <p className="text-sm text-ink-200">Fill in both fields — the answer appears instantly.</p>
-        )}
-      </section>
+      <IoWorkspace
+        status={result && "text" in result && !result.text.includes("Cannot") && !result.text.includes("no percentage") ? "complete" : result ? "error" : "idle"}
+        input={
+          <div className="grid gap-3 sm:grid-cols-2">
+            <NumberField label={fields[mode].a} value={a} onChange={setA} />
+            <NumberField label={fields[mode].b} value={b} onChange={setB} />
+          </div>
+        }
+        output={
+          <div aria-live="polite">
+            {result ? (
+              <>
+                <p className="font-mono text-4xl font-extrabold tracking-tight text-white sm:text-5xl">{result.text}</p>
+                {"hint" in result && result.hint && <p className="mt-2 text-sm text-ink-200">{result.hint}</p>}
+              </>
+            ) : (
+              <p className="text-sm text-ink-400">Fill in both fields — the answer appears instantly.</p>
+            )}
+          </div>
+        }
+      />
     </div>
   );
 }

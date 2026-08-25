@@ -8,15 +8,14 @@ import {
   ArrowRightLeft,
   UploadCloud,
   Settings,
-  CheckCircle2,
   Download,
   RotateCcw,
   FileType,
   Grid2X2,
-  X,
 } from "lucide-react";
 import Breadcrumbs from "@/components/layout/breadcrumbs";
 import {
+  CATEGORIES,
   CONVERSIONS,
   CONVERSION_ENTRIES,
   FILE_LIMIT_MB,
@@ -27,6 +26,7 @@ import { getConversionRunner } from "@/lib/converters/runners";
 import { getToolBySlug } from "@/lib/tools/registry";
 import CapabilityBadges from "@/components/tools/capability-badges";
 import RecordToolVisit from "@/components/tools/record-tool-visit";
+import IoWorkspace from "@/components/tools/io-workspace";
 
 const TEXT_EXTENSIONS = new Set([
   ".md", ".markdown", ".txt", ".json", ".yaml", ".yml", ".csv", ".html", ".htm", ".xml",
@@ -224,14 +224,15 @@ export default function ConversionClient({ params }: { params: { type: string } 
 
   return (
     <div className="relative overflow-hidden bg-navy-950">
-      <div className="pointer-events-none absolute -left-24 top-0 h-72 w-72 rounded-full bg-indigo-500/15 blur-[100px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -right-20 top-32 h-64 w-64 rounded-full bg-cyan-500/10 blur-[90px]" aria-hidden="true" />
       <main className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-12">
         <RecordToolVisit slug={type} />
         <Breadcrumbs
           items={[
             { name: "Home", href: "/" },
-            { name: "Tools", href: "/tools" },
+            {
+              name: CATEGORIES.find((item) => item.key === conversion.category)?.label ?? conversion.category,
+              href: `/tools?category=${conversion.category}`,
+            },
             { name: `${conversion.fromFormat} to ${conversion.toFormat}` },
           ]}
           className="mb-6"
@@ -240,7 +241,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
         <header className="mb-8 animate-fade-up">
           <div className="flex flex-wrap items-start justify-between gap-4">
             <div className="min-w-0 flex-1">
-              <p className="mb-2 text-xs font-bold uppercase tracking-[0.16em] text-cyan-400">
+              <p className="meta mb-2 text-ink-500">
                 {conversion.category} · converter
               </p>
               <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
@@ -299,31 +300,16 @@ export default function ConversionClient({ params }: { params: { type: string } 
         </header>
 
         <div className="grid gap-6 lg:grid-cols-3">
-          {/* Primary task column */}
           <div className="space-y-4 lg:col-span-2">
-            <section className="glass-panel overflow-hidden" aria-label="File conversion">
-              <div className="flex items-center justify-between border-b border-white/[0.06] px-5 py-4 sm:px-6">
-                <h2 className="text-base font-extrabold text-white sm:text-lg">
-                  {conversion.from} <span className="mx-1 text-cyan-400">→</span> {conversion.to}
-                </h2>
-                {file && !convertedUrl && (
-                  <button
-                    type="button"
-                    onClick={reset}
-                    className="text-xs font-semibold text-ink-400 hover:text-white"
-                  >
-                    Start over
-                  </button>
-                )}
-              </div>
-
-              {!file ? (
-                <div className="p-5 sm:p-6">
+            <IoWorkspace
+              inputLabel={conversion.fromFormat}
+              outputLabel={conversion.toFormat}
+              status={isConverting ? "processing" : convertedUrl ? "complete" : error ? "error" : "idle"}
+              input={
+                <div>
                   <div
-                    className={`cursor-pointer rounded-2xl border-2 border-dashed p-8 text-center transition-all duration-300 sm:p-12 ${
-                      isDragging
-                        ? "border-cyan-400 bg-cyan-500/10 shadow-[0_0_40px_-12px_rgba(34,211,238,0.55)] scale-[1.01]"
-                        : "border-white/10 bg-white/[0.015] hover:border-indigo-400/45 hover:bg-indigo-500/[0.06] hover:shadow-[0_0_32px_-14px_rgba(139,92,246,0.45)]"
+                    className={`cursor-pointer border border-dashed p-6 text-center motion-fn ${
+                      isDragging ? "border-cyan-400 bg-cyan-500/10" : "border-white/15 hover:border-indigo-400/40"
                     }`}
                     onDrop={handleDrop}
                     onDragOver={(event) => event.preventDefault()}
@@ -345,18 +331,13 @@ export default function ConversionClient({ params }: { params: { type: string } 
                       }
                     }}
                   >
-                    <div className="mx-auto mb-5 flex h-16 w-16 animate-float items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500/25 to-cyan-500/15 shadow-[0_0_28px_-8px_rgba(139,92,246,0.6)]">
-                      <UploadCloud className="h-8 w-8 text-indigo-300" />
-                    </div>
-                    <h3 className="mb-2 text-lg font-bold text-white">
-                      Drop your {conversion.fromFormat} file here
-                    </h3>
-                    <p className="mb-4 text-sm text-ink-400">
-                      or click to browse — accepted: {conversion.acceptedExtensions.join(", ")}
+                    <UploadCloud className="mx-auto mb-3 h-6 w-6 text-indigo-300" />
+                    <p className="text-sm font-semibold text-white">
+                      {file ? file.name : `Drop ${conversion.fromFormat} here`}
                     </p>
-                    <span className="inline-flex rounded-lg border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-semibold text-ink-300">
-                      Max {FILE_LIMIT_MB} MB · stays in your browser
-                    </span>
+                    <p className="mt-1 text-xs text-ink-500">
+                      {file ? formatBytes(file.size) : `${conversion.acceptedExtensions.join(", ")} · max ${FILE_LIMIT_MB} MB`}
+                    </p>
                   </div>
                   <input
                     ref={fileInputRef}
@@ -367,79 +348,56 @@ export default function ConversionClient({ params }: { params: { type: string } 
                     className="hidden"
                     onChange={(event) => event.target.files?.[0] && void handleFile(event.target.files[0])}
                   />
+                  {file && previewText && (
+                    <pre className="mt-3 max-h-40 overflow-auto whitespace-pre-wrap break-words border border-white/10 p-3 font-mono text-xs text-ink-300">
+                      {previewText}
+                    </pre>
+                  )}
+                  {file && (
+                    <button type="button" onClick={reset} className="mt-2 text-xs font-semibold text-ink-400 hover:text-white">
+                      Remove file
+                    </button>
+                  )}
                 </div>
-              ) : convertedUrl ? (
-                <div className="p-5 sm:p-6">
-                  <div
-                    className="mb-5 animate-scale-in rounded-2xl border border-cyan-400/25 bg-gradient-to-br from-indigo-500/20 via-cyan-500/10 to-fuchsia-500/5 p-6 text-center shadow-[0_0_40px_-16px_rgba(34,211,238,0.45)]"
-                    role="status"
+              }
+              output={
+                convertedUrl ? (
+                  <div role="status">
+                    <p className="meta text-cyan-400">Complete in your browser</p>
+                    <p className="mt-2 break-words text-sm text-ink-200">{convertedName}</p>
+                    <a href={convertedUrl} download={convertedName} className="btn-primary mt-4">
+                      <Download className="h-4 w-4" /> Download {conversion.toFormat}
+                    </a>
+                    <button type="button" onClick={reset} className="btn-secondary mt-2">
+                      <RotateCcw className="h-4 w-4" /> Convert another
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-sm text-ink-500">
+                    {isConverting ? "Processing locally…" : `${conversion.toFormat} appears here after conversion.`}
+                  </p>
+                )
+              }
+              process={
+                file && !convertedUrl ? (
+                  <button
+                    type="button"
+                    onClick={() => void handleConvert()}
+                    disabled={isConverting}
+                    className="btn-primary disabled:cursor-wait disabled:opacity-60"
                   >
-                    <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
-                    <h3 className="mb-1 text-lg font-bold text-white">Conversion complete</h3>
-                    <p className="break-words text-sm text-ink-300">
-                      {file.name} → <span className="font-medium text-cyan-300">{convertedName}</span>
-                    </p>
-                  </div>
-                  <a href={convertedUrl} download={convertedName} className="btn-primary w-full py-3.5">
-                    <Download className="h-4 w-4" /> Download {conversion.toFormat}
-                  </a>
-                  <button type="button" onClick={reset} className="btn-secondary mt-3 w-full">
-                    <RotateCcw className="h-4 w-4" /> Convert another file
+                    {isConverting ? "Converting…" : `Convert to ${conversion.toFormat}`}
                   </button>
-                </div>
-              ) : (
-                <div className="space-y-5 p-5 sm:p-6">
-                  <div className="flex items-center gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-indigo-500/15">
-                      <FileType className="h-5 w-5 text-indigo-400" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-white">{file.name}</p>
-                      <p className="text-xs text-ink-400">{formatBytes(file.size)}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={reset}
-                      className="rounded-lg p-2 text-ink-400 hover:bg-white/10 hover:text-white"
-                      aria-label="Remove selected file"
-                    >
-                      <X className="h-4 w-4" />
-                    </button>
-                  </div>
-                  {previewText && (
-                    <div className="overflow-hidden rounded-xl border border-white/[0.06] bg-navy-900">
-                      <div className="border-b border-white/[0.06] bg-white/[0.02] px-4 py-2.5 text-xs font-medium text-ink-400">
-                        Source preview
-                      </div>
-                      <pre className="max-h-80 overflow-auto whitespace-pre-wrap break-words p-4 font-mono text-xs leading-relaxed text-ink-200">
-                        {previewText}
-                      </pre>
-                    </div>
-                  )}
-                  {isConverting && (
-                    <div className="flex items-center gap-3 text-sm text-indigo-300" role="status" aria-live="polite">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-400/30 border-t-indigo-400" />
-                      Reading, converting and packaging your file…
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {error && (
-                <div className="mx-5 mb-5 rounded-xl border border-coral-500/25 bg-coral-500/10 px-4 py-3 text-sm text-coral-400 sm:mx-6 sm:mb-6" role="alert">
-                  <p>{error}</p>
-                  {!file && (
-                    <button
-                      type="button"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="mt-2 font-semibold underline underline-offset-2 hover:text-rose-300"
-                    >
-                      Choose another file
-                    </button>
-                  )}
-                </div>
-              )}
-            </section>
+                ) : null
+              }
+              footer={
+                error ? (
+                  <p role="alert" className="mt-4 text-sm text-rose-300">
+                    {error}
+                  </p>
+                ) : null
+              }
+            />
           </div>
 
           {/* Side rail: settings + switch + related */}

@@ -9,10 +9,9 @@ export default function Footer() {
   return (
     <footer className="relative border-t border-white/[0.06] bg-navy-950">
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-400/35 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/[0.08]"
         aria-hidden="true"
       />
-      <div className="pointer-events-none absolute left-1/2 top-0 h-40 w-[480px] -translate-x-1/2 bg-indigo-500/10 blur-[80px]" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-6xl px-4 py-12 sm:px-6">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -30,7 +29,7 @@ export default function Footer() {
             <h2 className="mb-3 text-xs font-bold uppercase tracking-[0.16em] text-ink-400">Explore</h2>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/tools" className="text-ink-200 transition-colors hover:text-cyan-300">
+                <Link href="/tools" className="text-ink-200 transition-colors hover:text-indigo-300">
                   All tools
                 </Link>
               </li>
@@ -40,8 +39,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#how-it-works" className="text-ink-200 transition-colors hover:text-cyan-300">
-                  How it works
+                <Link href="/#why-toolbeat" className="text-ink-200 transition-colors hover:text-indigo-300">
+                  Why ToolBeat
                 </Link>
               </li>
             </ul>
@@ -71,7 +70,7 @@ export default function Footer() {
                   href={REPOSITORY_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-ink-200 transition-colors hover:text-cyan-300"
+                  className="text-ink-200 transition-colors hover:text-indigo-300"
                 >
                   Open source on GitHub
                 </a>

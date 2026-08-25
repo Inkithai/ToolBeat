@@ -1,1 +1,39 @@
-"use client";import{useState}from"react";import yaml from"js-yaml";export default function Client(){const[i,setI]=useState("");let o="";try{o=i.trim()?JSON.stringify(yaml.load(i),null,2):""}catch(e){o=e instanceof Error?e.message:"Invalid YAML"}return <div className="space-y-4"><textarea value={i}onChange={e=>setI(e.target.value)}className="field min-h-56 font-mono"placeholder="Paste YAML…"/><pre className="min-h-32 whitespace-pre-wrap rounded-xl border border-white/10 bg-navy-900 p-4 font-mono text-sm text-ink-100">{o}</pre></div>}
+"use client";
+
+import { useState } from "react";
+import yaml from "js-yaml";
+import IoWorkspace from "@/components/tools/io-workspace";
+
+export default function Client() {
+  const [input, setInput] = useState("");
+  let output = "";
+  let error = "";
+  try {
+    output = input.trim() ? JSON.stringify(yaml.load(input), null, 2) : "";
+  } catch (caught) {
+    error = caught instanceof Error ? caught.message : "Invalid YAML";
+  }
+
+  return (
+    <IoWorkspace
+      status={error ? "error" : output ? "complete" : "idle"}
+      input={
+        <textarea
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          className="field min-h-56 font-mono"
+          placeholder="Paste YAML…"
+        />
+      }
+      output={
+        error ? (
+          <p role="alert" className="text-sm text-rose-300">{error}</p>
+        ) : (
+          <pre className="min-h-56 whitespace-pre-wrap border border-white/10 bg-navy-950 p-4 font-mono text-sm text-cyan-200">
+            {output || "JSON appears here."}
+          </pre>
+        )
+      }
+    />
+  );
+}

@@ -66,6 +66,29 @@ describe("recent tools", () => {
     expect(slugs).toHaveLength(RECENT_TOOL_LIMIT);
     expect(slugs[0]).toBe(`tool-${RECENT_TOOL_LIMIT + 4}`);
   });
+
+  it("stores a visit timestamp next to the slug list", () => {
+    recordToolVisit("json-formatter", 1_700_000_000_000);
+    const stored = JSON.parse(window.localStorage.getItem("toolbeat:tool-recents") ?? "{}") as {
+      slugs: string[];
+      visitedAt: Record<string, number>;
+    };
+    expect(stored.slugs).toEqual(["json-formatter"]);
+    expect(stored.visitedAt["json-formatter"]).toBe(1_700_000_000_000);
+  });
+
+  it("lifts the legacy header toolbox into the shared store", () => {
+    window.localStorage.setItem(
+      "toolbeat_toolbox_v1",
+      JSON.stringify([
+        { slug: "word-counter", type: "favorite", addedAt: 10, lastUsedAt: 20 },
+        { slug: "uuid-generator", type: "recent", addedAt: 30, lastUsedAt: 40 },
+      ]),
+    );
+    expect(readFavoriteSlugs()).toEqual(["word-counter"]);
+    expect(readRecentSlugs()).toEqual(["word-counter", "uuid-generator"]);
+    expect(window.localStorage.getItem("toolbeat_toolbox_v1")).toBeNull();
+  });
 });
 
 describe("activity events", () => {
