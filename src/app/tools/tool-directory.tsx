@@ -15,7 +15,7 @@ const VISIBLE_TAG_LIMIT = 12;
 const chipClasses = (active: boolean): string =>
   `rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
     active
-      ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-300"
+      ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
       : "border-white/10 bg-white/[0.03] text-ink-200 hover:bg-white/[0.07]"
   }`;
 
@@ -124,7 +124,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder="Search tools, for example JSON to XML, jpeg or timer…"
-            className="w-full rounded-xl border border-white/10 bg-navy-900 py-3.5 pl-12 pr-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+            className="w-full rounded-xl border border-white/10 bg-navy-900 py-3.5 pl-12 pr-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
           />
         </label>
 
@@ -132,14 +132,14 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
         <div className="grid gap-3 sm:grid-cols-2">
           <label className="block">
             <span className="mb-1.5 block text-xs font-medium text-ink-200">Source format</span>
-            <select value={source} onChange={(event) => setSource(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400/50">
+            <select value={source} onChange={(event) => setSource(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
               <option value="all">All source formats</option>
               {sourceFormats.map((format) => <option key={format}>{format}</option>)}
             </select>
           </label>
           <label className="block">
             <span className="mb-1.5 block text-xs font-medium text-ink-200">Output format</span>
-            <select value={destination} onChange={(event) => setDestination(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400/50">
+            <select value={destination} onChange={(event) => setDestination(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
               <option value="all">All output formats</option>
               {destinationFormats.map((format) => <option key={format}>{format}</option>)}
             </select>
@@ -182,7 +182,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
                 aria-pressed={tag === label}
                 className={`rounded-full border px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                   tag === label
-                    ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-300"
+                    ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
                     : "border-white/10 bg-transparent text-slate-400 hover:border-white/20 hover:text-ink-200"
                 }`}
               >
@@ -203,7 +203,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
               <Link
                 key={tool.slug}
                 href={tool.href}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-ink-100 transition-colors hover:border-cyan-400/30 hover:bg-cyan-500/10 hover:text-cyan-200"
+                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-ink-100 transition-colors hover:border-indigo-400/30 hover:bg-indigo-500/10 hover:text-indigo-200"
               >
                 {isConversionTool(tool)
                   ? `${tool.conversion.fromFormat} → ${tool.conversion.toFormat}`
@@ -218,7 +218,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
       <div className="mb-4 flex items-center justify-between gap-4">
         <p className="text-sm text-ink-200"><span className="font-bold text-white">{tools.length}</span> tool{tools.length === 1 ? "" : "s"}</p>
         {filtersActive && (
-          <button type="button" onClick={clearFilters} className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300">
+          <button type="button" onClick={clearFilters} className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300">
             <SlidersHorizontal className="h-3.5 w-3.5" /> Clear filters
           </button>
         )}
@@ -234,7 +234,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
               // of as a button nested inside an anchor (invalid HTML).
               <article
                 key={tool.slug}
-                className="group relative flex min-h-40 flex-col rounded-xl border border-white/5 bg-white/[0.025] p-4 transition-all hover:-translate-y-1 hover:border-cyan-400/25 hover:bg-white/[0.04]"
+                className="group relative flex min-h-40 flex-col rounded-xl border border-white/5 bg-white/[0.025] p-4 transition-all hover:-translate-y-1 hover:border-indigo-400/25 hover:bg-white/[0.04]"
               >
                 <button
                   type="button"
@@ -251,7 +251,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
                 <h3 className="pr-8 text-xl font-extrabold text-white">
                   {isConversionTool(tool) ? (
                     <>
-                      {tool.conversion.fromFormat} <span className="text-cyan-400">→</span> {tool.conversion.toFormat}
+                      {tool.conversion.fromFormat} <span className="text-indigo-400">→</span> {tool.conversion.toFormat}
                     </>
                   ) : (
                     tool.name
@@ -265,13 +265,13 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
                     </span>
                   ))}
                 </div>
-                <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-cyan-400">
+                <span className="mt-3 inline-flex items-center gap-2 text-sm font-bold text-indigo-400">
                   {isConversionTool(tool) ? "Open converter" : "Open tool"}
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </span>
                 <Link
                   href={tool.href}
-                  className="absolute inset-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
+                  className="absolute inset-0 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/60"
                 >
                   <span className="sr-only">
                     {isConversionTool(tool) ? `${tool.name} — open converter` : `${tool.name} — open tool`}
@@ -286,7 +286,7 @@ export default function ToolDirectory({ initialCategory = "all" }: { initialCate
           <Search className="mx-auto mb-4 h-8 w-8 text-slate-500" />
           <h2 className="text-lg font-bold text-white">No matching tool</h2>
           <p className="mt-2 text-sm text-ink-200">Try another search term or clear the active filters.</p>
-          <button type="button" onClick={clearFilters} className="mt-5 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-bold text-white hover:bg-cyan-400">Show all tools</button>
+          <button type="button" onClick={clearFilters} className="mt-5 rounded-lg bg-indigo-500 px-4 py-2 text-sm font-bold text-white hover:bg-indigo-400">Show all tools</button>
         </section>
       )}
     </>

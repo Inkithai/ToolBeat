@@ -1,5 +1,5 @@
 import "./globals.css";
-import { APP_NAME, SITE_URL } from "@/constants/brand";
+import { APP_NAME, SITE_URL, TAGLINE } from "@/constants/brand";
 import { TOOLS } from "@/lib/tools/registry";
 import { describePlatformProcessing } from "@/lib/tools/capabilities";
 import { websiteJsonLd } from "@/lib/seo/schema";
@@ -7,12 +7,12 @@ import JsonLd from "@/components/seo/json-ld";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 
-const title = `${APP_NAME} — File Conversion & Browser Utilities`;
+const title = `${APP_NAME} — Fast Browser Tools for Everyday Tasks`;
 /**
  * The site-wide claim is generated from tool capabilities rather than written
  * by hand, so it degrades automatically if a server-backed tool is ever added.
  */
-const description = `${describePlatformProcessing(TOOLS)} Free, instant, no account required.`;
+const description = `${TAGLINE} ${describePlatformProcessing(TOOLS)}`;
 
 export const metadata = {
   // Without metadataBase, Next.js resolves og:url and canonical links against

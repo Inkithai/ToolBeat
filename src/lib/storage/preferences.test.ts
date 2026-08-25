@@ -13,7 +13,7 @@ describe("preference storage", () => {
   it("round-trips a value under a namespaced key", () => {
     writePreference("demo", { indent: 4 });
     // The namespace prevents collisions with anything else on the origin.
-    expect(window.localStorage.getItem("convertlab:demo")).toBe('{"indent":4}');
+    expect(window.localStorage.getItem("toolbeat:demo")).toBe('{"indent":4}');
     expect(readPreference("demo", { indent: 2 })).toEqual({ indent: 4 });
   });
 
@@ -23,7 +23,7 @@ describe("preference storage", () => {
 
   it("merges stored values over the fallback, so new fields get defaults", () => {
     // Simulates a stored record written before a new preference was added.
-    window.localStorage.setItem("convertlab:demo", '{"indent":8}');
+    window.localStorage.setItem("toolbeat:demo", '{"indent":8}');
     expect(readPreference("demo", { indent: 2, sortKeys: true })).toEqual({
       indent: 8,
       sortKeys: true,
@@ -31,12 +31,12 @@ describe("preference storage", () => {
   });
 
   it("falls back rather than throwing on corrupt JSON", () => {
-    window.localStorage.setItem("convertlab:demo", "{not json");
+    window.localStorage.setItem("toolbeat:demo", "{not json");
     expect(readPreference("demo", { indent: 2 })).toEqual({ indent: 2 });
   });
 
   it("rejects stored values of the wrong shape", () => {
-    window.localStorage.setItem("convertlab:demo", "[1,2,3]");
+    window.localStorage.setItem("toolbeat:demo", "[1,2,3]");
     expect(readPreference("demo", { indent: 2 })).toEqual({ indent: 2 });
   });
 

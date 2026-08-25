@@ -91,7 +91,7 @@ export default function JsonFormatterClient() {
         <button
           type="button"
           onClick={format}
-          className="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-cyan-400"
+          className="inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-indigo-400"
         >
           <Wand2 className="h-4 w-4" aria-hidden="true" /> Format
         </button>
@@ -108,7 +108,7 @@ export default function JsonFormatterClient() {
           <select
             value={preferences.indent}
             onChange={(event) => updatePreferences({ indent: Number(event.target.value) as 2 | 4 })}
-            className="rounded-lg border border-white/10 bg-navy-900 px-2 py-1.5 text-sm text-white outline-none focus:border-cyan-400/50"
+            className="rounded-lg border border-white/10 bg-navy-900 px-2 py-1.5 text-sm text-white outline-none focus:border-indigo-400/50"
           >
             <option value={2}>2 spaces</option>
             <option value={4}>4 spaces</option>
@@ -119,7 +119,7 @@ export default function JsonFormatterClient() {
             type="checkbox"
             checked={preferences.sortKeys}
             onChange={(event) => updatePreferences({ sortKeys: event.target.checked })}
-            className="h-4 w-4 rounded border-white/20 bg-navy-900 accent-cyan-500"
+            className="h-4 w-4 rounded border-white/20 bg-navy-900 accent-indigo-500"
           />
           Sort keys
         </label>
@@ -133,7 +133,7 @@ export default function JsonFormatterClient() {
             onChange={(event) => setInput(event.target.value)}
             spellCheck={false}
             placeholder={'{"hello":"world"}'}
-            className="h-80 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 font-mono text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+            className="h-80 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 font-mono text-sm text-white outline-none placeholder:text-slate-600 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
           />
         </label>
 
@@ -144,7 +144,7 @@ export default function JsonFormatterClient() {
               <button
                 type="button"
                 onClick={copy}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
               >
                 {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                 {copied ? "Copied" : "Copy"}
@@ -170,7 +170,7 @@ export default function JsonFormatterClient() {
       {stats && (
         <div className="flex flex-wrap items-center gap-3 text-xs text-ink-200">
           <span>{stats.characters} characters</span>
-          {stats.delta && <span className="text-cyan-300">{stats.delta}</span>}
+          {stats.delta && <span className="text-indigo-300">{stats.delta}</span>}
           <button
             type="button"
             onClick={clear}

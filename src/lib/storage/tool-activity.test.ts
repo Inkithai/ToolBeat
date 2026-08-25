@@ -29,13 +29,13 @@ describe("tool favorites", () => {
   it("stores slugs under the namespaced key, as plain strings", () => {
     toggleFavorite("json-formatter");
     // Preference-shaped record, namespaced like every other stored value.
-    expect(window.localStorage.getItem("convertlab:tool-favorites")).toBe(
+    expect(window.localStorage.getItem("toolbeat:tool-favorites")).toBe(
       '{"slugs":["json-formatter"]}',
     );
   });
 
   it("degrades to empty when the record is corrupted", () => {
-    window.localStorage.setItem("convertlab:tool-favorites", '{"slugs":"nope"}');
+    window.localStorage.setItem("toolbeat:tool-favorites", '{"slugs":"nope"}');
     expect(readFavoriteSlugs()).toEqual([]);
   });
 });
@@ -75,10 +75,10 @@ describe("activity events", () => {
 
   it("notifies listeners on writes so mounted UI can re-read", () => {
     const listener = vi.fn();
-    window.addEventListener("convertlab:tool-activity", listener);
+    window.addEventListener("toolbeat:tool-activity", listener);
     toggleFavorite("pomodoro");
     recordToolVisit("pomodoro");
     expect(listener).toHaveBeenCalledTimes(2);
-    window.removeEventListener("convertlab:tool-activity", listener);
+    window.removeEventListener("toolbeat:tool-activity", listener);
   });
 });

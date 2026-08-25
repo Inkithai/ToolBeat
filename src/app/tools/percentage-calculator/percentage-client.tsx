@@ -32,7 +32,7 @@ function NumberField({
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder="0"
-        className="w-full rounded-xl border border-white/10 bg-navy-900 px-4 py-3 font-mono text-lg text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+        className="w-full rounded-xl border border-white/10 bg-navy-900 px-4 py-3 font-mono text-lg text-white outline-none placeholder:text-slate-600 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
       />
     </label>
   );
@@ -85,7 +85,7 @@ export default function PercentageClient() {
               aria-pressed={mode === option.id}
               className={`rounded-full border px-3.5 py-1.5 text-xs font-semibold transition-colors ${
                 mode === option.id
-                  ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-300"
+                  ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
                   : "border-white/10 bg-transparent text-slate-400 hover:border-white/20 hover:text-ink-200"
               }`}
               title={option.formula}
@@ -102,7 +102,7 @@ export default function PercentageClient() {
       </section>
 
       <section
-        className="rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/10 to-cyan-600/5 px-6 py-8 text-center"
+        className="rounded-2xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 px-6 py-8 text-center"
         aria-live="polite"
         aria-label="Result"
       >

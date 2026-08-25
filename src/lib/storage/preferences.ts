@@ -15,7 +15,7 @@ import { useCallback, useEffect, useState } from "react";
  * reload, which is what the capability model advertises.
  */
 
-const NAMESPACE = "convertlab";
+const NAMESPACE = "toolbeat";
 
 function storageKey(key: string): string {
   return `${NAMESPACE}:${key}`;

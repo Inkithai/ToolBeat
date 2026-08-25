@@ -11,7 +11,7 @@ import {
 } from "./data";
 
 /**
- * These converters are the user-facing contract of six ConvertLab tools, so the
+ * These converters are the user-facing contract of six ToolBeat tools, so the
  * tests focus on the behaviour a user can actually observe: correct output for
  * valid input, and a specific, actionable error for input that cannot convert.
  * Error paths matter as much as happy paths here — a silent wrong answer in a

@@ -206,7 +206,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
           </div>
           <h1 className="mb-3 text-3xl font-extrabold text-white">Conversion not found</h1>
           <p className="mb-8 text-ink-200">That conversion is not available, but you can choose from all implemented tools.</p>
-          <Link href="/tools" className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 font-bold text-white hover:bg-cyan-400">
+          <Link href="/tools" className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-bold text-white hover:bg-indigo-400">
             <Grid2X2 className="h-4 w-4" /> Browse conversion tools
           </Link>
         </main>
@@ -232,9 +232,9 @@ export default function ConversionClient({ params }: { params: { type: string } 
         />
 
         <div className="mb-8">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-400">{conversion.category}</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-400">{conversion.category}</p>
           <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
-            {conversion.fromFormat} <span className="text-cyan-400">to</span> {conversion.toFormat}
+            {conversion.fromFormat} <span className="text-indigo-400">to</span> {conversion.toFormat}
           </h1>
           <p className="mt-3 max-w-2xl text-ink-200">{conversion.description}</p>
           {/* Capabilities are read from the registry rather than asserted in
@@ -247,17 +247,17 @@ export default function ConversionClient({ params }: { params: { type: string } 
           {/* Left side - Upload area (2 columns) */}
           <div className="space-y-4 lg:col-span-2">
             <section className="overflow-hidden rounded-2xl border border-white/5 bg-white/[0.02]" aria-label="File conversion">
-              <div className="flex items-center justify-between border-b border-white/5 px-6 py-5">
-                <h2 className="text-lg font-extrabold text-white">{conversion.from} <span className="mx-1 text-cyan-400">→</span> {conversion.to}</h2>
-              </div>
+            <div className="flex items-center justify-between border-b border-white/5 px-6 py-5">
+              <h2 className="text-lg font-extrabold text-white">{conversion.from} <span className="mx-1 text-indigo-400">→</span> {conversion.to}</h2>
+            </div>
 
               {!file ? (
                 <div className="p-6">
                   <div
                     className={`cursor-pointer rounded-xl border-2 border-dashed p-8 text-center transition-all sm:p-12 ${
                       isDragging
-                        ? "border-cyan-400 bg-cyan-500/10"
-                        : "border-white/10 bg-white/[0.01] hover:border-cyan-400/40 hover:bg-white/[0.03]"
+                        ? "border-indigo-400 bg-indigo-500/10"
+                        : "border-white/10 bg-white/[0.01] hover:border-indigo-400/40 hover:bg-white/[0.03]"
                     }`}
                     onDrop={handleDrop}
                     onDragOver={(event) => event.preventDefault()}
@@ -279,8 +279,8 @@ export default function ConversionClient({ params }: { params: { type: string } 
                       }
                     }}
                   >
-                    <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-cyan-500/20 to-cyan-600/10">
-                      <UploadCloud className="h-8 w-8 text-cyan-400" />
+                    <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-indigo-500/20 to-indigo-600/10">
+                      <UploadCloud className="h-8 w-8 text-indigo-400" />
                     </div>
                     <h3 className="mb-2 text-lg font-bold text-white">Drop your {conversion.fromFormat} file here</h3>
                     <p className="mb-4 text-sm text-ink-200">or click to browse — accepted: {conversion.acceptedExtensions.join(", ")}</p>
@@ -298,14 +298,14 @@ export default function ConversionClient({ params }: { params: { type: string } 
                 </div>
               ) : convertedUrl ? (
                 <div className="p-6">
-                  <div className="mb-4 rounded-xl border border-cyan-500/20 bg-gradient-to-br from-cyan-600/10 to-cyan-500/5 p-6 text-center" role="status">
-                    <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-cyan-400" />
+                  <div className="mb-4 rounded-xl border border-indigo-500/20 bg-gradient-to-br from-indigo-600/10 to-indigo-500/5 p-6 text-center" role="status">
+                    <CheckCircle2 className="mx-auto mb-3 h-12 w-12 text-indigo-400" />
                     <h3 className="mb-1 text-lg font-bold text-white">Conversion complete</h3>
                     <p className="break-words text-sm text-ink-200">
-                      {file.name} → <span className="font-medium text-cyan-300">{convertedName}</span>
+                      {file.name} → <span className="font-medium text-indigo-300">{convertedName}</span>
                     </p>
                   </div>
-                  <a href={convertedUrl} download={convertedName} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:-translate-y-0.5 hover:shadow-cyan-500/40">
+                  <a href={convertedUrl} download={convertedName} className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-indigo-500/20 transition-all hover:-translate-y-0.5 hover:shadow-indigo-500/40">
                     <Download className="h-4 w-4" /> Download {conversion.toFormat}
                   </a>
                   <button type="button" onClick={reset} className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-6 py-3 font-medium text-ink-100 hover:bg-white/10">
@@ -315,7 +315,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
               ) : (
                 <div className="space-y-5 p-6">
                   <div className="flex items-center gap-3 rounded-xl border border-white/5 bg-white/[0.03] px-4 py-3">
-                    <FileType className="h-5 w-5 shrink-0 text-cyan-400" />
+                    <FileType className="h-5 w-5 shrink-0 text-indigo-400" />
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-white">{file.name}</p>
                       <p className="text-xs text-ink-200">{file.size < 1024 * 1024 ? `${(file.size / 1024).toFixed(1)} KB` : `${(file.size / 1024 / 1024).toFixed(2)} MB`}</p>
@@ -331,8 +331,8 @@ export default function ConversionClient({ params }: { params: { type: string } 
                     </div>
                   )}
                   {isConverting && (
-                    <div className="flex items-center gap-3 text-sm text-cyan-300" role="status" aria-live="polite">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-cyan-400/30 border-t-cyan-400" />
+                    <div className="flex items-center gap-3 text-sm text-indigo-300" role="status" aria-live="polite">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-indigo-400/30 border-t-indigo-400" />
                       Reading, converting and packaging your file…
                     </div>
                   )}
@@ -355,19 +355,19 @@ export default function ConversionClient({ params }: { params: { type: string } 
             {/* Conversion settings */}
             <section className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
               <h2 className="mb-4 flex items-center gap-2 font-bold text-white">
-                <Settings className="h-4 w-4 text-cyan-400" /> Conversion settings
+                <Settings className="h-4 w-4 text-indigo-400" /> Conversion settings
               </h2>
               {hasPdfSettings ? (
                 <div className="space-y-4">
                   <label className="block">
                     <span className="mb-1.5 block text-xs font-medium text-ink-200">Page size</span>
-                    <select value={pageSize} onChange={(event) => setPageSize(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400/50">
+                    <select value={pageSize} onChange={(event) => setPageSize(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
                       <option>A4</option><option>Letter</option><option>Auto</option>
                     </select>
                   </label>
                   <label className="block">
                     <span className="mb-1.5 block text-xs font-medium text-ink-200">Document font</span>
-                    <select value={font} onChange={(event) => setFont(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400/50">
+                    <select value={font} onChange={(event) => setFont(event.target.value)} className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50">
                       <option>System</option><option>Serif</option>
                     </select>
                   </label>
@@ -376,7 +376,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
               ) : hasQualitySetting ? (
                 <label className="block">
                   <span className="mb-2 flex justify-between text-xs font-medium text-ink-200"><span>Output quality</span><span>{imageQuality}%</span></span>
-                  <input type="range" min="60" max="100" step="1" value={imageQuality} onChange={(event) => setImageQuality(Number(event.target.value))} className="w-full accent-cyan-500" />
+                  <input type="range" min="60" max="100" step="1" value={imageQuality} onChange={(event) => setImageQuality(Number(event.target.value))} className="w-full accent-indigo-500" />
                 </label>
               ) : (
                 <p className="text-sm leading-relaxed text-ink-200">No settings are required for this conversion. The source structure is preserved where the output format supports it.</p>
@@ -387,7 +387,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
                   type="button"
                   onClick={() => void handleConvert()}
                   disabled={isConverting}
-                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:-translate-y-0.5 hover:shadow-cyan-500/40 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0"
+                  className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-indigo-500/20 transition-all hover:-translate-y-0.5 hover:shadow-indigo-500/40 disabled:cursor-wait disabled:opacity-60 disabled:hover:translate-y-0"
                 >
                   {isConverting ? "Converting…" : `Convert to ${conversion.toFormat}`}
                 </button>
@@ -398,7 +398,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
             <section className="rounded-2xl border border-white/5 bg-white/[0.02] p-6" aria-labelledby="conversion-picker-title">
               <div className="mb-4">
                 <h2 id="conversion-picker-title" className="font-bold text-white flex items-center gap-2">
-                  <ArrowRightLeft className="h-4 w-4 text-cyan-400" /> Switch tool
+                  <ArrowRightLeft className="h-4 w-4 text-indigo-400" /> Switch tool
                 </h2>
                 <p className="mt-1 text-xs text-ink-200">Convert other formats quickly</p>
               </div>
@@ -409,7 +409,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
                   <select
                     value={conversion.fromFormat}
                     onChange={(event) => handleSourceChange(event.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-navy-900 px-3 py-2.5 text-sm font-semibold text-white outline-none transition-colors focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20"
+                    className="w-full rounded-xl border border-white/10 bg-navy-900 px-3 py-2.5 text-sm font-semibold text-white outline-none transition-colors focus:border-indigo-400/70 focus:ring-2 focus:ring-indigo-400/20"
                   >
                     {sourceFormats.map((format) => <option key={format}>{format}</option>)}
                   </select>
@@ -420,7 +420,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
                   <select
                     value={type}
                     onChange={(event) => goToTool(event.target.value as ConversionType)}
-                    className="w-full rounded-xl border border-white/10 bg-navy-900 px-3 py-2.5 text-sm font-semibold text-white outline-none transition-colors focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20"
+                    className="w-full rounded-xl border border-white/10 bg-navy-900 px-3 py-2.5 text-sm font-semibold text-white outline-none transition-colors focus:border-indigo-400/70 focus:ring-2 focus:ring-indigo-400/20"
                   >
                     {sourceTools.map(([key, item]) => <option key={key} value={key}>{item.toFormat}</option>)}
                   </select>
@@ -430,7 +430,7 @@ export default function ConversionClient({ params }: { params: { type: string } 
                   <button
                     type="button"
                     onClick={() => goToTool(reverseTool[0])}
-                    className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-ink-100 hover:border-cyan-400/30 hover:bg-white/10"
+                    className="mt-2 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-ink-100 hover:border-indigo-400/30 hover:bg-white/10"
                     title={`Switch to ${reverseTool[1].fromFormat} to ${reverseTool[1].toFormat}`}
                   >
                     <ArrowRightLeft className="h-4 w-4" /> Swap directions
@@ -443,13 +443,13 @@ export default function ConversionClient({ params }: { params: { type: string } 
             <section className="rounded-2xl border border-white/5 bg-white/[0.02] p-6">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <h2 className="font-bold text-white">Related conversions</h2>
-                <Link href={`/tools?category=${conversion.category}`} className="text-xs font-semibold text-cyan-400 hover:text-cyan-300">See all</Link>
+                <Link href={`/tools?category=${conversion.category}`} className="text-xs font-semibold text-indigo-400 hover:text-indigo-300">See all</Link>
               </div>
               <div className="space-y-2">
                 {relatedTools.map(([key, item]) => (
-                  <Link key={key} href={`/conversion/${key}`} className="group flex items-center justify-between gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5 text-sm text-ink-200 hover:border-cyan-400/20 hover:bg-white/5 hover:text-white">
+                  <Link key={key} href={`/conversion/${key}`} className="group flex items-center justify-between gap-3 rounded-lg border border-white/5 bg-white/[0.02] px-3 py-2.5 text-sm text-ink-200 hover:border-indigo-400/20 hover:bg-white/5 hover:text-white">
                     <span>{item.fromFormat} → {item.toFormat}</span>
-                    <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-400" />
+                    <ArrowRight className="h-3.5 w-3.5 shrink-0 text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-indigo-400" />
                   </Link>
                 ))}
               </div>
