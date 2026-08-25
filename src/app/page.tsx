@@ -11,7 +11,7 @@ const categoryStyles: Record<CategoryKey, { icon: typeof FileText; color: string
   images: { icon: Image, color: "from-violet-400/20 to-violet-500/10", border: "border-violet-400/20", iconColor: "text-violet-400" },
   developer: { icon: Code2, color: "from-amber-400/20 to-amber-500/10", border: "border-amber-400/20", iconColor: "text-amber-400" },
   utilities: { icon: Timer, color: "from-emerald-400/20 to-emerald-500/10", border: "border-emerald-400/20", iconColor: "text-emerald-400" },
-  calculators: { icon: Calculator, color: "from-sky-400/20 to-sky-500/10", border: "border-sky-400/20", iconColor: "text-sky-400" },
+  calculators: { icon: Calculator, color: "from-indigo-400/20 to-indigo-500/10", border: "border-indigo-400/20", iconColor: "text-indigo-400" },
 };
 
 /**
@@ -46,17 +46,17 @@ export default function LandingPage() {
       {/* Hero — the format picker is the primary action, so the first viewport
           shows what the product converts instead of requiring a scroll. */}
       <section className="relative px-6 pb-14 pt-16 sm:pt-20">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px] -z-10" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -z-10" />
         <div className="mx-auto max-w-5xl text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-cyan-300 mb-6 animate-fade-up">
-            <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-medium text-indigo-300 mb-6 animate-fade-up">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
             {describePlatformProcessingShort(TOOLS)}
           </div>
           <h1 className="mb-4 text-4xl font-extrabold leading-[1.1] tracking-tight text-white animate-fade-up sm:text-5xl lg:text-6xl" style={{ animationDelay: "0.1s" }}>
-            Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-cyan-600">conversion</span> laboratory.
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-600">Useful tools.</span> Right in your browser.
           </h1>
           <p className="mx-auto mb-8 max-w-xl text-base leading-relaxed text-ink-200 animate-fade-up sm:text-lg" style={{ animationDelay: "0.2s" }}>
-            Documents, images, data and developer formats, plus everyday utilities. {describePlatformProcessing(TOOLS)}
+            Files, code, productivity, calculations and more. {describePlatformProcessing(TOOLS)}
           </p>
           <div className="animate-fade-up" style={{ animationDelay: "0.3s" }}>
             <HeroFormatPicker />
@@ -69,10 +69,10 @@ export default function LandingPage() {
         <div className="mx-auto max-w-6xl">
           <div className="mb-8 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h2 className="text-2xl font-extrabold text-white sm:text-3xl">Browse by format family</h2>
+              <h2 className="text-2xl font-extrabold text-white sm:text-3xl">Browse by category</h2>
               <p className="mt-1.5 text-sm text-ink-200">{TOOLS.length} tools across {CATEGORIES.length} categories.</p>
             </div>
-            <Link href="/tools" className="text-sm font-semibold text-cyan-400 hover:text-cyan-300">View every tool →</Link>
+            <Link href="/tools" className="text-sm font-semibold text-indigo-400 hover:text-indigo-300">View every tool →</Link>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">

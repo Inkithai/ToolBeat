@@ -38,7 +38,7 @@ export default function TextCaseClient() {
               aria-pressed={preferences.style === style.id}
               className={`rounded-full border px-3 py-1.5 font-mono text-xs font-semibold transition-colors ${
                 preferences.style === style.id
-                  ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-300"
+                  ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
                   : "border-white/10 bg-transparent text-slate-400 hover:border-white/20 hover:text-ink-200"
               }`}
             >
@@ -55,7 +55,7 @@ export default function TextCaseClient() {
             value={input}
             onChange={(event) => setInput(event.target.value)}
             placeholder="Paste or type text — try “user profile PAGE-v2” and watch every style."
-            className="h-64 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 text-sm text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+            className="h-64 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 text-sm text-white outline-none placeholder:text-slate-600 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
           />
         </label>
 
@@ -66,7 +66,7 @@ export default function TextCaseClient() {
               <button
                 type="button"
                 onClick={copy}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
               >
                 {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
                 {copied ? "Copied" : "Copy"}

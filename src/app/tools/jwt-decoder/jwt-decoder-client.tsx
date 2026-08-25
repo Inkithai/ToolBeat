@@ -39,7 +39,7 @@ export default function JwtDecoderClient() {
           onChange={(event) => setToken(event.target.value)}
           spellCheck={false}
           placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NSJ9.signature"
-          className="h-32 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 font-mono text-xs text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+          className="h-32 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 font-mono text-xs text-white outline-none placeholder:text-slate-600 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
         />
       </label>
 
@@ -80,7 +80,7 @@ export default function JwtDecoderClient() {
 
           <section className="flex flex-wrap items-center gap-2 text-xs text-ink-200" aria-label="Token structure">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 font-semibold">
-              <KeyRound className="h-3 w-3 text-cyan-400" aria-hidden="true" />
+              <KeyRound className="h-3 w-3 text-indigo-400" aria-hidden="true" />
               {result.decoded.hasSignature ? "Has a signature segment (not verified here)" : "Unsigned (alg: none-style) token"}
             </span>
           </section>

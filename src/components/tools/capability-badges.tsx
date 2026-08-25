@@ -35,7 +35,7 @@ export default function CapabilityBadges({
             title={badge.detail}
             className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${
               badge.tone === "positive"
-                ? "border-cyan-400/25 bg-cyan-500/10 text-cyan-300"
+                ? "border-indigo-400/25 bg-indigo-500/10 text-indigo-300"
                 : "border-white/10 bg-white/5 text-ink-200"
             }`}
           >

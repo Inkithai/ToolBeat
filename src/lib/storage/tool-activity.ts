@@ -7,7 +7,7 @@ import { readPreference, writePreference } from "./preferences";
  * Tool activity: favorites and recently used tools.
  *
  * Same rules as the rest of preference storage: `localStorage` under the
- * `convertlab:` namespace, preferences only, never tool input. What is stored
+ * `toolbeat:` namespace, preferences only, never tool input. What is stored
  * here is a list of tool slugs — nothing a user typed or converted.
  *
  * These records are platform-level, not per-tool: a tool whose capabilities
@@ -39,7 +39,7 @@ function readSlugs(key: string): string[] {
  * row there) re-read without sharing state through a parent. The `storage`
  * event covers other tabs.
  */
-const ACTIVITY_EVENT = "convertlab:tool-activity";
+const ACTIVITY_EVENT = "toolbeat:tool-activity";
 
 function emitActivityChange(): void {
   if (typeof window === "undefined") return;

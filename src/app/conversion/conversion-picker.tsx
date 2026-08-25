@@ -7,7 +7,7 @@ import { ArrowRight, ChevronDown, FileInput, FileOutput, Grid2X2 } from "lucide-
 import { CONVERSION_ENTRIES, FILE_LIMIT_MB, type ConversionType } from "@/constants/app";
 
 const selectClass =
-  "w-full appearance-none rounded-xl border border-white/10 bg-navy-900 py-3 pl-4 pr-10 text-sm font-semibold text-white outline-none transition-colors hover:border-white/20 focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 disabled:cursor-not-allowed disabled:opacity-50";
+  "w-full appearance-none rounded-xl border border-white/10 bg-navy-900 py-3 pl-4 pr-10 text-sm font-semibold text-white outline-none transition-colors hover:border-white/20 focus:border-indigo-400/70 focus:ring-2 focus:ring-indigo-400/20 disabled:cursor-not-allowed disabled:opacity-50";
 
 export default function ConversionPicker() {
   const router = useRouter();
@@ -40,13 +40,13 @@ export default function ConversionPicker() {
   };
 
   return (
-    <form
+      <form
       onSubmit={startConversion}
-      className="rounded-3xl border border-cyan-400/15 bg-gradient-to-br from-cyan-500/[0.08] via-white/[0.025] to-transparent p-5 shadow-2xl shadow-cyan-950/20 sm:p-6"
+      className="rounded-3xl border border-indigo-400/15 bg-gradient-to-br from-indigo-500/[0.08] via-white/[0.025] to-transparent p-5 shadow-2xl shadow-indigo-950/20 sm:p-6"
       aria-labelledby="format-selector-heading"
     >
       <div className="mb-5 sm:mb-6">
-        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-400">Format selector</p>
+        <p className="mb-1 text-xs font-semibold uppercase tracking-[0.18em] text-indigo-400">Format selector</p>
         <h2 id="format-selector-heading" className="text-xl font-extrabold text-white sm:text-2xl">What do you want to convert?</h2>
         <p className="mt-1 text-sm text-ink-200">Pick both formats, then add your file on the next step.</p>
       </div>
@@ -54,7 +54,7 @@ export default function ConversionPicker() {
       <div className="grid gap-4 sm:grid-cols-[1fr_auto_1fr] sm:items-end sm:gap-3">
         <label className="block">
           <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink-100">
-            <FileInput className="h-4 w-4 text-cyan-400" /> From
+            <FileInput className="h-4 w-4 text-indigo-400" /> From
           </span>
           <div className="relative">
             <select value={fromFormat} onChange={(event) => chooseSource(event.target.value)} className={selectClass}>
@@ -66,12 +66,12 @@ export default function ConversionPicker() {
         </label>
 
         <div className="hidden pb-3 text-center sm:block" aria-hidden="true">
-          <ArrowRight className="h-5 w-5 text-cyan-400" />
+          <ArrowRight className="h-5 w-5 text-indigo-400" />
         </div>
 
         <label className="block">
           <span className="mb-2 flex items-center gap-2 text-sm font-semibold text-ink-100">
-            <FileOutput className="h-4 w-4 text-cyan-400" /> To
+            <FileOutput className="h-4 w-4 text-indigo-400" /> To
           </span>
           <div className="relative">
             <select
@@ -95,7 +95,7 @@ export default function ConversionPicker() {
           {selectedConversion ? (
             <>
               <p className="font-bold text-white">
-                {selectedConversion[1].fromFormat} <span className="text-cyan-400">→</span> {selectedConversion[1].toFormat}
+                {selectedConversion[1].fromFormat} <span className="text-indigo-400">→</span> {selectedConversion[1].toFormat}
               </p>
               <p className="mt-1 text-xs leading-relaxed text-ink-200">
                 {selectedConversion[1].description} Accepts {selectedConversion[1].acceptedExtensions.join(", ")} up to {FILE_LIMIT_MB} MB.
@@ -108,14 +108,14 @@ export default function ConversionPicker() {
         <button
           type="submit"
           disabled={!conversionType}
-          className="mt-3 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 px-6 py-3 font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/40 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 sm:mt-0 sm:w-auto"
+          className="mt-3 inline-flex w-full shrink-0 items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3 font-bold text-white shadow-lg shadow-indigo-500/20 transition-all hover:shadow-indigo-500/40 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40 sm:mt-0 sm:w-auto"
         >
           Continue <ArrowRight className="h-4 w-4" />
         </button>
       </div>
 
       <div className="mt-4 text-center">
-        <Link href="/tools" className="inline-flex items-center gap-2 text-sm font-semibold text-cyan-300 hover:text-cyan-200">
+        <Link href="/tools" className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-300 hover:text-indigo-200">
           <Grid2X2 className="h-4 w-4" /> Or browse every conversion
         </Link>
       </div>

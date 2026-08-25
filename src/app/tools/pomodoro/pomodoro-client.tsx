@@ -148,7 +148,7 @@ export default function PomodoroClient() {
               aria-pressed={phase === item}
               className={`rounded-full border px-3 py-1.5 text-xs font-semibold transition-colors ${
                 phase === item
-                  ? "border-cyan-400/40 bg-cyan-500/15 text-cyan-300"
+                  ? "border-indigo-400/40 bg-indigo-500/15 text-indigo-300"
                   : "border-white/10 bg-white/[0.03] text-ink-200 hover:bg-white/[0.07]"
               }`}
             >
@@ -170,7 +170,7 @@ export default function PomodoroClient() {
 
         <div className="mx-auto mb-6 h-1.5 max-w-sm overflow-hidden rounded-full bg-white/10">
           <div
-            className="h-full rounded-full bg-cyan-500 transition-[width] duration-300"
+            className="h-full rounded-full bg-indigo-500 transition-[width] duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -179,7 +179,7 @@ export default function PomodoroClient() {
           <button
             type="button"
             onClick={toggle}
-            className="inline-flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 font-bold text-white transition-colors hover:bg-cyan-400"
+            className="inline-flex items-center gap-2 rounded-xl bg-indigo-500 px-6 py-3 font-bold text-white transition-colors hover:bg-indigo-400"
           >
             {isRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
             {isRunning ? "Pause" : "Start"}
@@ -228,7 +228,7 @@ export default function PomodoroClient() {
                   if (!Number.isFinite(parsed)) return;
                   updatePreferences({ [key]: Math.min(max, Math.max(min, Math.round(parsed))) });
                 }}
-                className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-cyan-400/50"
+                className="w-full rounded-lg border border-white/10 bg-navy-900 px-3 py-2.5 text-sm text-white outline-none focus:border-indigo-400/50"
               />
             </label>
           ))}

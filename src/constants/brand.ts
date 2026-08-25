@@ -6,26 +6,25 @@
  * meant the product name could not change without a risky find-and-replace
  * across both UI copy and generated file metadata.
  *
- * The name is unchanged; only its ownership moved. Renaming the product is now
- * an edit to this file.
+ * The name is now ToolBeat; renaming the product requires an edit to this file.
  */
 
 /** Rendered as two tones in the header and footer wordmark. */
-export const BRAND_NAME_PARTS = { lead: "Convert", accent: "Lab" } as const;
+export const BRAND_NAME_PARTS = { lead: "Tool", accent: "Beat" } as const;
 
 export const APP_NAME = `${BRAND_NAME_PARTS.lead}${BRAND_NAME_PARTS.accent}`;
 
-export const TAGLINE = "Your conversion laboratory.";
+export const TAGLINE = "Useful tools. Right in your browser.";
 
-/** Used as the metadata title suffix, e.g. "CSV to JSON Converter — ConvertLab". */
+/** Used as the metadata title suffix, e.g. "CSV to JSON Converter — ToolBeat". */
 export const TITLE_SUFFIX = APP_NAME;
 
-export const REPOSITORY_URL = "https://github.com/Inkithai/ConvertLab";
+export const REPOSITORY_URL = "https://github.com/Inkithai/ToolBeat";
 
 /**
  * Canonical origin for metadataBase, the sitemap, robots.txt and JSON-LD URLs.
  * Set `NEXT_PUBLIC_SITE_URL` in the deployment environment (for example
- * `https://convertlab.example.com`); a localhost fallback keeps local builds
+ * `https://toolbeat.example.com`); a localhost fallback keeps local builds
  * from silently emitting metadata with relative-only URLs, which Next.js
  * warns about and search engines ignore.
  */

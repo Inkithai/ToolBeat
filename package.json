@@ -1,7 +1,7 @@
 {
-  "name": "convertlab",
+  "name": "toolbeat",
   "version": "1.0.0",
-  "description": "ConvertLab — Universal file conversion. Everything runs in your browser.",
+  "description": "ToolBeat — Fast browser tools for files, code, productivity, and more.",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

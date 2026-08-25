@@ -53,7 +53,7 @@ export default function UuidGeneratorClient() {
             max={MAX_COUNT}
             value={preferences.count}
             onChange={(event) => updatePreferences({ count: Number(event.target.value) })}
-            className="w-20 rounded-lg border border-white/10 bg-navy-900 px-2 py-1.5 text-sm text-white outline-none focus:border-cyan-400/50"
+            className="w-20 rounded-lg border border-white/10 bg-navy-900 px-2 py-1.5 text-sm text-white outline-none focus:border-indigo-400/50"
           />
         </label>
         <label className="flex items-center gap-2 text-xs text-ink-200">
@@ -61,7 +61,7 @@ export default function UuidGeneratorClient() {
             type="checkbox"
             checked={preferences.hyphens}
             onChange={(event) => updatePreferences({ hyphens: event.target.checked })}
-            className="h-4 w-4 rounded border-white/20 bg-navy-900 accent-cyan-500"
+            className="h-4 w-4 rounded border-white/20 bg-navy-900 accent-indigo-500"
           />
           Hyphens
         </label>
@@ -70,14 +70,14 @@ export default function UuidGeneratorClient() {
             type="checkbox"
             checked={preferences.uppercase}
             onChange={(event) => updatePreferences({ uppercase: event.target.checked })}
-            className="h-4 w-4 rounded border-white/20 bg-navy-900 accent-cyan-500"
+            className="h-4 w-4 rounded border-white/20 bg-navy-900 accent-indigo-500"
           />
           Uppercase
         </label>
         <button
           type="button"
           onClick={generate}
-          className="ml-auto inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-cyan-400"
+          className="ml-auto inline-flex items-center gap-2 rounded-lg bg-indigo-500 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-indigo-400"
         >
           <Dices className="h-4 w-4" aria-hidden="true" /> Generate
         </button>
@@ -90,7 +90,7 @@ export default function UuidGeneratorClient() {
             <button
               type="button"
               onClick={copy}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-cyan-400 hover:text-cyan-300"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-400 hover:text-indigo-300"
             >
               {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
               {copied ? "Copied" : "Copy all"}

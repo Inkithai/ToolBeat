@@ -45,7 +45,7 @@ export default function DateDifferenceClient() {
             type="date"
             value={start}
             onChange={(event) => setStart(event.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-navy-900 px-4 py-3 font-mono text-sm text-white outline-none focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+            className="w-full rounded-xl border border-white/10 bg-navy-900 px-4 py-3 font-mono text-sm text-white outline-none focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
           />
         </label>
         <div className="flex items-end gap-2">
@@ -55,13 +55,13 @@ export default function DateDifferenceClient() {
               type="date"
               value={end}
               onChange={(event) => setEnd(event.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-navy-900 px-4 py-3 font-mono text-sm text-white outline-none focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+              className="w-full rounded-xl border border-white/10 bg-navy-900 px-4 py-3 font-mono text-sm text-white outline-none focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
             />
           </label>
           <button
             type="button"
             onClick={swap}
-            className="mb-0.5 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-3 text-sm font-semibold text-ink-100 transition-colors hover:border-cyan-400/30 hover:bg-white/10"
+            className="mb-0.5 inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-3.5 py-3 text-sm font-semibold text-ink-100 transition-colors hover:border-indigo-400/30 hover:bg-white/10"
             aria-label="Swap start and end dates"
           >
             <ArrowRightLeft className="h-4 w-4" aria-hidden="true" />
@@ -84,7 +84,7 @@ export default function DateDifferenceClient() {
       {result.status === "ok" && (
         <>
           <section
-            className="rounded-2xl border border-cyan-400/20 bg-gradient-to-br from-cyan-500/10 to-cyan-600/5 px-6 py-8 text-center"
+            className="rounded-2xl border border-indigo-400/20 bg-gradient-to-br from-indigo-500/10 to-indigo-600/5 px-6 py-8 text-center"
             aria-live="polite"
           >
             <p className="font-mono text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
@@ -98,7 +98,7 @@ export default function DateDifferenceClient() {
 
           <section className="grid gap-3 sm:grid-cols-3" aria-label="Breakdown">
             <Stat
-              icon={<CalendarDays className="h-4 w-4 text-cyan-400" aria-hidden="true" />}
+              icon={<CalendarDays className="h-4 w-4 text-indigo-400" aria-hidden="true" />}
               label="Weeks"
               value={`${numberFormat.format(result.diff.weeks)} weeks, ${result.diff.weekRemainderDays} days`}
             />

@@ -41,7 +41,7 @@ export default function WordCounterClient() {
           value={text}
           onChange={(event) => setText(event.target.value)}
           placeholder="Start typing or paste your text here…"
-          className="h-96 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 text-sm leading-relaxed text-white outline-none placeholder:text-slate-600 focus:border-cyan-400/60 focus:ring-2 focus:ring-cyan-400/15"
+          className="h-96 w-full resize-y rounded-xl border border-white/10 bg-navy-900 p-4 text-sm leading-relaxed text-white outline-none placeholder:text-slate-600 focus:border-indigo-400/60 focus:ring-2 focus:ring-indigo-400/15"
         />
       </label>
 

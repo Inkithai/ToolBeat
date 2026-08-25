@@ -16,7 +16,7 @@ const POPULAR: ConversionType[] = [
 ];
 
 const selectClass =
-  "w-full appearance-none rounded-xl border border-white/10 bg-navy-900 py-3.5 pl-4 pr-10 text-sm font-semibold text-white outline-none transition-colors hover:border-white/20 focus:border-cyan-400/70 focus:ring-2 focus:ring-cyan-400/20 disabled:cursor-not-allowed disabled:opacity-50";
+  "w-full appearance-none rounded-xl border border-white/10 bg-navy-900 py-3.5 pl-4 pr-10 text-sm font-semibold text-white outline-none transition-colors hover:border-white/20 focus:border-indigo-400/70 focus:ring-2 focus:ring-indigo-400/20 disabled:cursor-not-allowed disabled:opacity-50";
 
 /**
  * The landing hero's primary action. Users pick both formats here and go
@@ -87,8 +87,8 @@ export default function HeroFormatPicker() {
             </div>
           </label>
 
-          <div className="hidden pb-3.5 text-center sm:block" aria-hidden="true">
-            <ArrowRight className="h-5 w-5 text-cyan-400" />
+              <div className="hidden pb-3.5 text-center sm:block" aria-hidden="true">
+            <ArrowRight className="h-5 w-5 text-indigo-400" />
           </div>
 
           <label className="block">
@@ -117,7 +117,7 @@ export default function HeroFormatPicker() {
         <button
           type="submit"
           disabled={!conversionType}
-          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-500 to-cyan-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-cyan-500/25 transition-all hover:shadow-cyan-500/40 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
+          className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3.5 font-bold text-white shadow-lg shadow-indigo-500/25 transition-all hover:shadow-indigo-500/40 enabled:hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-40"
         >
           {selected ? `Convert ${selected.fromFormat} to ${selected.toFormat}` : "Choose both formats to continue"}
           <ArrowRight className="h-4 w-4" />
@@ -137,9 +137,9 @@ export default function HeroFormatPicker() {
             <Link
               key={type}
               href={`/conversion/${type}`}
-              className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-ink-200 transition-colors hover:border-cyan-400/40 hover:bg-cyan-500/10 hover:text-white"
+              className="rounded-lg border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-ink-200 transition-colors hover:border-indigo-400/40 hover:bg-indigo-500/10 hover:text-white"
             >
-              {conversion.fromFormat} <span className="text-cyan-400">→</span> {conversion.toFormat}
+              {conversion.fromFormat} <span className="text-indigo-400">→</span> {conversion.toFormat}
             </Link>
           );
         })}

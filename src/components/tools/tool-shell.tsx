@@ -44,7 +44,7 @@ export default function ToolShell({
       />
 
       <header className="mb-8">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-cyan-400">{tool.category}</p>
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-indigo-400">{tool.category}</p>
         <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">{tool.name}</h1>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-200">{tool.summary}</p>
         <CapabilityBadges capabilities={tool.capabilities} className="mt-4" />

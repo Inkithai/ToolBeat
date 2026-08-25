@@ -110,8 +110,8 @@ export function buildPdfHtml(htmlBody: string, fontFamily: string, title = "Docu
 <title>${escapeHtml(title)}</title>
 <style>${getPdfStyles(fontFamily)}</style>
 </head>
-<body class="convertlab-pdf-canvas">
-  <main class="convertlab-pdf-root">${htmlBody}</main>
+<body class="toolbeat-pdf-canvas">
+  <main class="toolbeat-pdf-root">${htmlBody}</main>
 </body>
 </html>`;
 }
@@ -140,7 +140,7 @@ export async function renderHtmlToPdfBlob({
 
   const renderHost = document.createElement("div");
   renderHost.setAttribute("aria-hidden", "true");
-  renderHost.setAttribute("data-convertlab-pdf-host", "true");
+  renderHost.setAttribute("data-toolbeat-pdf-host", "true");
   // Keep the render tree at a real viewport coordinate. html2canvas can return
   // an empty canvas for elements positioned thousands of pixels off-screen.
   // The application shell has z-index 10, so this z-index 0 host remains behind
@@ -160,14 +160,14 @@ export async function renderHtmlToPdfBlob({
   renderHost.style.willChange = "transform";
 
   const container = document.createElement("div");
-  container.className = "convertlab-pdf-canvas";
-  container.setAttribute("data-convertlab-pdf-canvas", "true");
+  container.className = "toolbeat-pdf-canvas";
+  container.setAttribute("data-toolbeat-pdf-canvas", "true");
   container.style.width = `${printableWidthPx(pageSize)}px`;
   container.style.minHeight = "1px";
   container.style.background = "#ffffff";
   container.innerHTML = `
     <style>${getPdfStyles(fontFamily)}</style>
-    <main class="convertlab-pdf-root" data-title="${escapeHtml(title)}">${htmlBody}</main>
+    <main class="toolbeat-pdf-root" data-title="${escapeHtml(title)}">${htmlBody}</main>
   `;
 
   renderHost.appendChild(container);
@@ -185,7 +185,7 @@ export async function renderHtmlToPdfBlob({
     // Record text-line and block boundaries before rasterizing. Page slices can
     // then end in whitespace instead of cutting through a line of text.
     const safeBreakPoints = collectSafeBreakPoints(container);
-    const contentRoot = container.querySelector<HTMLElement>(".convertlab-pdf-root");
+    const contentRoot = container.querySelector<HTMLElement>(".toolbeat-pdf-root");
     const captureDocument = (target: HTMLElement = container) => html2canvas(target, {
       scale: PDF_RENDER_SCALE,
       useCORS: true,
@@ -202,7 +202,7 @@ export async function renderHtmlToPdfBlob({
       onclone: (clonedDocument) => {
         // Ensure application styles/scroll position cannot move or hide the
         // dedicated PDF tree inside html2canvas's cloned document.
-        const clonedHost = clonedDocument.querySelector<HTMLElement>("[data-convertlab-pdf-host]");
+        const clonedHost = clonedDocument.querySelector<HTMLElement>("[data-toolbeat-pdf-host]");
         if (clonedHost) {
           clonedHost.style.position = "absolute";
           clonedHost.style.left = "0";
@@ -223,7 +223,7 @@ export async function renderHtmlToPdfBlob({
             ancestor = ancestor.parentElement;
           }
         }
-        const clonedCanvas = clonedDocument.querySelector<HTMLElement>("[data-convertlab-pdf-canvas]");
+        const clonedCanvas = clonedDocument.querySelector<HTMLElement>("[data-toolbeat-pdf-canvas]");
         if (clonedCanvas) {
           clonedCanvas.style.display = "block";
           clonedCanvas.style.opacity = "1";
@@ -266,7 +266,7 @@ export async function renderHtmlToPdfBlob({
         scrollY: 0,
         imageTimeout: 8000,
         onclone: (clonedDocument) => {
-          const clonedHost = clonedDocument.querySelector<HTMLElement>("[data-convertlab-pdf-host]");
+          const clonedHost = clonedDocument.querySelector<HTMLElement>("[data-toolbeat-pdf-host]");
           if (clonedHost) {
             clonedHost.style.position = "absolute";
             clonedHost.style.left = "0";
@@ -277,7 +277,7 @@ export async function renderHtmlToPdfBlob({
             clonedHost.style.visibility = "visible";
             clonedHost.style.transform = "none";
           }
-          const clonedCanvas = clonedDocument.querySelector<HTMLElement>("[data-convertlab-pdf-canvas]");
+          const clonedCanvas = clonedDocument.querySelector<HTMLElement>("[data-toolbeat-pdf-canvas]");
           if (clonedCanvas) {
             clonedCanvas.style.display = "block";
             clonedCanvas.style.opacity = "1";
@@ -496,9 +496,9 @@ function chooseSafePageEnd(
 
 function getPdfStyles(fontFamily: string): string {
   return `
-    .convertlab-pdf-canvas,
-    .convertlab-pdf-canvas * { box-sizing: border-box; }
-    .convertlab-pdf-canvas {
+    .toolbeat-pdf-canvas,
+    .toolbeat-pdf-canvas * { box-sizing: border-box; }
+    .toolbeat-pdf-canvas {
       margin: 0;
       padding: 0;
       background: #ffffff;
@@ -509,7 +509,7 @@ function getPdfStyles(fontFamily: string): string {
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
-    .convertlab-pdf-root {
+    .toolbeat-pdf-root {
       display: block;
       width: 100%;
       max-width: 100%;
@@ -525,12 +525,12 @@ function getPdfStyles(fontFamily: string): string {
       word-break: normal;
       overflow-wrap: break-word;
     }
-    .convertlab-pdf-root h1,
-    .convertlab-pdf-root h2,
-    .convertlab-pdf-root h3,
-    .convertlab-pdf-root h4,
-    .convertlab-pdf-root h5,
-    .convertlab-pdf-root h6 {
+    .toolbeat-pdf-root h1,
+    .toolbeat-pdf-root h2,
+    .toolbeat-pdf-root h3,
+    .toolbeat-pdf-root h4,
+    .toolbeat-pdf-root h5,
+    .toolbeat-pdf-root h6 {
       color: #020617;
       font-weight: 700;
       line-height: 1.25;
@@ -538,61 +538,61 @@ function getPdfStyles(fontFamily: string): string {
       page-break-after: avoid;
       break-after: avoid-page;
     }
-    .convertlab-pdf-root h1 {
+    .toolbeat-pdf-root h1 {
       font-size: 26px;
       font-weight: 800;
       border-bottom: 2px solid #06b6d4;
       padding-bottom: 10px;
       margin-top: 0;
     }
-    .convertlab-pdf-root h2 { font-size: 21px; }
-    .convertlab-pdf-root h3 { font-size: 17px; }
-    .convertlab-pdf-root p,
-    .convertlab-pdf-root ul,
-    .convertlab-pdf-root ol,
-    .convertlab-pdf-root pre,
-    .convertlab-pdf-root blockquote,
-    .convertlab-pdf-root table {
+    .toolbeat-pdf-root h2 { font-size: 21px; }
+    .toolbeat-pdf-root h3 { font-size: 17px; }
+    .toolbeat-pdf-root p,
+    .toolbeat-pdf-root ul,
+    .toolbeat-pdf-root ol,
+    .toolbeat-pdf-root pre,
+    .toolbeat-pdf-root blockquote,
+    .toolbeat-pdf-root table {
       margin: 0 0 14px;
     }
-    .convertlab-pdf-root p {
+    .toolbeat-pdf-root p {
       min-height: 1em;
       orphans: 3;
       widows: 3;
     }
-    .convertlab-pdf-root ul,
-    .convertlab-pdf-root ol {
+    .toolbeat-pdf-root ul,
+    .toolbeat-pdf-root ol {
       padding-left: 26px;
     }
-    .convertlab-pdf-root ul { list-style: disc outside; }
-    .convertlab-pdf-root ol { list-style: decimal outside; }
-    .convertlab-pdf-root ul ul { list-style-type: circle; }
-    .convertlab-pdf-root li {
+    .toolbeat-pdf-root ul { list-style: disc outside; }
+    .toolbeat-pdf-root ol { list-style: decimal outside; }
+    .toolbeat-pdf-root ul ul { list-style-type: circle; }
+    .toolbeat-pdf-root li {
       display: list-item;
       padding-left: 2px;
     }
-    .convertlab-pdf-root li + li {
+    .toolbeat-pdf-root li + li {
       margin-top: 5px;
     }
-    .convertlab-pdf-root a {
+    .toolbeat-pdf-root a {
       color: #0891b2;
       text-decoration: underline;
     }
-    .convertlab-pdf-root strong {
+    .toolbeat-pdf-root strong {
       color: #0f172a;
       font-weight: 700;
     }
-    .convertlab-pdf-root em {
+    .toolbeat-pdf-root em {
       font-style: italic;
     }
-    .convertlab-pdf-root code {
+    .toolbeat-pdf-root code {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
       font-size: 12px;
       background: #f1f5f9;
       padding: 2px 5px;
       border-radius: 4px;
     }
-    .convertlab-pdf-root pre {
+    .toolbeat-pdf-root pre {
       white-space: pre-wrap;
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -600,45 +600,45 @@ function getPdfStyles(fontFamily: string): string {
       padding: 14px;
       overflow: hidden;
     }
-    .convertlab-pdf-root pre code {
+    .toolbeat-pdf-root pre code {
       background: transparent;
       padding: 0;
       border-radius: 0;
     }
-    .convertlab-pdf-root blockquote {
+    .toolbeat-pdf-root blockquote {
       border-left: 4px solid #06b6d4;
       padding: 0 0 0 14px;
       color: #334155;
     }
-    .convertlab-pdf-root hr {
+    .toolbeat-pdf-root hr {
       border: 0;
       border-top: 1px solid #cbd5e1;
       margin: 24px 0;
     }
-    .convertlab-pdf-root img {
+    .toolbeat-pdf-root img {
       display: block;
       max-width: 100%;
       height: auto;
       margin: 12px 0;
       border-radius: 8px;
     }
-    .convertlab-pdf-root table {
+    .toolbeat-pdf-root table {
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
     }
-    .convertlab-pdf-root th,
-    .convertlab-pdf-root td {
+    .toolbeat-pdf-root th,
+    .toolbeat-pdf-root td {
       border: 1px solid #cbd5e1;
       padding: 8px 10px;
       text-align: left;
       vertical-align: top;
     }
-    .convertlab-pdf-root th {
+    .toolbeat-pdf-root th {
       background: #f8fafc;
       font-weight: 700;
     }
-    .convertlab-pdf-root .plain-text {
+    .toolbeat-pdf-root .plain-text {
       white-space: pre-wrap;
       font-family: inherit;
       background: transparent;
