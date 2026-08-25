@@ -6,6 +6,7 @@ import { websiteJsonLd } from "@/lib/seo/schema";
 import JsonLd from "@/components/seo/json-ld";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import PwaRegister from "@/components/pwa-register";
 
 const title = `${APP_NAME} — Fast Browser Tools for Everyday Tasks`;
 /**
@@ -21,7 +22,19 @@ export const metadata = {
   title,
   description,
   alternates: { canonical: "/" },
-  openGraph: { title, description, siteName: APP_NAME, type: "website" },
+  openGraph: {
+    title,
+    description,
+    siteName: APP_NAME,
+    type: "website",
+    images: [{ url: "/opengraph-image.svg", width: 1200, height: 630, alt: `${APP_NAME} — ${TAGLINE}` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/opengraph-image.svg"],
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -30,11 +43,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       {/* Chrome lives in the layout so every route gets it, including
           /_not-found, which previously rendered with no header or footer. */}
       <body className="min-h-screen bg-navy-950 text-ink-50 font-sans">
-        {/* Site-level structured data; page-level entities are on their pages. */}
-        <JsonLd data={websiteJsonLd()} />
         <div className="relative z-10 flex min-h-screen flex-col">
+          {/* Site-level structured data; page-level entities are on their pages. */}
+          <JsonLd data={websiteJsonLd()} />
+          <PwaRegister />
+          <a href="#main-content" className="sr-only z-[100] rounded-md bg-indigo-500 px-4 py-2 text-sm font-semibold text-white focus:not-sr-only focus:fixed focus:left-4 focus:top-4">
+            Skip to main content
+          </a>
           <Header />
-          <div className="flex-1">{children}</div>
+          <div id="main-content" className="flex-1">{children}</div>
           <Footer />
         </div>
       </body>

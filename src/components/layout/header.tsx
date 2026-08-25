@@ -2,8 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowRight, Grid3X3, Wrench } from "lucide-react";
-import { APP_NAME, BRAND_NAME_PARTS } from "@/constants/brand";
+import { ArrowRight, Wrench } from "lucide-react";
+import { APP_NAME } from "@/constants/brand";
+import BrandMark from "@/components/brand-mark";
+import CommandPalette from "@/components/layout/command-palette";
 
 const navLink = (active: boolean) =>
   `text-sm font-medium transition-colors ${
@@ -24,19 +26,11 @@ export default function Header() {
       />
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
         <Link href="/" className="group flex items-center gap-2.5" aria-label={`${APP_NAME} Home`}>
-          <div className="relative flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 via-violet-500 to-cyan-500 shadow-lg shadow-indigo-500/35 transition-all duration-300 group-hover:scale-105 group-hover:shadow-indigo-500/55">
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-white/20 to-transparent opacity-60" />
-            <Grid3X3 className="relative h-4 w-4 text-white" aria-hidden="true" />
-          </div>
-          <span className="text-lg font-bold tracking-tight text-white">
-            {BRAND_NAME_PARTS.lead}
-            <span className="bg-gradient-to-r from-indigo-300 to-cyan-400 bg-clip-text text-transparent">
-              {BRAND_NAME_PARTS.accent}
-            </span>
-          </span>
+          <BrandMark />
         </Link>
 
         <nav className="flex items-center gap-1 sm:gap-2" aria-label="Main navigation">
+          <CommandPalette />
           <Link
             href="/tools"
             className={`hidden items-center gap-1.5 rounded-lg px-3 py-2 sm:inline-flex ${navLink(onTools && !onConversion)}`}
