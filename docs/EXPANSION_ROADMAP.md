@@ -82,18 +82,24 @@ Deferred to Stage 3 to land exactly on 100: **box-shadow generator**. The
 "random string" roadmap item is satisfied by the existing Random Number /
 UUID / Lorem Ipsum generators.
 
-## Stage 3 — 100 → 150
+## Stage 3 — 100 → 126 ✅ shipped 2026-08-26
 
-Depth where users demonstrably search:
+26 tools added — all running on-device in the browser:
 
-- Generators: box-shadow (carried over from Stage 2)
-- PDF: PDF → DOCX fidelity improvements, PDF merge/split (ZIP-based)
-- Images: cropper, color picker, dimensions checker, image → Base64
-- Developer: JSON → (Python/Go/C#/Java/SQL), cron generator/explainer,
-  HTTP status & MIME lookups, user-agent parser
-- Calculators: mortgage variants, break-even, tax, salary, business days,
-  countdown
-- Productivity: dice roller, coin flip, random picker, meeting time converter
+- **Generators**: box-shadow generator (carried over from Stage 2), dice roller
+  (d4–d100, animated), coin flip, random picker (add/remove/reorder options)
+- **PDF**: PDF Merge (combine multiple PDFs), PDF Split (extract pages or
+  split each page to ZIP)
+- **Images**: image cropper (drag-and-drop overlay), image color picker
+  (click-to-pick HEX/RGB), image dimensions checker, image → Base64
+- **Developer**: JSON → Python/Go/C#/Java/SQL type generators, cron generator
+  & explainer (presets + plain-English output), HTTP status code lookup (all
+  common codes), MIME type lookup (50+ types by category), user-agent parser
+  (browser, engine, OS, device, bot detection)
+- **Calculators**: mortgage calculator (amortization schedule, visual bar),
+  break-even, tax (US federal brackets + state), salary, business days,
+  countdown timer & stopwatch (with laps)
+- **Productivity**: meeting time converter (17+ timezones)
 
 ## Stage 4 — beyond 150
 
