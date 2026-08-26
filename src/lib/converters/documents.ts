@@ -102,6 +102,21 @@ export function markdownToPlainText(markdownText: string): string {
   return htmlToPlainText(markdownToHtml(markdownText));
 }
 
+export async function htmlToMarkdown(htmlText: string): Promise<string> {
+  if (!htmlText.trim()) throw new Error("HTML input is empty.");
+  // Sanitize through the same DOM pass the other HTML converters use, so the
+  // Markdown output can never carry script attributes or event handlers.
+  const body = typeof DOMParser !== "undefined" ? htmlDocumentToBody(htmlText) : htmlText;
+  if (!body) return "";
+  const TurndownService = (await import("turndown")).default;
+  const service = new TurndownService({
+    headingStyle: "atx",
+    codeBlockStyle: "fenced",
+    bulletListMarker: "-",
+  });
+  return `${service.turndown(body).trim()}\n`;
+}
+
 export function buildPdfHtml(htmlBody: string, fontFamily: string, title = "Document"): string {
   return `<!DOCTYPE html>
 <html>

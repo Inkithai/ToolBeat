@@ -93,6 +93,7 @@ export const CONVERSION_RUNNERS: Record<ConversionType, ConversionRunner> = {
     const { htmlToPlainText } = await import("./documents");
     return textBlob(`${htmlToPlainText(await file.text())}\n`, "text/plain");
   },
+  "html-to-markdown": textRunner("text/markdown", async (input) => (await import("./documents")).htmlToMarkdown(input)),
 
   "markdown-to-docx": async (file, options) => {
     const { markdownToDocxBlob } = await import("./office");
@@ -109,6 +110,35 @@ export const CONVERSION_RUNNERS: Record<ConversionType, ConversionRunner> = {
     ]);
     return textBlob(buildPdfHtml(await docxToHtmlText(file), options.pdfFontFamily, options.title), "text/html");
   },
+  "docx-to-pdf": async (file, options) => {
+    const [{ docxToHtmlText }, { renderHtmlToPdfBlob }] = await Promise.all([
+      import("./office"),
+      import("./documents"),
+    ]);
+    return renderHtmlToPdfBlob({
+      htmlBody: await docxToHtmlText(file),
+      fontFamily: options.pdfFontFamily,
+      pageSize: options.pageSize,
+      title: options.title,
+    });
+  },
+
+  "pdf-to-txt": async (file) => {
+    const { pdfToTextBlob } = await import("./pdf");
+    return pdfToTextBlob(file);
+  },
+  "pdf-to-jpg": async (file, options) => {
+    const { pdfToImagesBlob } = await import("./pdf");
+    return pdfToImagesBlob(file, "image/jpeg", options.imageQuality / 100);
+  },
+  "pdf-to-png": async (file) => {
+    const { pdfToImagesBlob } = await import("./pdf");
+    return pdfToImagesBlob(file, "image/png", 1);
+  },
+  "pdf-to-docx": async (file, options) => {
+    const { pdfToDocxBlob } = await import("./pdf");
+    return pdfToDocxBlob(file, options.title);
+  },
 
   "json-to-yaml": textRunner("application/yaml", async (input) => (await import("./data")).jsonToYaml(input)),
   "yaml-to-json": textRunner("application/json", async (input) => (await import("./data")).yamlToJson(input)),
@@ -118,6 +148,7 @@ export const CONVERSION_RUNNERS: Record<ConversionType, ConversionRunner> = {
   "markdown-to-csv": textRunner("text/csv", async (input) => (await import("./data")).markdownToCsv(input)),
   "json-to-xml": textRunner("application/xml", async (input) => (await import("./data")).jsonToXml(input)),
   "xml-to-json": textRunner("application/json", async (input) => (await import("./data")).xmlToJson(input)),
+  "csv-to-xml": textRunner("application/xml", async (input) => (await import("./data")).csvToXml(input)),
 
   "png-to-jpg": imageRunner("image/jpeg", true),
   "webp-to-jpg": imageRunner("image/jpeg", true),

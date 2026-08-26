@@ -44,12 +44,16 @@ describe("searchTools", () => {
   });
 
   it("matches accepted file extensions", () => {
-    // "jpeg" appears only in the JPG converters' acceptedExtensions, never in
-    // a name — so any hit proves extensions are part of the corpus.
+    // "jpeg" appears in the JPG converters' acceptedExtensions (and in the
+    // image tools' tags), never as a standalone name — so any hit proves
+    // extensions are part of the corpus.
     const results = searchTools(TOOLS, "jpeg");
     expect(results.length).toBeGreaterThanOrEqual(2);
     for (const tool of results) {
-      expect(isConversionTool(tool) && tool.conversion.acceptedExtensions.includes(".jpeg")).toBe(true);
+      const matchesViaExtension =
+        isConversionTool(tool) && tool.conversion.acceptedExtensions.includes(".jpeg");
+      const matchesViaTag = tool.tags.includes("jpeg");
+      expect(matchesViaExtension || matchesViaTag).toBe(true);
     }
   });
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   csvToJson,
   csvToMarkdown,
+  csvToXml,
   jsonToCsv,
   jsonToXml,
   jsonToYaml,
@@ -11,7 +12,7 @@ import {
 } from "./data";
 
 /**
- * These converters are the user-facing contract of six ConvertLab tools, so the
+ * These converters are the user-facing contract of the data tools, so the
  * tests focus on the behaviour a user can actually observe: correct output for
  * valid input, and a specific, actionable error for input that cannot convert.
  * Error paths matter as much as happy paths here — a silent wrong answer in a
@@ -155,6 +156,22 @@ describe("jsonToXml", () => {
     const xml = jsonToXml('[{"a":1},{"a":2}]');
     expect(xml.match(/<root>/g)).toHaveLength(1);
     expect(xml.match(/<item>/g)).toHaveLength(2);
+  });
+});
+
+describe("csvToXml", () => {
+  it("builds a well-formed document from CSV rows", () => {
+    const xml = csvToXml("name,age\nAda,36\nAlan,41");
+    expect(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true);
+    expect(xml.match(/<root>/g)).toHaveLength(1);
+    expect(xml.match(/<item>/g)).toHaveLength(2);
+    expect(xml).toContain("<name>Ada</name>");
+    expect(xml).toContain("<age>41</age>");
+  });
+
+  it("inherits the header requirements from csvToJson", () => {
+    expect(() => csvToXml("a,b\n1,2\n1,2,3")).toThrow();
+    expect(() => csvToXml("")).toThrow(/empty/i);
   });
 });
 

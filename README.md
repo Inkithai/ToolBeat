@@ -6,11 +6,16 @@ ConvertLab is a privacy-first toolkit for everyday file conversion, developer ut
 
 ## Features
 
-- **24 file converters** — documents, images and data formats (Markdown → PDF, PNG → WebP, JSON → YAML, and more)
-- **12 utility tools** — JSON formatter, Base64/URL codecs, JWT decoder, UUID generator, word counter, text case converter, Pomodoro timer, percentage & date calculators, **unit converter**, **reading time calculator**
+- **75 tools** — 32 file converters + 43 utility tools
+- **Files & Conversion** — PDF, DOCX, Markdown, HTML, text: convert both ways (PDF → TXT/JPG/PNG/DOCX, DOCX → PDF/Markdown/HTML, HTML → Markdown/PDF, and more)
+- **Images** — PNG/JPG/WebP/SVG conversions plus on-device **Image Compressor** and **Image Resizer**
+- **Developer & Data** — JSON/YAML/XML/CSV converters, formatters (SQL/HTML/CSS/JS), JSON → TypeScript, Base64/URL codecs, JWT decoder, UUID generator, **Hash Generator** (MD5 + SHA family), **QR Code Generator**, regex tester
+- **Text & Writing** — word counter, text case converter, diff, **Find & Replace**, **Lorem Ipsum**, slug generator, reading time, Pomodoro, **Stopwatch**
+- **Calculators** — percentage, date difference, unit, age, BMI, interest, discount, tip, random number, **Loan/EMI** (with amortization schedule), **Unix Timestamp**, **Color Converter**
 - **On-device processing** — verified per tool; platform copy is derived from capabilities so it cannot go stale
 - **Tool directory** — search, categories, tags, favorites and recently used (localStorage preferences only)
 - **SEO-ready** — `metadataBase`, sitemap, robots.txt, JSON-LD and breadcrumbs generated from the tool registry
+- **Expansion roadmap** — see [`docs/EXPANSION_ROADMAP.md`](docs/EXPANSION_ROADMAP.md)
 
 ## Quick start
 
