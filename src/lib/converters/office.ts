@@ -23,7 +23,7 @@ const DEFAULT_CONTEXT: BlockContext = {
 };
 
 const DOCX_MIME = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-const ORDERED_LIST_REFERENCE = "toolbeat-ordered-list";
+const ORDERED_LIST_REFERENCE = "convertlab-ordered-list";
 const MAX_LIST_DEPTH = 5;
 
 export async function markdownToDocxBlob(markdownText: string, title = "Document"): Promise<Blob> {

@@ -25,7 +25,7 @@ export default function Client() {
           value={value}
           onChange={(event) => setValue(event.target.value)}
           className="field min-h-64 font-mono"
-          placeholder='{"name":"ToolBeat"}'
+          placeholder='{"name":"ConvertLab"}'
         />
       }
       output={

@@ -5,7 +5,7 @@
  * `CommandPalette` is the only UI that actually searches.
  */
 
-export const COMMAND_PALETTE_EVENT = "toolbeat:open-command-palette";
+export const COMMAND_PALETTE_EVENT = "convertlab:open-command-palette";
 
 export type CommandPaletteDetail = {
   query?: string;

@@ -2,7 +2,7 @@ import { BRAND_NAME_PARTS } from "@/constants/brand";
 
 type BrandMarkProps = { compact?: boolean; showName?: boolean };
 
-/** The ToolBeat mark: a precise pulse crossing a compact utility grid. */
+/** The ConvertLab mark: an Erlenmeyer flask on the indigo gradient tile. */
 export default function BrandMark({ compact = false, showName = true }: BrandMarkProps) {
   const size = compact ? "h-8 w-8 rounded-md" : "h-9 w-9 rounded-lg";
   return (
@@ -12,8 +12,9 @@ export default function BrandMark({ compact = false, showName = true }: BrandMar
         aria-hidden="true"
       >
         <svg viewBox="0 0 24 24" className="relative h-[62%] w-[62%] fill-none stroke-white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M3 12h3l2-5 3 10 2-5h2l1-3 1 3h4" />
-          <path d="M4 5.5h16M4 18.5h16" className="opacity-35" />
+          <path d="M10 2v7.5a2 2 0 0 1-.2.9L4.7 20.6a1 1 0 0 0 .9 1.4h12.8a1 1 0 0 0 .9-1.4L14.2 10.4a2 2 0 0 1-.2-.9V2" />
+          <path d="M8.5 2h7" />
+          <path d="M7 16h10" />
         </svg>
       </span>
       {showName && (

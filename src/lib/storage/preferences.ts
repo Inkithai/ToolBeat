@@ -15,6 +15,12 @@ import { useCallback, useEffect, useState } from "react";
  * reload, which is what the capability model advertises.
  */
 
+/**
+ * Deliberately still "toolbeat" after the 2026-08 rebrand to ConvertLab: this
+ * namespace is persisted in users' browsers, and renaming it would silently
+ * wipe returning visitors' favorites, recents and tool preferences. Keys are
+ * invisible to users, so the brand name and the storage key may diverge.
+ */
 const NAMESPACE = "toolbeat";
 
 function storageKey(key: string): string {

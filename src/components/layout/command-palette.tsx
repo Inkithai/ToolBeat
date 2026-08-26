@@ -177,7 +177,7 @@ export default function CommandPalette() {
       className="fixed inset-0 z-[70] flex items-start justify-center bg-navy-950/80 px-4 pt-[10vh] backdrop-blur-[2px]"
       role="dialog"
       aria-modal="true"
-      aria-label="Search ToolBeat"
+      aria-label="Search ConvertLab"
     >
       <button className="absolute inset-0 cursor-default" onClick={close} aria-label="Close search" />
       <div className="relative w-full max-w-xl overflow-hidden rounded-xl border border-white/12 bg-navy-900 shadow-[0_24px_80px_-32px_rgba(0,0,0,0.85)]">

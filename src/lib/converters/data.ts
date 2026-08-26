@@ -96,6 +96,12 @@ export function jsonToXml(jsonStr: string): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n${builder.build(documentValue)}`;
 }
 
+export function csvToXml(csvStr: string): string {
+  // CSV has no nesting, so the JSON step is a faithful intermediate: the
+  // header row becomes the element names, each data row becomes a record.
+  return jsonToXml(csvToJson(csvStr));
+}
+
 export function xmlToJson(xmlStr: string): string {
   if (!xmlStr.trim()) throw new Error("XML input is empty.");
   const validation = XMLValidator.validate(xmlStr);

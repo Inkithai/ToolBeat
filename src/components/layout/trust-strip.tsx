@@ -18,7 +18,7 @@ const ITEMS = [
 
 export default function TrustStrip() {
   return (
-    <section className="border-b border-white/[0.06] px-4 py-10 sm:px-6" aria-label="Why ToolBeat">
+    <section className="border-b border-white/[0.06] px-4 py-10 sm:px-6" aria-label="Why ConvertLab">
       <div className="mx-auto grid max-w-6xl gap-8 sm:grid-cols-3 sm:gap-6">
         {ITEMS.map((item) => (
           <div key={item.kicker} className="sm:border-l sm:border-white/[0.06] sm:pl-6 first:sm:border-l-0 first:sm:pl-0">

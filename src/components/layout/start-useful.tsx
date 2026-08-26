@@ -16,7 +16,7 @@ const TABS: Array<{ id: PlaygroundId; label: string; href: string; hint: string 
 ];
 
 const SAMPLE_JSON = '{"hello":1,"name":"Inkithai"}';
-const SAMPLE_TEXT = "Paste anything here. ToolBeat counts words, characters and sentences locally.";
+const SAMPLE_TEXT = "Paste anything here. ConvertLab counts words, characters and sentences locally.";
 
 function formatJson(value: string): { output: string; error: string } {
   if (!value.trim()) return { output: "", error: "" };

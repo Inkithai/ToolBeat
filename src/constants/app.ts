@@ -10,6 +10,9 @@ export const CATEGORIES = [
   { key: "developer", label: "Developer & Data", icon: "Code2", description: "JSON, YAML, XML, CSV, Base64 and encoding", verbs: "JSON, JWT, Base64, UUID, Regex" },
   { key: "utilities", label: "Text & Writing", icon: "Timer", description: "Text formatting, counting, and writing tools", verbs: "Count, clean, compare, transform" },
   { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates, finance and everyday math", verbs: "Percentages, dates, interest, units" },
+  { key: "security", label: "Security", icon: "ShieldCheck", description: "Hashing, passwords, tokens and identifiers — all on-device", verbs: "Hash, generate, inspect, protect" },
+  { key: "web", label: "Web & URLs", icon: "Globe", description: "URL parsing, query strings, UTM tags and robots.txt", verbs: "Parse, build, tag, inspect" },
+  { key: "generators", label: "Generators", icon: "Sparkles", description: "Color palettes, gradients, mock data and barcodes", verbs: "Generate, randomize, mock, compose" },
 ] as const;
 
 export type CategoryKey = (typeof CATEGORIES)[number]["key"];
@@ -26,7 +29,7 @@ type ConversionDefinition = {
 };
 
 /**
- * This is the single source of truth for every tool displayed by ToolBeat.
+ * This is the single source of truth for every tool displayed by ConvertLab.
  * A tool should only be added here when its conversion is implemented in the
  * conversion client. Keeping discovery and execution in sync prevents the UI
  * from advertising formats that only lead to an unimplemented screen.
@@ -51,6 +54,26 @@ export const CONVERSIONS = {
   "docx-to-html": {
     from: "DOCX (.docx)", to: "HTML (.html)", fromFormat: "DOCX", toFormat: "HTML", category: "documents",
     description: "Convert a Word document into clean HTML.", acceptedExtensions: [".docx"], outputExtension: ".html",
+  },
+  "docx-to-pdf": {
+    from: "DOCX (.docx)", to: "PDF (.pdf)", fromFormat: "DOCX", toFormat: "PDF", category: "documents",
+    description: "Lay out a Word document on readable PDF pages.", acceptedExtensions: [".docx"], outputExtension: ".pdf",
+  },
+  "pdf-to-txt": {
+    from: "PDF (.pdf)", to: "Text (.txt)", fromFormat: "PDF", toFormat: "Text", category: "documents",
+    description: "Extract the readable text from every page, in reading order.", acceptedExtensions: [".pdf"], outputExtension: ".txt",
+  },
+  "pdf-to-jpg": {
+    from: "PDF (.pdf)", to: "JPG ZIP (.zip)", fromFormat: "PDF", toFormat: "JPG", category: "documents",
+    description: "Render each page as a JPG image and bundle them in a ZIP.", acceptedExtensions: [".pdf"], outputExtension: ".zip",
+  },
+  "pdf-to-png": {
+    from: "PDF (.pdf)", to: "PNG ZIP (.zip)", fromFormat: "PDF", toFormat: "PNG", category: "documents",
+    description: "Render each page as a PNG image and bundle them in a ZIP.", acceptedExtensions: [".pdf"], outputExtension: ".zip",
+  },
+  "pdf-to-docx": {
+    from: "PDF (.pdf)", to: "DOCX (.docx)", fromFormat: "PDF", toFormat: "DOCX", category: "documents",
+    description: "Extract the text and rebuild it as an editable Word document.", acceptedExtensions: [".pdf"], outputExtension: ".docx",
   },
   "html-to-pdf": {
     from: "HTML (.html)", to: "PDF (.pdf)", fromFormat: "HTML", toFormat: "PDF", category: "documents",
@@ -114,6 +137,10 @@ export const CONVERSIONS = {
     from: "XML (.xml)", to: "JSON (.json)", fromFormat: "XML", toFormat: "JSON", category: "developer",
     description: "Parse XML elements and attributes into formatted JSON.", acceptedExtensions: [".xml"], outputExtension: ".json",
   },
+  "csv-to-xml": {
+    from: "CSV (.csv)", to: "XML (.xml)", fromFormat: "CSV", toFormat: "XML", category: "developer",
+    description: "Build a well-formed XML document from CSV rows.", acceptedExtensions: [".csv"], outputExtension: ".xml",
+  },
 
   "csv-to-markdown": {
     from: "CSV (.csv)", to: "Markdown Table (.md)", fromFormat: "CSV", toFormat: "Markdown", category: "developer",
@@ -131,6 +158,10 @@ export const CONVERSIONS = {
   "html-to-txt": {
     from: "HTML (.html)", to: "Text (.txt)", fromFormat: "HTML", toFormat: "Text", category: "documents",
     description: "Extract readable plain text from an HTML document.", acceptedExtensions: [".html", ".htm"], outputExtension: ".txt",
+  },
+  "html-to-markdown": {
+    from: "HTML (.html)", to: "Markdown (.md)", fromFormat: "HTML", toFormat: "Markdown", category: "documents",
+    description: "Convert an HTML document into clean, readable Markdown.", acceptedExtensions: [".html", ".htm"], outputExtension: ".md",
   },
 } as const satisfies Record<string, ConversionDefinition>;
 

@@ -14,6 +14,9 @@ This document records the frontend-only product work completed in the current im
 - Added SVG Open Graph artwork at `src/app/opengraph-image.svg`.
 - Preserved `/conversion/*` URLs and the existing tool registry architecture.
 - Added a keyboard-accessible skip-to-content link.
+- Rebranded the product from ToolBeat back to ConvertLab (2026-08-26): name, tagline,
+  flask logo mark, icons, and all user-facing strings. See `docs/REBRAND_TO_CONVERTLAB.md`.
+  The `toolbeat:` localStorage namespace was intentionally kept to preserve user preferences.
 
 ### Discovery
 

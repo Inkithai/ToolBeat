@@ -98,10 +98,10 @@ describe("activity events", () => {
 
   it("notifies listeners on writes so mounted UI can re-read", () => {
     const listener = vi.fn();
-    window.addEventListener("toolbeat:tool-activity", listener);
+    window.addEventListener("convertlab:tool-activity", listener);
     toggleFavorite("pomodoro");
     recordToolVisit("pomodoro");
     expect(listener).toHaveBeenCalledTimes(2);
-    window.removeEventListener("toolbeat:tool-activity", listener);
+    window.removeEventListener("convertlab:tool-activity", listener);
   });
 });
