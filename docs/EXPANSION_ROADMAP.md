@@ -82,24 +82,33 @@ Deferred to Stage 3 to land exactly on 100: **box-shadow generator**. The
 "random string" roadmap item is satisfied by the existing Random Number /
 UUID / Lorem Ipsum generators.
 
-## Stage 3 — 100 → 126 ✅ shipped 2026-08-26
+## Stage 3 — 100 → 150 ✅ shipped 2026-08-26
 
-26 tools added — all running on-device in the browser:
+50 tools added across two batches — all running on-device in the browser:
 
-- **Generators**: box-shadow generator (carried over from Stage 2), dice roller
-  (d4–d100, animated), coin flip, random picker (add/remove/reorder options)
-- **PDF**: PDF Merge (combine multiple PDFs), PDF Split (extract pages or
-  split each page to ZIP)
-- **Images**: image cropper (drag-and-drop overlay), image color picker
-  (click-to-pick HEX/RGB), image dimensions checker, image → Base64
-- **Developer**: JSON → Python/Go/C#/Java/SQL type generators, cron generator
-  & explainer (presets + plain-English output), HTTP status code lookup (all
-  common codes), MIME type lookup (50+ types by category), user-agent parser
-  (browser, engine, OS, device, bot detection)
-- **Calculators**: mortgage calculator (amortization schedule, visual bar),
-  break-even, tax (US federal brackets + state), salary, business days,
-  countdown timer & stopwatch (with laps)
+**Batch 1 (100 → 126)**
+
+- **Generators**: box-shadow, dice roller (d4–d100), coin flip, random picker
+- **PDF**: merge, split (extract pages / split to ZIP)
+- **Images**: cropper (drag overlay), color picker (click HEX/RGB), dimensions
+  checker, image → Base64
+- **Developer**: JSON → Python/Go/C#/Java/SQL, cron generator & explainer,
+  HTTP status lookup, MIME type lookup, user-agent parser
+- **Calculators**: mortgage, break-even, tax, salary, business days,
+  countdown timer & stopwatch
 - **Productivity**: meeting time converter (17+ timezones)
+
+**Batch 2 (126 → 150)**
+
+- **Developer**: JSON diff, JWT encoder, HTML → JSX, CSS units converter,
+  regex cheatsheet & tester, keyboard keycode tester, CSV column extractor,
+  font size converter, screen resolution tester, JSON minifier,
+  Markdown → HTML, color blindness simulator, WCAG contrast checker,
+  text ↔ binary converter
+- **Calculators**: aspect ratio, fuel cost, retirement, pregnancy due date,
+  GPA, number-to-words, data size converter
+- **Generators**: favicon generator
+- **Utilities**: date format converter, password strength checker
 
 ## Stage 4 — beyond 150
 
