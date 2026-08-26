@@ -6,12 +6,15 @@ ConvertLab is a privacy-first toolkit for everyday file conversion, developer ut
 
 ## Features
 
-- **75 tools** — 32 file converters + 43 utility tools
+- **100 tools** — 32 file converters + 68 utility tools across 8 categories
 - **Files & Conversion** — PDF, DOCX, Markdown, HTML, text: convert both ways (PDF → TXT/JPG/PNG/DOCX, DOCX → PDF/Markdown/HTML, HTML → Markdown/PDF, and more)
 - **Images** — PNG/JPG/WebP/SVG conversions plus on-device **Image Compressor** and **Image Resizer**
-- **Developer & Data** — JSON/YAML/XML/CSV converters, formatters (SQL/HTML/CSS/JS), JSON → TypeScript, Base64/URL codecs, JWT decoder, UUID generator, **Hash Generator** (MD5 + SHA family), **QR Code Generator**, regex tester
-- **Text & Writing** — word counter, text case converter, diff, **Find & Replace**, **Lorem Ipsum**, slug generator, reading time, Pomodoro, **Stopwatch**
-- **Calculators** — percentage, date difference, unit, age, BMI, interest, discount, tip, random number, **Loan/EMI** (with amortization schedule), **Unix Timestamp**, **Color Converter**
+- **Developer** — JSON/YAML/XML formatters and validators (XML, YAML, **JSON Schema**), minifiers (**JS via terser**, CSS, HTML), **HTML entities**, **Unicode escapes**, **IP & CIDR calculator**, SQL/HTML/CSS/JS formatters, JSON → TypeScript, Base64/URL codecs, **QR Code Generator** (PNG **or SVG**), regex tester
+- **Security** — **Hash Generator** (MD5 + SHA family), **Password Generator**, **JWT Decoder**, **UUID Generator**
+- **Web & URLs** — URL encoder, **URL parser**, **query-string builder**, **UTM builder & parser**, **robots.txt analyzer**
+- **Generators** — **color palette**, **CSS gradient**, **mock data** (seedable CSV/JSON), **barcode** (CODE128/CODE39/EAN/UPC, SVG + PNG), random number, Lorem Ipsum
+- **Text & Writing** — word counter, **word frequency**, **line sorter & cleaner**, **Markdown previewer**, text case converter, diff, **Find & Replace**, slug generator, reading time, Pomodoro, **Stopwatch**
+- **Calculators** — percentage, date difference, unit, age, BMI, interest, discount, tip, **Loan/EMI** (with amortization schedule), **investment**, **ROI**, **CAGR**, **ratio**, **statistics**, **Unix Timestamp**, **Color Converter**
 - **On-device processing** — verified per tool; platform copy is derived from capabilities so it cannot go stale
 - **Tool directory** — search, categories, tags, favorites and recently used (localStorage preferences only)
 - **SEO-ready** — `metadataBase`, sitemap, robots.txt, JSON-LD and breadcrumbs generated from the tool registry

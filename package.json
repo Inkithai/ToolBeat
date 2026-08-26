@@ -13,12 +13,16 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "clsx": "^2.1.1",
     "docx": "^9.5.1",
     "fast-xml-parser": "^5.2.3",
+    "he": "^1.2.0",
     "html2canvas": "^1.4.1",
     "js-beautify": "^2.0.3",
     "js-yaml": "^4.1.0",
+    "jsbarcode": "^3.12.3",
     "jspdf": "^3.0.1",
     "jszip": "^3.10.1",
     "lucide-react": "^0.525.0",
@@ -32,11 +36,14 @@
     "react-dom": "^19.1.0",
     "sql-formatter": "^15.8.2",
     "tailwind-merge": "^3.3.1",
+    "terser": "^5.50.0",
     "turndown": "^7.2.4"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
+    "@types/he": "^1.2.3",
     "@types/js-beautify": "^1.14.3",
+    "@types/jsbarcode": "^3.11.4",
     "@types/node": "^24.0.15",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19.1.8",

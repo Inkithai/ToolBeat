@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Check, Copy, Trash2 } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 
@@ -30,7 +30,8 @@ export default function TextTransform({
   placeholder?: string;
   initialInput?: string;
   live?: boolean;
-  transform: (input: string) => string;
+  /** May return a string or a promise of one (for async engines like terser). */
+  transform: (input: string) => string | Promise<string>;
   options?: ReactNode;
   /** Notified whenever the input text changes (or is cleared). */
   onInputChange?: (value: string) => void;
@@ -44,17 +45,24 @@ export default function TextTransform({
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
 
+  const runIdRef = useRef(0);
   const run = useCallback(
-    (value: string) => {
+    async (value: string) => {
+      const id = ++runIdRef.current;
       if (!value.trim()) {
-        setOutput("");
-        setError("");
+        if (id === runIdRef.current) {
+          setOutput("");
+          setError("");
+        }
         return;
       }
       try {
-        setOutput(transform(value));
+        const result = await transform(value);
+        if (id !== runIdRef.current) return; // a newer run superseded this one
+        setOutput(result);
         setError("");
       } catch (caught) {
+        if (id !== runIdRef.current) return;
         setError(caught instanceof Error ? caught.message : "Something went wrong.");
         setOutput("");
       }
@@ -63,7 +71,7 @@ export default function TextTransform({
   );
 
   useEffect(() => {
-    if (live) run(input);
+    if (live) void run(input);
   }, [live, input, run]);
 
   const handleCopy = useCallback(async () => {
@@ -137,7 +145,7 @@ export default function TextTransform({
       }
       process={
         live ? undefined : (
-          <button type="button" onClick={() => run(input)} className="btn-primary" disabled={!input.trim()}>
+          <button type="button" onClick={() => void run(input)} className="btn-primary" disabled={!input.trim()}>
             Transform
           </button>
         )

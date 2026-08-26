@@ -45,24 +45,48 @@ New dependencies (all pure JS, dynamically imported where heavy): `pdfjs-dist`,
 Not on the "top 20" list because they already existed: JPG → PNG, WebP → PNG,
 CSV → JSON.
 
-## Stage 2 — 75 → 100
+## Stage 2 — 75 → 100 ✅ shipped 2026-08-26
 
-Introduce the **Security & Encoding**, **Web/URL** and **Generators** groupings
-(kept inside existing categories until the UI earns sub-categories):
+The **Security**, **Web & URLs** and **Generators** categories now exist in the
+category hierarchy (three new categories; existing tools were re-homed into
+them where it fits better, e.g. hash/password/JWT/UUID → Security, URL
+Encoder → Web, Random Number Generator → Generators).
 
-- Minifiers: JS, CSS, HTML (js-beautify is already a dependency)
-- Validators: XML, YAML, JSON Schema
-- Encoding: HTML entities, Unicode escapes, IP/CIDR
-- Web: URL parser, query-string parser, UTM builder/parser, robots.txt generator
-- Generators: color palette, CSS gradient, box-shadow, random string, mock data
-- Calculators: investment return, ROI, CAGR, ratio, average, standard deviation
-- Text: word frequency, text sorter, remove empty lines, Markdown previewer
-- QR → SVG output, Barcode Generator
+25 tools added — exactly 100 total:
+
+- Minifiers: JS (terser), CSS, HTML
+- Validators: XML (fast-xml-parser), YAML (js-yaml multi-document), JSON
+  Schema (ajv + ajv-formats, draft-07, 20 human-readable errors)
+- Encoding: HTML entities (he), Unicode escapes, IP/CIDR calculator
+  (IPv4 + IPv6, BigInt math)
+- Web: URL parser, query-string builder, UTM builder + parser (tabs),
+  robots.txt analyzer (RFC 9309 group specificity)
+- Generators: color palette, CSS gradient, mock data (seedable, CSV/JSON),
+  barcode (jsbarcode, CODE128/CODE39/EAN/UPC, SVG + PNG download)
+- Calculators: investment return (year-by-year table), ROI, CAGR, ratio,
+  statistics (mean/median/mode/variance/stddev)
+- Text: word frequency, line sorter & cleaner (duplicates + blank lines
+  folded in), Markdown previewer (markdown-it, live two-pane)
+
+Features:
+
+- QR Code Generator can now also download **scalable SVG** (PNG kept)
+- Text Transform shell gained async transforms (the JS minifier runs terser
+  in the browser) with a stale-run guard
+
+New dependencies (all pure JS, dynamically imported into per-tool chunks):
+`terser`, `ajv` + `ajv-formats`, `he`, `jsbarcode` (+ `@types/he`,
+`@types/jsbarcode` for dev).
+
+Deferred to Stage 3 to land exactly on 100: **box-shadow generator**. The
+"random string" roadmap item is satisfied by the existing Random Number /
+UUID / Lorem Ipsum generators.
 
 ## Stage 3 — 100 → 150
 
 Depth where users demonstrably search:
 
+- Generators: box-shadow (carried over from Stage 2)
 - PDF: PDF → DOCX fidelity improvements, PDF merge/split (ZIP-based)
 - Images: cropper, color picker, dimensions checker, image → Base64
 - Developer: JSON → (Python/Go/C#/Java/SQL), cron generator/explainer,
@@ -84,9 +108,9 @@ questions). Candidates that need a policy decision first:
 
 ## Deliberately not doing
 
-- A "500 random tools" sprawl. The category hierarchy (Files, Images,
-  Developer, Text, Calculators, + Security/Web/Generators later) is the
-  product; the count is a byproduct.
+- A "500 random tools" sprawl. The category hierarchy (Documents, Images,
+  Developer, Security, Web & URLs, Generators, Calculators, Utilities) is
+  the product; the count is a byproduct.
 - Server-side conversion of any kind — the privacy claim is the brand.
 - Fake "coming soon" items: the landing-page **On the bench** section only
   lists tools that are genuinely next.

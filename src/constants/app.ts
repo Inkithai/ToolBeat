@@ -10,6 +10,9 @@ export const CATEGORIES = [
   { key: "developer", label: "Developer & Data", icon: "Code2", description: "JSON, YAML, XML, CSV, Base64 and encoding", verbs: "JSON, JWT, Base64, UUID, Regex" },
   { key: "utilities", label: "Text & Writing", icon: "Timer", description: "Text formatting, counting, and writing tools", verbs: "Count, clean, compare, transform" },
   { key: "calculators", label: "Calculators", icon: "Calculator", description: "Percentages, dates, finance and everyday math", verbs: "Percentages, dates, interest, units" },
+  { key: "security", label: "Security", icon: "ShieldCheck", description: "Hashing, passwords, tokens and identifiers — all on-device", verbs: "Hash, generate, inspect, protect" },
+  { key: "web", label: "Web & URLs", icon: "Globe", description: "URL parsing, query strings, UTM tags and robots.txt", verbs: "Parse, build, tag, inspect" },
+  { key: "generators", label: "Generators", icon: "Sparkles", description: "Color palettes, gradients, mock data and barcodes", verbs: "Generate, randomize, mock, compose" },
 ] as const;
 
 export type CategoryKey = (typeof CATEGORIES)[number]["key"];

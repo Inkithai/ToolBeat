@@ -5,6 +5,11 @@ import QRCode from "qrcode";
 import { Download } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 
+// @types/qrcode does not declare toSVG, but the qrcode package supports it.
+const QrCode = QRCode as typeof QRCode & {
+  toSVG(text: string, options?: Record<string, unknown>): Promise<string>;
+};
+
 const SIZES = [128, 256, 384, 512];
 const ERROR_CORRECTION = [
   { value: "L", label: "Low (7%)" },
@@ -20,30 +25,40 @@ export default function QrCodeGeneratorClient() {
   const [dark, setDark] = useState("#0f172a");
   const [light, setLight] = useState("#ffffff");
   const [dataUrl, setDataUrl] = useState("");
+  const [svgMarkup, setSvgMarkup] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     let cancelled = false;
     if (!text.trim()) {
       setDataUrl("");
+      setSvgMarkup("");
       setError("");
       return;
     }
-    QRCode.toDataURL(text, {
+    const options = {
       width: size,
       margin: 2,
       errorCorrectionLevel: errorLevel,
       color: { dark, light },
-    })
+    };
+    QRCode.toDataURL(text, options)
       .then((url) => {
-        if (!cancelled) {
-          setDataUrl(url);
-          setError("");
-        }
+        if (cancelled) return;
+        setDataUrl(url);
+        setError("");
+        QrCode.toSVG(text, options)
+          .then((markup) => {
+            if (!cancelled) setSvgMarkup(markup);
+          })
+          .catch(() => {
+            if (!cancelled) setSvgMarkup("");
+          });
       })
       .catch((caught: unknown) => {
         if (!cancelled) {
           setDataUrl("");
+          setSvgMarkup("");
           setError(
             caught instanceof Error
               ? caught.message
@@ -61,6 +76,17 @@ export default function QrCodeGeneratorClient() {
     return `qr-${clean || "code"}`;
   }, [text]);
 
+  const downloadSvg = useCallback(() => {
+    if (!svgMarkup) return;
+    const blob = new Blob([svgMarkup], { type: "image/svg+xml" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `${baseName()}.svg`;
+    anchor.click();
+    window.setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }, [svgMarkup, baseName]);
+
   return (
     <IoWorkspace
       inputLabel="Content"
@@ -68,13 +94,24 @@ export default function QrCodeGeneratorClient() {
       status={error ? "error" : dataUrl ? "complete" : "idle"}
       outputAction={
         dataUrl ? (
-          <a
-            href={dataUrl}
-            download={`${baseName()}.png`}
-            className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs font-semibold text-ink-200 transition-colors hover:border-indigo-400/30 hover:text-white"
-          >
-            <Download className="h-3 w-3" /> PNG
-          </a>
+          <div className="flex items-center gap-1.5">
+            <a
+              href={dataUrl}
+              download={`${baseName()}.png`}
+              className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs font-semibold text-ink-200 transition-colors hover:border-indigo-400/30 hover:text-white"
+            >
+              <Download className="h-3 w-3" /> PNG
+            </a>
+            {svgMarkup && (
+              <button
+                type="button"
+                onClick={downloadSvg}
+                className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs font-semibold text-ink-200 transition-colors hover:border-indigo-400/30 hover:text-white"
+              >
+                <Download className="h-3 w-3" /> SVG
+              </button>
+            )}
+          </div>
         ) : undefined
       }
       footer={
@@ -83,7 +120,7 @@ export default function QrCodeGeneratorClient() {
             {error}
           </p>
         ) : (
-          <p className="mt-3 text-xs text-ink-600">Rendered locally in your browser. The download is a plain PNG file.</p>
+          <p className="mt-3 text-xs text-ink-600">Rendered locally in your browser. Download as PNG or scalable SVG.</p>
         )
       }
       input={

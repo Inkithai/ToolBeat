@@ -1,5 +1,6 @@
 declare module "js-yaml" {
   export function load(input: string): unknown;
+  export function loadAll(input: string): unknown[];
   export function dump(obj: unknown, options?: Record<string, unknown>): string;
 }
 
