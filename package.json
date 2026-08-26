@@ -1,7 +1,7 @@
 {
-  "name": "toolbeat",
+  "name": "convertlab",
   "version": "1.0.0",
-  "description": "ToolBeat — Fast browser tools for files, code, productivity, and more.",
+  "description": "ConvertLab — Fast browser tools for files, code, productivity, and more.",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",

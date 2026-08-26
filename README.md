@@ -1,8 +1,8 @@
-# ToolBeat
+# ConvertLab
 
 **Useful tools. Right in your browser.**
 
-ToolBeat is a privacy-first toolkit for everyday file conversion, developer utilities, writing helpers and calculators. Every tool runs on-device in your browser — nothing is uploaded to a server.
+ConvertLab is a privacy-first toolkit for everyday file conversion, developer utilities, writing helpers and calculators. Every tool runs on-device in your browser — nothing is uploaded to a server.
 
 ## Features
 
@@ -37,13 +37,13 @@ cp .env.example .env.local
 
 | Variable | Required | Purpose |
 | --- | --- | --- |
-| `NEXT_PUBLIC_SITE_URL` | **Yes in production** | Canonical origin for sitemap, robots, Open Graph, JSON-LD and `metadataBase`. No trailing slash. Production: `https://toolbeat.vercel.app` |
+| `NEXT_PUBLIC_SITE_URL` | **Yes in production** | Canonical origin for sitemap, robots, Open Graph, JSON-LD and `metadataBase`. No trailing slash. Production: `https://convertlab.vercel.app` |
 
 If unset, the app falls back to `http://localhost:3000` so local builds still work — but production search metadata will be wrong until this is set.
 
 ## Live site
 
-**https://toolbeat.vercel.app**
+**https://convertlab.vercel.app**
 
 ## Deploy (Vercel)
 
@@ -53,7 +53,7 @@ Already deployed on Vercel. For a fresh import:
 2. Framework preset: **Next.js** (see `vercel.json`).
 3. Set **Environment Variable**:
    - Name: `NEXT_PUBLIC_SITE_URL`
-   - Value: `https://toolbeat.vercel.app` (or your custom domain)
+   - Value: `https://convertlab.vercel.app` (or your custom domain)
    - Apply to Production (and Preview if you want correct preview canonicals)
 4. Deploy.
 
@@ -84,7 +84,7 @@ See [`docs/tool-system.md`](docs/tool-system.md) for the full model.
 
 ## Branding
 
-The product name is **ToolBeat** (repository: [Inkithai/ToolBeat](https://github.com/Inkithai/ToolBeat)). All user-facing strings and the storage namespace (`toolbeat:`) use this name. Historical ConvertLab references remain only in archived assessment docs under `docs/`.
+The product name is **ConvertLab** (repository: [Inkithai/ToolBeat](https://github.com/Inkithai/ToolBeat) — the repository keeps its historical name). All user-facing strings and metadata derive from `src/constants/brand.ts`. The localStorage namespace intentionally remains `toolbeat:` so returning visitors keep their saved favorites, recents and preferences. Historical references to the previous name, ToolBeat, remain in archived docs under `docs/` (see `docs/REBRAND_TO_CONVERTLAB.md`).
 
 ## License
 

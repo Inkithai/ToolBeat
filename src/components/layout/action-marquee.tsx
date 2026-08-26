@@ -48,7 +48,7 @@ function MarqueeRow({
 
 export default function ActionMarquee() {
   return (
-    <section className="border-y border-white/[0.06] py-3" aria-label="Things ToolBeat can do">
+    <section className="border-y border-white/[0.06] py-3" aria-label="Things ConvertLab can do">
       <MarqueeRow items={ROW_ONE} />
       <div className="mt-2">
         <MarqueeRow items={ROW_TWO} reverse />

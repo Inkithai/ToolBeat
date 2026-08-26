@@ -5,7 +5,7 @@ import TrustStrip from "@/components/layout/trust-strip";
 import CategoryDirectory from "@/components/layout/category-directory";
 import StartUseful from "@/components/layout/start-useful";
 import PersonalizedHome from "@/components/layout/personalized-home";
-import WhyToolBeat from "@/components/layout/why-toolbeat";
+import WhyConvertLab from "@/components/layout/why-convertlab";
 import SearchTrigger from "@/components/layout/search-trigger";
 import { TOOLS } from "@/lib/tools/registry";
 
@@ -54,7 +54,7 @@ export default function LandingPage() {
         <CategoryDirectory />
         <StartUseful />
         <PersonalizedHome />
-        <WhyToolBeat />
+        <WhyConvertLab />
 
         <section className="px-4 py-16 sm:px-6 sm:py-20" aria-label="Find a tool">
           <div className="mx-auto max-w-3xl text-center">

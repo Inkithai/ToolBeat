@@ -26,7 +26,7 @@ type ConversionDefinition = {
 };
 
 /**
- * This is the single source of truth for every tool displayed by ToolBeat.
+ * This is the single source of truth for every tool displayed by ConvertLab.
  * A tool should only be added here when its conversion is implemented in the
  * conversion client. Keeping discovery and execution in sync prevents the UI
  * from advertising formats that only lead to an unimplemented screen.

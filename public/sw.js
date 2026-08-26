@@ -1,4 +1,4 @@
-const CACHE = "toolbeat-shell-v1";
+const CACHE = "convertlab-shell-v2";
 const APP_SHELL = ["/", "/tools", "/icon.svg", "/apple-icon.png"];
 
 self.addEventListener("install", (event) => {

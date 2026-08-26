@@ -11,7 +11,7 @@ import {
 } from "./data";
 
 /**
- * These converters are the user-facing contract of six ToolBeat tools, so the
+ * These converters are the user-facing contract of six ConvertLab tools, so the
  * tests focus on the behaviour a user can actually observe: correct output for
  * valid input, and a specific, actionable error for input that cannot convert.
  * Error paths matter as much as happy paths here — a silent wrong answer in a
@@ -20,8 +20,8 @@ import {
 
 describe("jsonToYaml", () => {
   it("converts nested objects and arrays", () => {
-    const yaml = jsonToYaml('{"name":"ToolBeat","tags":["a","b"],"nested":{"count":1}}');
-    expect(yaml).toContain("name: ToolBeat");
+    const yaml = jsonToYaml('{"name":"ConvertLab","tags":["a","b"],"nested":{"count":1}}');
+    expect(yaml).toContain("name: ConvertLab");
     expect(yaml).toContain("- a");
     expect(yaml).toContain("count: 1");
   });
@@ -49,8 +49,8 @@ describe("jsonToYaml", () => {
 
 describe("yamlToJson", () => {
   it("parses YAML into formatted JSON", () => {
-    expect(JSON.parse(yamlToJson("name: ToolBeat\ncount: 2\n"))).toEqual({
-      name: "ToolBeat",
+    expect(JSON.parse(yamlToJson("name: ConvertLab\ncount: 2\n"))).toEqual({
+      name: "ConvertLab",
       count: 2,
     });
   });
@@ -144,10 +144,10 @@ describe("csvToMarkdown / markdownToCsv", () => {
 
 describe("jsonToXml", () => {
   it("emits a declaration and a single root element", () => {
-    const xml = jsonToXml('{"name":"ToolBeat"}');
+    const xml = jsonToXml('{"name":"ConvertLab"}');
     expect(xml.startsWith('<?xml version="1.0" encoding="UTF-8"?>')).toBe(true);
     expect(xml).toContain("<root>");
-    expect(xml).toContain("<name>ToolBeat</name>");
+    expect(xml).toContain("<name>ConvertLab</name>");
   });
 
   it("wraps top-level arrays so the document stays well formed", () => {

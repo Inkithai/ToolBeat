@@ -3,7 +3,7 @@ import type { ReactNode } from "react";
 export type WorkspaceStatus = "idle" | "processing" | "complete" | "error";
 
 /**
- * Signature ToolBeat layout: Input → Process → Output.
+ * Signature ConvertLab layout: Input → Process → Output.
  *
  * Tools keep their own controls; this only owns the spatial metaphor so a
  * formatter, calculator and converter read as the same product.

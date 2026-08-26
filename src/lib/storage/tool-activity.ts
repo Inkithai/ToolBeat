@@ -99,7 +99,7 @@ function migrateLegacyToolbox(): void {
   window.localStorage.removeItem(LEGACY_TOOLBOX_KEY);
 }
 
-const ACTIVITY_EVENT = "toolbeat:tool-activity";
+const ACTIVITY_EVENT = "convertlab:tool-activity";
 
 function emitActivityChange(): void {
   if (typeof window === "undefined") return;

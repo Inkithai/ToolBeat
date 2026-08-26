@@ -39,8 +39,8 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/#why-toolbeat" className="text-ink-200 transition-colors hover:text-indigo-300">
-                  Why ToolBeat
+                <Link href="/#why-convertlab" className="text-ink-200 transition-colors hover:text-indigo-300">
+                  Why ConvertLab
                 </Link>
               </li>
             </ul>

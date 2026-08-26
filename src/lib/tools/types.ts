@@ -3,7 +3,7 @@ import type { CategoryKey, ConversionType } from "@/constants/app";
 /**
  * The platform type layer.
  *
- * ToolBeat's original `ConversionDefinition` requires `from`, `to`,
+ * ConvertLab's original `ConversionDefinition` requires `from`, `to`,
  * `fromFormat`, `toFormat`, `acceptedExtensions` and `outputExtension`. Those
  * fields are correct for a converter and meaningless for a stopwatch, so they
  * cannot be the shape that discovery, routing and metadata code depends on.
