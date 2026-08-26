@@ -26,9 +26,8 @@ export default function Client() {
     }
     setFile(f);
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pdfjsLib = await import("pdfjs-dist") as any;
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      const pdfjsLib = await import("pdfjs-dist");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${(pdfjsLib.version as string)}/pdf.worker.min.mjs`;
       const arrayBuffer = await f.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       setPageCount(pdf.numPages);
@@ -38,8 +37,7 @@ export default function Client() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   }, []);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async function renderPageToImage(page: any, scale: number): Promise<{ data: string; width: number; height: number }> {
+  async function renderPageToImage(page: import("pdfjs-dist").PDFPageProxy, scale: number): Promise<{ data: string; width: number; height: number }> {
     const viewport = page.getViewport({ scale });
     const canvas = document.createElement("canvas");
     canvas.width = viewport.width;
@@ -58,19 +56,16 @@ export default function Client() {
     setError("");
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { jsPDF } = await import("jspdf") as any;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pdfjsLib = await import("pdfjs-dist") as any;
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      const { jsPDF } = await import("jspdf");
+      const pdfjsLib = await import("pdfjs-dist");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${(pdfjsLib.version as string)}/pdf.worker.min.mjs`;
 
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
       if (mode === "each") {
         // Extract each page as separate PDF and ZIP them
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const JSZip = (await import("jszip") as any).default;
+        const JSZip = (await import("jszip")).default;
         const zip = new JSZip();
 
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {

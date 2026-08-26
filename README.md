@@ -6,15 +6,17 @@ ConvertLab is a privacy-first toolkit for everyday file conversion, developer ut
 
 ## Features
 
-- **100 tools** — 32 file converters + 68 utility tools across 8 categories
-- **Files & Conversion** — PDF, DOCX, Markdown, HTML, text: convert both ways (PDF → TXT/JPG/PNG/DOCX, DOCX → PDF/Markdown/HTML, HTML → Markdown/PDF, and more)
-- **Images** — PNG/JPG/WebP/SVG conversions plus on-device **Image Compressor** and **Image Resizer**
-- **Developer** — JSON/YAML/XML formatters and validators (XML, YAML, **JSON Schema**), minifiers (**JS via terser**, CSS, HTML), **HTML entities**, **Unicode escapes**, **IP & CIDR calculator**, SQL/HTML/CSS/JS formatters, JSON → TypeScript, Base64/URL codecs, **QR Code Generator** (PNG **or SVG**), regex tester
-- **Security** — **Hash Generator** (MD5 + SHA family), **Password Generator**, **JWT Decoder**, **UUID Generator**
-- **Web & URLs** — URL encoder, **URL parser**, **query-string builder**, **UTM builder & parser**, **robots.txt analyzer**
-- **Generators** — **color palette**, **CSS gradient**, **mock data** (seedable CSV/JSON), **barcode** (CODE128/CODE39/EAN/UPC, SVG + PNG), random number, Lorem Ipsum
-- **Text & Writing** — word counter, **word frequency**, **line sorter & cleaner**, **Markdown previewer**, text case converter, diff, **Find & Replace**, slug generator, reading time, Pomodoro, **Stopwatch**
-- **Calculators** — percentage, date difference, unit, age, BMI, interest, discount, tip, **Loan/EMI** (with amortization schedule), **investment**, **ROI**, **CAGR**, **ratio**, **statistics**, **Unix Timestamp**, **Color Converter**
+- **175 tools** — 32 file converters + 143 utility tools across 8 categories
+- **Files & Conversion** — PDF, DOCX, Markdown, HTML, text: convert both ways plus **PDF Merge** and **PDF Split**
+- **Images** — PNG/JPG/WebP/SVG conversions plus **Image Compressor**, **Image Resizer**, **Image Cropper**, **Color Picker**, **Dimensions Checker**, **Image → Base64**, **Color Palette from Image**
+- **Developer** — JSON/YAML/XML formatters, validators, minifiers (JS via terser, CSS, HTML); JSON → TypeScript/Python/Go/C#/Java/SQL; **JSON Diff**, **HTML → JSX**, **CSS Units Converter**, **Regex Cheatsheet**, **JSON Schema Generator**, **HTTP Headers Reference**, **CORS Explainer**, **Docker Compose Generator**, **package.json Generator**
+- **Security** — Hash Generator (MD5 + SHA), Password Generator, JWT Decoder + **Encoder**, UUID Generator + **v5**, **SRI Hash Generator**, **SSH Key Generator**, **X.509 Decoder**, **SQL Injection Checker**, **Password Hash Generator**
+- **Web & URLs** — URL encoder/parser, query-string builder, UTM builder, **robots.txt Generator**, **Sitemap Generator**, **OG Meta Tag Generator**, **HTML Meta Tag Generator**
+- **Generators** — Color palette, CSS gradient, mock data, barcode, random number, Lorem Ipsum + **Box Shadow**, **Dice Roller**, **Coin Flip**, **Random Picker**, **Favicon Generator**, **API Mock Generator**, **Email Signature Generator**
+- **Text & Writing** — Word counter, word frequency, line sorter, Markdown previewer, text case converter, diff, Find & Replace, slug generator, reading time, Pomodoro, Stopwatch + **Countdown Timer**, **Number to Words**, **Markdown Table Generator**, **Password Strength Checker**
+- **Calculators** — Percentage, date difference, unit, age, BMI, interest, discount, tip, Loan/EMI, investment, ROI, CAGR, ratio, statistics, Unix Timestamp, Color Converter + **Mortgage**, **Break-even**, **Tax**, **Salary**, **Business Days**, **Aspect Ratio**, **Fuel Cost**, **Retirement**, **Pregnancy Due Date**, **GPA**, **Data Size Converter**, **Font Size Converter**, **Meeting Time Converter**
+- **Accessibility** — **WCAG Contrast Checker**, **Color Blindness Simulator**, **Screen Resolution Tester**
+- **🤖 AI Tools (BYOK)** — Text Summarizer, Text Rewriter, Regex Generator, SQL Generator, JSON Schema Generator — bring your own OpenAI key, stored locally
 - **On-device processing** — verified per tool; platform copy is derived from capabilities so it cannot go stale
 - **Tool directory** — search, categories, tags, favorites and recently used (localStorage preferences only)
 - **SEO-ready** — `metadataBase`, sitemap, robots.txt, JSON-LD and breadcrumbs generated from the tool registry

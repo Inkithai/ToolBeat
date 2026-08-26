@@ -17,7 +17,7 @@ export default function Client() {
     const hex = Array.from(uuidBytes).map(b => b.toString(16).padStart(2, "0")).join("");
     setUuid(`${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20,32)}`);
   };
-  useEffect(() => { if (name) generate(); }, [name, namespace]);
+  useEffect(() => { if (name) void generate(); }, [name, namespace, generate]);
   const copy = async () => { await navigator.clipboard.writeText(uuid); setCopied(true); setTimeout(() => setCopied(false), 2000); };
   return (
     <IoWorkspace inputLabel="Namespace & name" outputLabel="Deterministic UUID v5" status={uuid ? "complete" : "idle"}

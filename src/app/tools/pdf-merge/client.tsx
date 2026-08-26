@@ -46,11 +46,9 @@ export default function Client() {
     setError("");
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { jsPDF } = await import("jspdf") as any;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const pdfjsLib = await import("pdfjs-dist") as any;
-      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      const { jsPDF } = await import("jspdf");
+      const pdfjsLib = await import("pdfjs-dist");
+      pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${(pdfjsLib.version as string)}/pdf.worker.min.mjs`;
 
       // Collect all rendered page images first
       const pageImages: { data: string; width: number; height: number }[] = [];
