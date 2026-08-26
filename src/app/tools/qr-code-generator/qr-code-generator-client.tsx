@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import QRCode from "qrcode";
 import { Download } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
@@ -185,7 +186,16 @@ export default function QrCodeGeneratorClient() {
       output={
         dataUrl ? (
           <div className="flex min-h-[16rem] items-center justify-center rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
-            <img src={dataUrl} alt={`QR code for: ${text.slice(0, 80)}`} className="max-h-72 rounded-md" width={size} height={size} />
+            {/* Generated client-side as a base64 data URL, so optimization would
+                only add a provider round-trip (and possible cost) for nothing. */}
+            <Image
+              src={dataUrl}
+              alt={`QR code for: ${text.slice(0, 80)}`}
+              className="h-auto w-auto max-h-72 rounded-md"
+              width={size}
+              height={size}
+              unoptimized
+            />
           </div>
         ) : (
           <div className="flex min-h-[16rem] items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.02] text-sm text-ink-600">

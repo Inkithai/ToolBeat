@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { UploadCloud, Check, Copy } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 
@@ -100,7 +101,10 @@ export default function Client() {
         <div className="space-y-3">
           {imageUrl ? (
             <div className="relative overflow-hidden rounded-xl border border-white/10">
-              <img ref={imgRef} src={imageUrl} alt="Source" onLoad={onImageLoad} className="hidden" crossOrigin="anonymous" />
+              {/* Hidden decode-only element feeding the canvas below; blob URLs
+                  cannot use the image optimizer, and the 1x1 box is irrelevant
+                  while display:none. */}
+              <Image ref={imgRef} src={imageUrl} alt="Source" onLoad={onImageLoad} className="hidden" crossOrigin="anonymous" unoptimized width={1} height={1} />
               <canvas
                 ref={canvasRef}
                 className="max-h-[16rem] w-full cursor-crosshair"

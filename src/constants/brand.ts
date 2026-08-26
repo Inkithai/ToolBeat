@@ -32,8 +32,12 @@ export const REPOSITORY_URL = "https://github.com/Inkithai/ToolBeat";
  * `https://convertlab.vercel.app`); a localhost fallback keeps local builds
  * from silently emitting metadata with relative-only URLs, which Next.js
  * warns about and search engines ignore.
+ *
+ * `?.trim() ||` (not `??`) is deliberate: hosting dashboards often expose the
+ * variable as an *empty string*, and `new URL("")` in the root layout would
+ * otherwise crash the production build while collecting page data.
  */
-const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000";
 
 /** Same origin, normalized: no trailing slash, so joins never double it. */
 export const SITE_URL = configuredSiteUrl.replace(/\/+$/, "");
