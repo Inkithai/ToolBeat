@@ -110,16 +110,50 @@ UUID / Lorem Ipsum generators.
 - **Generators**: favicon generator
 - **Utilities**: date format converter, password strength checker
 
-## Stage 4 — beyond 150
+## Stage 4 — 150 → 175 ✅ shipped 2026-08-26
 
-Add only against evidence (search demand, the Tool Request form, support
-questions). Candidates that need a policy decision first:
+25 tools added across SEO/dev utilities, security tools, and AI with BYOK:
 
-- AI utilities (summarizer, rewriter, regex/SQL generator) — **bring your own
-  key only**, stored locally, never routed through a server
-- URL shortener, hosted sitemap generation — need a backend; out of scope for
-  the frontend-only phase
-- Analytics — must stay consent-free and cookieless, or not at all
+**SEO & Web (5)**
+- Markdown table generator (visual editor with alignment)
+- sitemap.xml generator (URLs → changefreq/priority)
+- robots.txt generator (multi-rule groups)
+- OG & Social meta tag generator (with social preview card)
+- HTML meta tag generator (full `<head>` output)
+
+**Developer (10)**
+- JSON Schema generator (draft-07 from sample)
+- HTTP headers reference (25+ headers searchable)
+- CORS headers explainer (interactive preflight visualization)
+- Docker Compose generator (services/ports/volumes)
+- package.json generator (interactive builder)
+- Cron expression validator (field-by-field validation)
+- API mock data generator (field-name-guided types)
+- AI Regex Generator (English → regex with tester)
+- AI SQL Generator (English → SQL from schema)
+- AI JSON Schema Generator (English → draft-07)
+
+**Security (7)**
+- SRI hash generator (SHA-256/384/512 via WebCrypto)
+- SSH key generator (Ed25519, ECDSA — WebCrypto)
+- UUID v5 generator (deterministic, namespace-based)
+- Password hash generator (SHA-1/256/384/512)
+- X.509 certificate decoder (PEM → fingerprint)
+- SQL injection pattern checker (8 patterns, severity)
+- Email signature generator (HTML with live preview)
+
+**Images (1)**
+- Color palette from image (dominant color extraction)
+
+**AI Utilities — BYOK (5)**
+All AI tools use bring-your-own-key: the OpenAI API key is stored in
+localStorage and sent directly from the browser to OpenAI. No server
+proxy, no key storage on our side.
+- AI Text Summarizer (short/medium/bullets)
+- AI Text Rewriter (professional/casual/concise/persuasive/simpler)
+- AI Regex Generator (English → regex with live test)
+- AI SQL Generator (natural language → SQL)
+- AI JSON Schema Generator (description → draft-07)
 
 ## Deliberately not doing
 
