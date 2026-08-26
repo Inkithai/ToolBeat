@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import Image from "next/image";
 import { Download, ImageUp, Trash2 } from "lucide-react";
 import { formatBytes } from "@/lib/tools/image-ops";
 import { exportImage, loadImageFile, revokeLoadedImage, type LoadedImage } from "@/lib/tools/image-io";
@@ -188,7 +189,8 @@ export default function ImageCompressorClient() {
         result ? (
           <div className="space-y-2">
             <div className="flex min-h-[12rem] items-center justify-center rounded-xl border border-white/[0.06] bg-[repeating-conic-gradient(rgba(255,255,255,0.04)_0_25%,transparent_0_50%)] bg-[length:16px_16px] p-3">
-              <img src={result.dataUrl} alt="Compressed preview" className="max-h-52 rounded" />
+              {/* Client-generated data URL; optimization would only add cost. */}
+            <Image src={result.dataUrl} alt="Compressed preview" width={result.width} height={result.height} unoptimized className="h-auto w-auto max-h-52 rounded" />
             </div>
             <p className="text-xs text-ink-500">
               {result.width} × {result.height} px · {formatBytes(result.blob.size)}

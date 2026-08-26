@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import NextImage from "next/image";
 import { UploadCloud } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 
@@ -23,6 +24,9 @@ export default function Client() {
   const [info, setInfo] = useState<ImageInfo | null>(null);
   const [previewUrl, setPreviewUrl] = useState("");
   const [error, setError] = useState("");
+  // Natural size of the preview; only used to satisfy next/image's
+  // width/height contract — the classes below still control the actual box.
+  const [previewSize, setPreviewSize] = useState({ width: 1, height: 1 });
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFile = useCallback((f: File | null) => {
@@ -92,7 +96,16 @@ export default function Client() {
           </div>
           {previewUrl && (
             <div className="overflow-hidden rounded-lg border border-white/10">
-              <img src={previewUrl} alt="Preview" className="max-h-32 w-full object-contain" />
+              {/* Blob URL — renders as a plain <img> via `unoptimized`. */}
+              <NextImage
+                src={previewUrl}
+                alt="Preview"
+                width={previewSize.width}
+                height={previewSize.height}
+                unoptimized
+                onLoad={(e) => setPreviewSize({ width: e.currentTarget.naturalWidth, height: e.currentTarget.naturalHeight })}
+                className="h-auto w-full max-h-32 object-contain"
+              />
             </div>
           )}
         </div>

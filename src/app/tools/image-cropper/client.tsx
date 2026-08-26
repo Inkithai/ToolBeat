@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import NextImage from "next/image";
 import { UploadCloud, Download } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 
@@ -8,6 +9,9 @@ export default function Client() {
   const [imageUrl, setImageUrl] = useState("");
   const [error, setError] = useState("");
   const [crop, setCrop] = useState({ x: 10, y: 10, w: 80, h: 80 }); // percentages
+  // Natural size of the loaded image; only used to satisfy next/image's
+  // width/height contract — the classes below still control the actual box.
+  const [naturalSize, setNaturalSize] = useState({ width: 1, height: 1 });
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [dragType, setDragType] = useState<string>("");
@@ -159,7 +163,20 @@ export default function Client() {
         >
           {imageUrl ? (
             <>
-              <img src={imageUrl} alt="Source" className="h-full w-full object-contain" draggable={false} />
+              {/* Kept in normal flow (not `fill`) on purpose: the percentage
+                  crop overlay below is positioned against this container, whose
+                  box aspect must stay identical to the image's. Blob URLs
+                  cannot use the optimizer, so this renders as a plain <img>. */}
+              <NextImage
+                src={imageUrl}
+                alt="Source"
+                width={naturalSize.width}
+                height={naturalSize.height}
+                unoptimized
+                draggable={false}
+                onLoad={(e) => setNaturalSize({ width: e.currentTarget.naturalWidth, height: e.currentTarget.naturalHeight })}
+                className="h-full w-full object-contain"
+              />
               {/* Dark overlay outside crop */}
               <div className="absolute inset-0 pointer-events-none">
                 <div className="absolute bg-black/50" style={{ top: 0, left: 0, right: 0, height: `${crop.y}%` }} />

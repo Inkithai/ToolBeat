@@ -1,5 +1,6 @@
 "use client";
 import { useState, useRef, useCallback } from "react";
+import Image from "next/image";
 import { UploadCloud } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 type Deficiency = "normal" | "protanopia" | "deuteranopia" | "tritanopia" | "achromatopsia";
@@ -56,7 +57,7 @@ export default function Client() {
       output={<div className="space-y-2">
         {imgUrl ? (
           <>
-            <div className="overflow-hidden rounded-xl border border-white/10"><img ref={imgRef} src={imgUrl} alt="Source" onLoad={() => setTimeout(applyFilter, 100)} className="hidden" crossOrigin="anonymous" /><canvas ref={canvasRef} className="max-h-[14rem] w-full" /></div>
+            <div className="overflow-hidden rounded-xl border border-white/10">{/* Hidden decode-only element feeding the canvas below; blob URLs cannot use the image optimizer, and the 1x1 box is irrelevant while display:none. */}<Image ref={imgRef} src={imgUrl} alt="Source" onLoad={() => setTimeout(applyFilter, 100)} className="hidden" crossOrigin="anonymous" unoptimized width={1} height={1} /><canvas ref={canvasRef} className="max-h-[14rem] w-full" /></div>
             <button type="button" onClick={applyFilter} className="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs font-semibold text-ink-300 hover:text-white">Re-apply filter</button>
           </>
         ) : <div className="flex min-h-[10rem] items-center justify-center rounded-xl border border-dashed border-white/10 bg-white/[0.02] text-sm text-ink-600">Upload an image to simulate</div>}
