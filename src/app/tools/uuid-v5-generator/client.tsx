@@ -1,11 +1,11 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Check, Copy } from "lucide-react";
 import IoWorkspace from "@/components/tools/io-workspace";
 export default function Client() {
   const [namespace, setNamespace] = useState("6ba7b810-9dad-11d1-80b4-00c04fd430c8");
   const [name, setName] = useState("my-unique-item"); const [uuid, setUuid] = useState(""); const [copied, setCopied] = useState(false);
-  const generate = async () => {
+  const generate = useCallback(async () => {
     // UUID v5 uses SHA-1
     const nsBytes = namespace.replace(/-/g, ""); const nsArr = new Uint8Array(16);
     for (let i = 0; i < 16; i++) nsArr[i] = parseInt(nsBytes.substr(i * 2, 2), 16);
@@ -16,8 +16,8 @@ export default function Client() {
     const uuidBytes = hash.slice(0, 16); uuidBytes[6] = (uuidBytes[6] & 0x0f) | 0x50; uuidBytes[8] = (uuidBytes[8] & 0x3f) | 0x80;
     const hex = Array.from(uuidBytes).map(b => b.toString(16).padStart(2, "0")).join("");
     setUuid(`${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20,32)}`);
-  };
-  useEffect(() => { if (name) void generate(); }, [name, namespace, generate]);
+  }, [namespace, name]);
+  useEffect(() => { if (name) void generate(); }, [name, generate]);
   const copy = async () => { await navigator.clipboard.writeText(uuid); setCopied(true); setTimeout(() => setCopied(false), 2000); };
   return (
     <IoWorkspace inputLabel="Namespace & name" outputLabel="Deterministic UUID v5" status={uuid ? "complete" : "idle"}
