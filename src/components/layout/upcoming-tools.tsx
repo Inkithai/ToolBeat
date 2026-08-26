@@ -7,18 +7,9 @@ import { ArrowRight, Sparkles } from "lucide-react";
  * docs/EXPANSION_ROADMAP.md). Dead "coming soon" links are worse than none.
  */
 const UPCOMING = [
-  "PDF Merge",
-  "PDF Split",
-  "Image Cropper",
-  "Image Color Picker",
-  "Image to Base64",
-  "JSON to Python/Go Types",
-  "Cron Generator & Explainer",
-  "Mortgage Calculator",
-  "Business Days Calculator",
-  "Countdown Timer",
-  "Random Picker",
-  "AI Summarizer (bring your own key)",
+  "URL Shortener (needs backend)",
+  "Hosted Sitemap Generator (needs backend)",
+  "Cookieless Analytics (policy decision)",
 ];
 
 export default function UpcomingTools() {
